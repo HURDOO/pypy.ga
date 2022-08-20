@@ -10,10 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import json
+import os
 from pathlib import Path
+import polls.google as google
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+with open(os.path.join(BASE_DIR, 'settings.json')) as f:
+    settings = json.loads(f.read())
+google.client_secret_file = settings['google_client_secret_json']
+google.redirect_domain = settings['auth_redirect_domain']
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,12 +34,13 @@ SECRET_KEY = "django-insecure-bs60d85-v%+csk-ou+kihz((_0ri#^6gq20s3kwk*90vjus#c_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'pypy.ga', 'pypy-ga.azurewebsites.net']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'polls',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
