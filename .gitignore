@@ -1,5 +1,5 @@
 .idea
 .venv
 db.sqlite3
-pypyga/settings.json
-pypyga/client_secret.json
+settings.json
+client_secret.json
