@@ -1,0 +1,11 @@
+body {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    margin: 5px;
+}
+tr#header {
+    background-color: grey;
+}

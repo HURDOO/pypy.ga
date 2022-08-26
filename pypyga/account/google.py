@@ -6,7 +6,7 @@ EMAIL_URL = 'https://openidconnect.googleapis.com/v1/userinfo'
 
 CLIENT_ID = ''
 CLIENT_SECRET = ''
-REDIRECT_URI = 'http://127.0.0.1:8000/login'
+REDIRECT_URI = 'http://127.0.0.1:8000/account/auth'
 SCOPE = 'openid email'
 
 

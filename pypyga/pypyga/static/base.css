@@ -1,0 +1,23 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+ul {
+    margin: 5px;
+    padding: 0px;
+    list-style: none;
+}
+
+ul li {
+    display: inline;
+    padding: 5px;
+}
+
+ul li :hover {
+    background-color: black;
+}
+
+a {
+    text-decoration: none;
+}

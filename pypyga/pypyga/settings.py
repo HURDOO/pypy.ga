@@ -18,6 +18,8 @@ import account.google as google
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+PROJECT_PATH = Path(__file__).resolve().parent
+
 with open(os.path.join(BASE_DIR, 'settings.json')) as f:
     settings = json.loads(f.read())
 
@@ -41,6 +43,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'pypy.ga', 'pypy-ga.azurewebsites.net
 INSTALLED_APPS = [
     'account',
     'index',
+    'problem',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -64,7 +67,7 @@ ROOT_URLCONF = "pypyga.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(PROJECT_PATH, 'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -120,6 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    PROJECT_PATH / 'static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

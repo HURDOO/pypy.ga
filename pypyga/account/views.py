@@ -1,16 +1,21 @@
 import django.http
 from django.shortcuts import redirect
 from . import google
-from account.models import AccountModel
+from .models import AccountModel
 
 
-def index(request):
-    code = request.GET.get('code', False)
-    if code:
-        code = request.GET.get('code')
-        email = google.get_email(code)
-        account = AccountModel(email=email)
-        request.session['user'] = account.id
-        return redirect('/')
-    else:
-        return redirect(google.get_login_url())
+def login(request):
+    return redirect(google.get_login_url())
+
+
+def logout(request):
+    del request.session['user_id']
+    return redirect('/')
+
+
+def auth(request):
+    code = request.GET.get('code')
+    email = google.get_email(code)
+    account = AccountModel(email=email)
+    request.session['user_id'] = account.id
+    return redirect('/')
