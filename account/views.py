@@ -1,7 +1,8 @@
 import django.http
+import re
 from django.shortcuts import redirect
 from . import google
-from .models import AccountModel
+from . import models
 
 
 def login(request):
@@ -16,6 +17,7 @@ def logout(request):
 def auth(request):
     code = request.GET.get('code')
     email = google.get_email(code)
-    account = AccountModel(email=email)
+    account = models.handle_login(email)
     request.session['user_id'] = account.id
     return redirect('/')
+

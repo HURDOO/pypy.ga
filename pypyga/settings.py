@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import json
 import os
 from pathlib import Path
-import account.google as google
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_PATH = Path(__file__).resolve().parent
 
 with open(os.path.join(BASE_DIR, 'settings.json')) as f:
-    settings = json.loads(f.read())
-
-google.CLIENT_ID = settings['google']['client_id']
-google.CLIENT_SECRET = settings['google']['client_secret']
+    conf = json.loads(f.read())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/

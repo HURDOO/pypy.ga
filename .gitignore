@@ -2,4 +2,3 @@
 .venv
 db.sqlite3
 settings.json
-client_secret.json

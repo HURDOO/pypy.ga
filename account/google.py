@@ -1,12 +1,13 @@
 import requests
+from pypyga.settings import conf
 
 LOGIN_URL = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code'
 TOKEN_URL = 'https://oauth2.googleapis.com/token'
 EMAIL_URL = 'https://openidconnect.googleapis.com/v1/userinfo'
 
-CLIENT_ID = ''
-CLIENT_SECRET = ''
-REDIRECT_URI = 'http://127.0.0.1:8000/account/auth'
+CLIENT_ID = conf['google']['client_id']
+CLIENT_SECRET = conf['google']['client_secret']
+REDIRECT_URI = conf['google']['redirect_uri']
 SCOPE = 'openid email'
 
 
