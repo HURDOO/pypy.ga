@@ -1,10 +1,15 @@
-from django.shortcuts import render
-from account.info import get_data
+from django.shortcuts import render, redirect
+from account import info
+from . import load
+
 
 def index(request, problem):
-    data = {'problem_url': f'https://raw.githubusercontent.com/HURDOO/python-trainer/master/problems/{problem}.md'}
-    data.update(get_data(request.session))
+    data = {'problem_url': f'https://raw.githubusercontent.com/HURDOO/python-trainer/master/.problems/{problem}.md'}
+    data.update(info.get_data(request.session))
 
-    return render(request, 'problem/problem.html', data)
+    return render(request, 'problem.html', data)
 
-# https://raw.githubusercontent.com/HURDOO/python-trainer/master/problems/12345.md
+
+def reload(request):
+    load.load_problems()
+    return redirect('/')

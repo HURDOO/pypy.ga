@@ -1,6 +1,9 @@
 from django.shortcuts import render
-from account.info import get_data
+from account import info
+from problem import load
 
 
 def index(request):
-    return render(request, 'index.html', get_data(request.session))
+    data = {'list': load.PROBLEMS_LIST}
+    data.update(info.get_data(request.session))
+    return render(request, 'index.html', data)

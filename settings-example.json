@@ -1,0 +1,7 @@
+{
+  "google": {
+    "client_id": "GCP_CLIENT_ID",
+    "client_secret": "GCP_CLIENT_SECRET",
+    "email_regex": "(.+)@(.+)\\.(.+)"
+  }
+}

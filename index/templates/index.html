@@ -8,7 +8,6 @@
 
 {% block content %}
     <h1>Hello World!</h1>
-
     <table>
         <tr id="header">
             <th>#</th>
@@ -17,53 +16,16 @@
             <th>제출 수</th>
             <th>정답</th>
         </tr>
-        <tr>
-            <th>10000</th>
-            <th><a href="/problem/10000">파이가 이용 가이드</a></th>
-            <th>1</th>
-            <th>5</th>
-            <th>3</th>
-        </tr>
-        <tr>
-            <th colspan="5">출력</th>
-        </tr>
-        <tr>
-            <th>10001</th>
-            <th><a href="/problem/10001">Hello World</a></th>
-            <th>1</th>
-            <th>5</th>
-            <th>3</th>
-        </tr>
-        <tr>
-            <th>10002</th>
-            <th><a href="/problem/10002">교가</a></th>
-            <th>1</th>
-            <th>5</th>
-            <th>3</th>
-        </tr>
-        <tr>
-            <th colspan="5">입력</th>
-        </tr>
-        <tr>
-            <th>10003</th>
-            <th><a href="/problem/10003">자기소개</a></th>
-            <th>1</th>
-            <th>5</th>
-            <th>3</th>
-        </tr>
-        <tr>
-            <th>10004</th>
-            <th><a href="/problem/10004">따옴표</a></th>
-            <th>1</th>
-            <th>5</th>
-            <th>3</th>
-        </tr>
-        <tr>
-            <th>10005</th>
-            <th><a href="/problem/10005">우 to the 영 to the 우</a></th>
-            <th>1</th>
-            <th>5</th>
-            <th>3</th>
-        </tr>
+        {% for category in list %}
+            <tr>
+                <th colspan="5"><b>{{ category.category }}</b></th>
+            </tr>
+            {% for problem in category.problems %}
+                <tr>
+                    <th scope="row">{{ problem.id }}</th>
+                    <td><a href="/problem/{{ problem.id }}">{{ problem.name }}</a></td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
     </table>
 {% endblock %}

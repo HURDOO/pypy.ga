@@ -12,5 +12,13 @@
 {% endblock %}
 
 {% block content %}
-    <zero-md src="{{ problem_url }}"></zero-md>
+    <div id="container">
+        <div id="problem">
+            <zero-md src="{{ problem_url }}"></zero-md>
+        </div>
+        <form>
+            <input type="text">
+            <input type="submit">
+        </form>
+    </div>
 {% endblock %}
