@@ -1,3 +1,6 @@
+/* CSS of Naver D2Coding - https://github.com/wan2land/d2coding */
+@import url("//cdn.jsdelivr.net/gh/wan2land/d2coding/d2coding-full.css");
+
 zero-md {
     text-align: center;
     word-break: keep-all;
@@ -10,13 +13,25 @@ div#problem {
     overflow: auto;
 }
 
+nav {
+    height: 2%;
+}
+
 div#container {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    height: 98%;
 }
 
 form {
     width: 50%;
-    padding: 15px;
+    height: inherit;
+    padding: 5px;
+}
+
+div#editor {
+    height: inherit;
+    /*font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', 'D2Coding', monospace */
+    font-family: D2Coding, monospace
 }

@@ -7,8 +7,15 @@
 {% endblock %}
 
 {% block module %}
-{{ block.super }}
+    {{ block.super }}
+    <!-- Zero-MD (https://github.com/zerodevx/zero-md) -->
     <script type="module" src="https://cdn.jsdelivr.net/gh/zerodevx/zero-md@2/dist/zero-md.min.js"></script>
+
+    <!-- ACE editor 5 (https://github.com/ajaxorg/ace) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/ace.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/ext-language_tools.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/mode-python.min.js"></script>
+    <script src="{% static 'problem.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -16,8 +23,8 @@
         <div id="problem">
             <zero-md src="{{ problem_url }}"></zero-md>
         </div>
-        <form>
-            <input type="text">
+        <form action="/submit">
+            <div id="editor">print('Hello World!')</div>
             <input type="submit">
         </form>
     </div>
