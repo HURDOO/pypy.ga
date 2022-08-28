@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'account',
     'index',
     'problem',
+    'submit',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
