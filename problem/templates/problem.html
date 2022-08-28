@@ -14,7 +14,6 @@
     <!-- ACE editor 5 (https://github.com/ajaxorg/ace) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/ace.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/ext-language_tools.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6/mode-python.min.js"></script>
     <script src="{% static 'problem.js' %}" defer></script>
 {% endblock %}
 
@@ -23,8 +22,10 @@
         <div id="problem">
             <zero-md src="{{ problem_url }}"></zero-md>
         </div>
-        <form action="/submit">
+        <form action="/submit" method="post">
+            {% csrf_token %}
             <div id="editor">print('Hello World!')</div>
+            <textarea id="code" name="code" hidden>test</textarea>
             <input type="submit">
         </form>
     </div>
