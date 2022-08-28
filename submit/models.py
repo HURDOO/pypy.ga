@@ -1,11 +1,17 @@
 from django.db import models
-from django.utils.translation import gettext_lazy
 from datetime import datetime
 
 
 class SubmitType(models.TextChoices):
-    TEST = 'T', gettext_lazy('Test')
-    GRADE = 'G', gettext_lazy('Grade')
+    TEST = 'T'
+    GRADE = 'G'
+
+
+def getSubmitType(_type: str) -> SubmitType:
+    if _type == '테스트 실행':
+        return SubmitType.TEST
+    elif _type == '코드 제출':
+        return SubmitType.GRADE
 
 
 class ResultType(models.TextChoices):
@@ -31,15 +37,17 @@ class Submit(models.Model):
     def __init__(self,
                  _type: SubmitType,
                  _problem_id: int,
+                 _user_id: int,
                  _code: str,
                  _submit_time: datetime,
                  _input_data: str = None,
                  *args, **kwargs
                  ):
         super().__init__(*args, **kwargs)
-        self.type, self.problem_id, self.code, self.submit_time, self.input_data \
-            = _type, _problem_id, _code, _submit_time, _input_data
+        self.type, self.problem_id, self.user_id, self.code, self.submit_time, self.input_data \
+            = _type, _problem_id, _user_id, _code, _submit_time, _input_data
         self.code_length = len(self.code)
+        self.save()
 
     type = models.CharField(
         max_length=1,
@@ -88,8 +96,20 @@ class Submit(models.Model):
         editable=False
     )
 
+    user_id = models.PositiveIntegerField(
+        null=False,
+        editable=False
+    )
+
+    id = models.AutoField(
+        primary_key=True,
+        null=False,
+        editable=False
+    )
+
     def start(self):
         self.result = ResultType.ONGOING
+        self.save()
 
     def end(self,
             _result: ResultType,
@@ -98,4 +118,4 @@ class Submit(models.Model):
             ):
         self.result, self.time_usage, self.memory_usage \
             = _result, _time_usage, _memory_usage
-
+        self.save()

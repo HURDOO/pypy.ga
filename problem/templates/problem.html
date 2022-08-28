@@ -26,8 +26,11 @@
             {% csrf_token %}
             <div id="editor">print('Hello World!')</div>
             <textarea id="code" name="code" hidden></textarea>
-            <textarea name="problem_id" hidden>{{ problem_id }}</textarea>
-            <input type="submit">
+            <input type="number" name="problem_id" value="{{ problem_id }}" hidden>
+            <input type="text" name="type" hidden>
+            <input id="submit_time" type="text" name="submit_time" hidden>
+            <input type="submit" name="type" value="테스트 실행">
+            <input type="submit" name="type" value="코드 제출">
         </form>
     </div>
 {% endblock %}

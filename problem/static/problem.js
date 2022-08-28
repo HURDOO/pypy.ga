@@ -11,5 +11,15 @@ editor.getSession().setMode("ace/mode/python");
 editor.setTheme('ace/theme/chrome')
 
 document.querySelector('form').onsubmit = (event) => {
-    document.getElementById('code').value = editor.getValue();
+    try {
+        document.getElementById('code').value = editor.getValue();
+        console.log(new Date().toISOString());
+        document.getElementById('submit_time').value = new Date().toISOString();
+        console.log(document.getElementById('submit_time').value)
+        return true;
+    } catch (e) {
+        alert('Error occurred: ' + e);
+        console.log(e);
+        return false;
+    }
 }
