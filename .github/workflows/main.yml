@@ -40,7 +40,7 @@ jobs:
               .google.redirect_uri = "https://pypy.ga/account/auth" |
               .google.email_regex = "^js22-(\d+)@sonline20\.sen\.go\.kr$" |
               
-              .db.type = "azure_sql" |
+              .db.type = "azure-sql" |
               .db.name = "${{ secrets.AZURE_SQL_NAME }}" |
               .db.user = "${{ secrets.AZURE_SQL_USER }}" |
               .db.password = "${{ secrets.AZURE_SQL_PASSWORD }}" |
