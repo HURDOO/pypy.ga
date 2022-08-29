@@ -1,0 +1,27 @@
+
+# Use Google Cloud Platform to manage accounts
+google:
+  # OAuth Client_Secrets
+  client_id: YOUR_GCP_CLIENT_ID
+  client_secret: YOUR_GCP_CLIENT_SECRET
+  redirect_uri: YOUR_GCP_REDIRECT_URI  # http://127.0.0.1:8000/account/auth
+
+  # pattern to get account id
+  email_regex: (.+)@(.+)\\.(.+)  # ^js22-(\d+)@sonline20\.sen\.go\.kr$
+
+url:
+  problem_list: https://raw.githubusercontent.com/HURDOO/python-trainer/master/.problems/list.json
+  problem: https://raw.githubusercontent.com/HURDOO/python-trainer/master/.problems/{}.md
+
+db:
+  type: local # 'local' or 'azure_sql' (Azure SQL Database)
+
+  # below is needed only for 'azure_sql'
+  name: YOUR_DB_NAME
+  user: YOUR_DB_USER_NAME
+  password: YOUR_DB_USER_PASSWORD
+  host: YOUR_DB_HOST
+  port: YOUR_DB_PORT  # 1433
+
+# Determines whether DEBUG mode is off
+production: false

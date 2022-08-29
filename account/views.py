@@ -17,7 +17,10 @@ def logout(request):
 def auth(request):
     code = request.GET.get('code')
     email = google.get_email(code)
-    account = models.handle_login(email)
-    request.session['user_id'] = account.id
-    return redirect('/')
+    try:
+        account = models.handle_login(email)
+        request.session['user_id'] = account.id
+        return redirect('/')
+    except AttributeError:
+        return redirect('/problem/12345')
 

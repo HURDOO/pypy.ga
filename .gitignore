@@ -1,4 +1,4 @@
 .idea
 .venv
 db.sqlite3
-settings.json
+settings.yml

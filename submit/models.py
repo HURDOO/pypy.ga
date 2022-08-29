@@ -101,12 +101,6 @@ class Submit(models.Model):
         editable=False
     )
 
-    id = models.AutoField(
-        primary_key=True,
-        null=False,
-        editable=False
-    )
-
     def start(self):
         self.result = ResultType.ONGOING
         self.save()

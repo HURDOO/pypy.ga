@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import json
+import yaml
 import os
 from pathlib import Path
 
@@ -19,8 +19,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 PROJECT_PATH = Path(__file__).resolve().parent
 
-with open(os.path.join(BASE_DIR, 'settings.json')) as f:
-    conf = json.loads(f.read())
+with open(os.path.join(BASE_DIR, 'settings.yml')) as f:
+    conf = yaml.load(f, Loader=yaml.FullLoader)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -29,7 +29,7 @@ with open(os.path.join(BASE_DIR, 'settings.json')) as f:
 SECRET_KEY = "django-insecure-bs60d85-v%+csk-ou+kihz((_0ri#^6gq20s3kwk*90vjus#c_"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not conf['production']
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'pypy.ga', 'pypy-ga.azurewebsites.net']
 
@@ -82,14 +82,45 @@ WSGI_APPLICATION = "pypyga.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if conf['db']['type'] == 'local':
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+elif conf['db']['type'] == 'azure-sql':
 
+    name = conf['db']['name']
+    user = conf['db']['user']
+    password = conf['db']['password']
+    host = conf['db']['host']
+    port = conf['db']['port']
+    driver = 'ODBC Driver 18 for SQL Server'
+
+    sql_params = f"Driver={{{driver}}};Server=tcp:{host},{port};" \
+                 f"Database={name};Uid={user};Pwd={password};Encrypt=yes;" \
+                 f"TrustServerCertificate=no;Connection Timeout=30;"
+
+    DATABASES = {
+        "default": {
+            "ENGINE": 'mssql',
+
+            "NAME": name,
+            "USER": user,
+            "PASSWORD": password,
+            "HOST": host,
+            "PORT": port,
+
+            'Trusted_Connection': 'no',
+            'OPTIONS': {
+                'driver': driver,
+                'extra_params': sql_params
+            }
+        }
+    }
+else:
+    print('Invalid DB type')
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -107,13 +138,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ko-kr"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
