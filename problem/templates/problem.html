@@ -22,7 +22,7 @@
         <div id="problem">
             <zero-md src="{{ problem_url }}"></zero-md>
         </div>
-        <form action="/submit" method="post">
+        <form action="/submit/new" method="post">
             {% csrf_token %}
             <div id="editor">print('Hello World!')</div>
             <textarea id="code" name="code" hidden></textarea>

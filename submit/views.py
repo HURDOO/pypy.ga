@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Submit, SubmitType, getSubmitType
 
 
-def index(request):
+def new(request):
     data = request.POST
     print(data)
 
@@ -18,7 +18,7 @@ def index(request):
     if _type == SubmitType.TEST:
         input_data = data['input_type'][0]
 
-    submit = Submit(
+    submit = Submit.create(
         _user_id=user_id,
         _problem_id=problem_id,
         _type=_type,
@@ -27,4 +27,8 @@ def index(request):
         _input_data=input_data
     )
 
+    return redirect('/submit')
+
+
+def index(request):
     return redirect('/')

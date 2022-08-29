@@ -34,20 +34,21 @@ class ResultType(models.TextChoices):
 
 class Submit(models.Model):
 
-    def __init__(self,
-                 _type: SubmitType,
-                 _problem_id: int,
-                 _user_id: int,
-                 _code: str,
-                 _submit_time: datetime,
-                 _input_data: str = None,
-                 *args, **kwargs
-                 ):
-        super().__init__(*args, **kwargs)
-        self.type, self.problem_id, self.user_id, self.code, self.submit_time, self.input_data \
-            = _type, _problem_id, _user_id, _code, _submit_time, _input_data
-        self.code_length = len(self.code)
-        self.save()
+    @classmethod
+    def create(cls,
+               _type: SubmitType,
+               _problem_id: int,
+               _user_id: int,
+               _code: str,
+               _submit_time: datetime,
+               _input_data: str = None
+               ):
+        submit = Submit(type=_type, problem_id=_problem_id, user_id=_user_id, code=_code, submit_time=_submit_time)
+        if _input_data is not None:
+            submit.input_data = _input_data
+        submit.code_length = len(_code)
+        submit.save()
+        return submit
 
     type = models.CharField(
         max_length=1,
