@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - pypyga
+name: Build and deploy Python app to Azure Web App
 
 on:
   push:
@@ -30,6 +30,26 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         
+      - name: Copy settings.yml
+        run: cp settings-example.yml settings.yml
+      
+      - name: Put production details for settings.yml
+        run: yq -i '
+              .google.client_id = "${{ secrets.GCP_PRODUCTION_CLIENT_ID }}" |
+              .google.client_secret = "${{ secrets.GCP_PRODUCTION_CLIENT_SECRET }}" |
+              .google.redirect_uri = "https://pypy.ga/account/auth" |
+              .google.email_regex = "^js22-(\d+)@sonline20\.sen\.go\.kr$" |
+              
+              .db.type = "azure_sql" |
+              .db.name = "${{ secrets.AZURE_SQL_NAME }}" |
+              .db.user = "${{ secrets.AZURE_SQL_USER }}" |
+              .db.password = "${{ secrets.AZURE_SQL_PASSWORD }}" |
+              .db.host = "${{ secrets.AZURE_SQL_HOST }}" |
+              .db.port = "${{ secrets.AZURE_SQL_PORT }}" |
+              
+              .production = true
+            ' settings.yml
+
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       
       - name: Upload artifact for deployment jobs
