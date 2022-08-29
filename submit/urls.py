@@ -3,6 +3,6 @@ from . import views
 
 app_name = 'submit'
 urlpatterns = [
-    path('/new', views.new),
+    path('new', views.new),
     path('', views.index)
 ]
