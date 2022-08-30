@@ -47,7 +47,7 @@ jobs:
               .db.host = "${{ secrets.AZURE_SQL_HOST }}" |
               .db.port = "${{ secrets.AZURE_SQL_PORT }}" |
               
-              .db.driver = "freetds" |
+              .db.driver = "ODBC Driver 17 for SQL Server" |
               
               .production = false
             ' settings.yml
