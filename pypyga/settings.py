@@ -99,7 +99,7 @@ elif conf['db']['type'] == 'azure-sql':
     user = conf['db']['user']
     password = conf['db']['password']
     host = conf['db']['host']
-    port = conf['db']['port']
+    port = int(conf['db']['port'])
     driver = 'ODBC Driver 18 for SQL Server'
 
     sql_params = f"Driver={{{driver}}};Server=tcp:{host},{port};" \
