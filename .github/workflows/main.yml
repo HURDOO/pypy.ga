@@ -49,7 +49,7 @@ jobs:
               
               .db.driver = "ODBC Driver 17 for SQL Server" |
               
-              .production = true
+              .production = false
             ' settings.yml
       
       - name: Collect static files
