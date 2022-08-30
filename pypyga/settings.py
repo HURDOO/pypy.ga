@@ -101,7 +101,13 @@ elif conf['db']['type'] == 'azure-sql':
     password = conf['db']['password']
     host = conf['db']['host']
     port = int(conf['db']['port'])
-    driver = 'ODBC Driver 18 for SQL Server'
+
+    if conf['db']['driver'] == 'odbc':
+        driver = 'ODBC Driver 18 for SQL Server'
+    elif conf['db']['driver'] == 'freetds':
+        driver = 'FreeTDS'
+    else:
+        driver = None
 
     sql_params = f"Driver={{{driver}}};Server=tcp:{host},{port};" \
                  f"Database={name};Uid={user};Pwd={password};Encrypt=yes;" \
