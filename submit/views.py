@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Submit, SubmitType, getSubmitType
+from runner import test2
 
 
 def new(request):
     data = request.POST
     print(data)
+    test2.test()
 
     if 'user_id' not in request.session:
         return redirect('/problem/12345')
