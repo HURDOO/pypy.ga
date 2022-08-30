@@ -47,7 +47,7 @@ jobs:
               .db.host = "${{ secrets.AZURE_SQL_HOST }}" |
               .db.port = "${{ secrets.AZURE_SQL_PORT }}" |
               
-              .db.driver = "freetds"
+              .db.driver = "freetds" |
               
               .production = false
             ' settings.yml
