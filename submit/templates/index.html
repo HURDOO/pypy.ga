@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Hello World!</h1>
+    <table>
+        <tr id="header">
+            <th>#</th>
+            <th>문제</th>
+            <th>사용자</th>
+            <th>결과</th>
+            <th>코드 길이</th>
+            <th>메모리</th>
+            <th>소요 시간</th>
+        </tr>
+        {% for category in list %}
+            <tr>
+                <th colspan="5"><b>{{ category.category }}</b></th>
+            </tr>
+            {% for problem in category.problems %}
+                <tr>
+                    <th scope="row">{{ problem.id }}</th>
+                    <td><a href="/problem/{{ problem.id }}">{{ problem.name }}</a></td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </table>
+{% endblock %}

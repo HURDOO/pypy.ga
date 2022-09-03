@@ -49,17 +49,13 @@ class Submit(models.Model):
             submit.input_data = _input_data
         submit.code_length = len(_code)
         submit.save()
+
         return submit
 
     type = models.CharField(
         max_length=1,
         choices=SubmitType.choices,
         null=False,
-        editable=False
-    )
-
-    input_data = models.TextField(
-        null=True,  # type = Grade
         editable=False
     )
 
@@ -103,6 +99,23 @@ class Submit(models.Model):
         editable=False
     )
 
+    stdin = models.TextField(
+        null=True,  # type = Grade
+        editable=False
+    )
+
+    stdout = models.TextField(
+        null=True  # result = ONGOING
+    )
+
+    stderr = models.TextField(
+        null=True  # result = ONGOING or no error
+    )
+
+    last_case_idx = models.PositiveIntegerField(
+        null=True  # result = ONGOING or ACCEPTED
+    )
+
     def start(self):
         self.result = ResultType.ONGOING
         self.save()
@@ -110,8 +123,14 @@ class Submit(models.Model):
     def end(self,
             _result: ResultType,
             _time_usage: int,
-            _memory_usage: int
+            _memory_usage: int,
+            _stdout: str,
+            _stderr: str = None
             ):
-        self.result, self.time_usage, self.memory_usage \
-            = _result, _time_usage, _memory_usage
+        self.result, self.time_usage, self.memory_usage, self.stdout, self.stderr \
+            = _result, _time_usage, _memory_usage, _stdout, _stderr
+        self.save()
+
+    def internal_error(self):
+        self.result = ResultType.INTERNAL_ERROR
         self.save()
