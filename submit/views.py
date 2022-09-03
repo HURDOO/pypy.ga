@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Submit, SubmitType, getSubmitType
-from runner import test2
+from runner import runner
 
 
 def new(request):
@@ -28,8 +28,11 @@ def new(request):
         _input_data=input_data
     )
 
+    runner.handle_submit(submit.id, problem_id, code, _type, input_data)
+
     return redirect('/submit')
 
 
 def index(request):
+
     return redirect('/')
