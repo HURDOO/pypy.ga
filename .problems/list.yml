@@ -1,0 +1,25 @@
+- category: 파이가 (pypy.ga)
+  problems:
+    - id: 10000
+      name: 파이가 이용 가이드
+
+- category: 출력
+  problems:
+    - id: 10001
+      name: Hello World
+
+    - id: 10002
+      name: 교가
+
+- category: 입력
+  problems:
+    - id: 10003
+      name: 자기소개
+
+    - id: 10004
+      name: 따옴표
+
+- category: 문자열
+  problems:
+    - id: 10005
+      name: 우 to the 영 to the 우

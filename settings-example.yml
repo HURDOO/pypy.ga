@@ -10,8 +10,8 @@ google:
   email_regex: (.+)@(.+)\\.(.+)  # ^js22-(\d+)@sonline20\.sen\.go\.kr$
 
 url:
-  problem_list: https://raw.githubusercontent.com/HURDOO/python-trainer/master/.problems/list.json
-  problem: https://raw.githubusercontent.com/HURDOO/python-trainer/master/.problems/{}.md
+  problem_list: https://raw.githubusercontent.com/HURDOO/python-trainer/master/.problems/list.yml
+  problem: https://raw.githubusercontent.com/HURDOO/python-trainer/master/.problems/{}/{}.md
 
 db:
   type: local # 'local' or 'azure_sql' (Azure SQL Database)
