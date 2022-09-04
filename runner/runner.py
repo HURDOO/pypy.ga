@@ -49,9 +49,11 @@ def handle_submit(
 
     case_cnt = create_tar(submit_id, problem_id, code, submit_type, work_dir, input_data)
     container = run_docker(submit_id, case_cnt)
-    send_data(container, submit_id, work_dir)
 
-    result.handle_data(container, submit_id, problem_id, submit_type)
+    socket = container.attach_socket()
+    send_data(container, submit_id, work_dir)
+    result.handle_data(socket, submit_id, problem_id, submit_type)
+    container.remove()
 
     pass
 

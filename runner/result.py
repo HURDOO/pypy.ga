@@ -5,10 +5,9 @@ from . import grader
 from submit.models import Submit, SubmitType, ResultType
 
 
-def handle_data(container, submit_id: int, problem_id: int, submit_type: SubmitType):
+def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType):
     # docker.transport.npipesocket.NpipeSocket
     # similar to python socket
-    socket = container.attach_socket()
 
     input_ongoing = False
     input_string = ''
