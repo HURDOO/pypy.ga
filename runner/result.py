@@ -1,42 +1,63 @@
 import json
 
+import docker.transport.npipesocket
+
 from . import grader
 from submit.models import Submit, SubmitType, ResultType
 
 
-def handle_data(container, submit_id: int, problem_id:int, submit_type: SubmitType):
-
+def handle_data(container, submit_id: int, problem_id: int, submit_type: SubmitType):
     # docker.transport.npipesocket.NpipeSocket
     # similar to python socket
     socket = container.attach_socket()
 
+    input_ongoing = False
+    input_string = ''
+    case_idx_ongoing = -1
+    not_found_cnt = 0
+
+    submit = Submit.objects.get(id=submit_id)
+    result = ResultType.PREPARE
+    memory_usage = 0
+    time_usage = 0
+    stdout = None
+    stderr = None
+
     while True:
         end = False
+        initial_remove_start_bytes = True
 
-        _ = socket.recv(8)  # unused bytes
+        if type(socket) == docker.transport.npipesocket.NpipeSocket:
+            response = socket.recv(1024 * 1024)
+        else:
+            response = socket.read()
 
-        input_ongoing = False
-        input_string = ''
-        case_idx_ongoing = -1
-        not_found_cnt = 0
+        if initial_remove_start_bytes:
+            response = response[8:]
+            initial_remove_start_bytes = False
 
-        for s in socket.recv(16384).decode().split('\n'):
+        # for s in socket.recv(16384).decode().split('\n'):
+        for s in response.decode().split('\n'):
+            if len(s) == 0:
+                continue
             print(s)
-
             try:
                 data = json.loads(s)
-            except json.JSONDecodeError as err:
+                _ = data['type']
+            except (json.JSONDecodeError, TypeError) as err:
 
                 if input_ongoing:
                     input_string += s + '\n'
                     continue
                 else:
-                    print(input_ongoing)
                     print(s)
                     raise err
 
-            if data['type'] in ['START', 'PREPARE', 'FOUND']:
+            if data['type'] in ['START', 'PREPARE']:
                 pass
+
+            elif data['type'] == 'FOUND':
+                result = ResultType.ONGOING
 
             elif data['type'] == 'NOT_FOUND':
                 not_found_cnt += 1
@@ -52,44 +73,48 @@ def handle_data(container, submit_id: int, problem_id:int, submit_type: SubmitTy
             elif data['type'] == 'CASE_END':
                 if data['result'] == 'END':
                     if submit_type == SubmitType.GRADE:
-                        # TODO Judge
                         if not grader.handle_data(input_string, problem_id, case_idx_ongoing):
                             print('failed', case_idx_ongoing)
-                            submit = Submit.objects.get(id=submit_id)
-                            submit.end(
-                                _result=ResultType.WRONG_ANSWER,
-                                _time_usage=0,
-                                _memory_usage=0,
-                                _stdout=input_string,
-                                _stderr=None
-                            )
+                            result, stdout, stderr \
+                                = ResultType.WRONG_ANSWER, input_string, None
                             end = True
                             break
                         else:
+                            if data['time'] > time_usage:
+                                time_usage = int(data['time'] * 1000)  # ms
+                            if data['memory'] > memory_usage:
+                                memory_usage = int(data['memory'] / 1024)  # kb
                             print('passed', case_idx_ongoing)
+
                         pass
                     else:
-                        # TODO save output
-                        pass
+                        result, time_usage, memory_usage, stdout \
+                            = ResultType.COMPLETE, data['time'], data['memory'], input_string
+                        end = True
+                        break
 
                 elif data['result'] == 'TLE':
-                    # TODO Time Limit Error
-                    pass
+                    result = ResultType.TIME_LIMIT
+                    end = True
+                    break
 
                 elif data['result'] == 'RTE':
-                    # TODO RunTime Error
-                    pass
+                    # TODO stderr
+                    result, stderr = ResultType.RUNTIME_ERROR, input_string
+                    end = True
+                    break
 
                 else:
                     print('unknown case_end')
                     print(data)
                     break
+
                 case_idx_ongoing = -1
+                print('input_ongoing changed to false')
                 input_ongoing = False
                 input_string = ''
 
             elif data['type'] == 'END':
-                # TODO send result
                 end = True
                 break
 
@@ -98,5 +123,14 @@ def handle_data(container, submit_id: int, problem_id:int, submit_type: SubmitTy
                 print(data)
 
         if end:
+            if result == ResultType.ONGOING:
+                result = ResultType.ACCEPTED
+            submit.end(
+                _result=result,
+                _time_usage=time_usage,
+                _memory_usage=memory_usage,
+                _stdout=stdout,
+                _stderr=stderr
+            )
             break
     print("end")
