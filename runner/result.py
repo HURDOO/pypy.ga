@@ -1,4 +1,5 @@
 import json
+import platform
 
 import docker.transport.npipesocket
 
@@ -27,7 +28,7 @@ def handle_data(container, submit_id: int, problem_id: int, submit_type: SubmitT
         end = False
         initial_remove_start_bytes = True
 
-        if type(socket) == docker.transport.npipesocket.NpipeSocket:
+        if platform.system() == 'Windows':
             response = socket.recv(1024 * 1024)
         else:
             response = socket.read()
