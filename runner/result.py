@@ -1,8 +1,6 @@
 import json
 import platform
 
-import docker.transport.npipesocket
-
 from . import grader
 from submit.models import Submit, SubmitType, ResultType
 
