@@ -22,6 +22,8 @@ def handle_data(container, submit_id: int, problem_id: int, submit_type: SubmitT
     stdout = None
     stderr = None
 
+    responses = []
+
     while True:
         end = False
 
@@ -39,8 +41,11 @@ def handle_data(container, submit_id: int, problem_id: int, submit_type: SubmitT
             tmp += response[index+8:]
             response = tmp
 
+        decoded = response.decode(encoding='utf-8').split('\n')
+        responses.extend(decoded)
+
         # for s in socket.recv(16384).decode().split('\n'):
-        for s in response.decode(encoding='utf-8').split('\n'):
+        for s in decoded:
             if len(s) == 0:
                 continue
             print(s)
@@ -54,11 +59,7 @@ def handle_data(container, submit_id: int, problem_id: int, submit_type: SubmitT
                     continue
                 else:
                     print(s)
-                    raise Exception([
-                        ValueError(s),
-                        ValueError(input_ongoing, input_string, case_idx_ongoing),
-                        err
-                    ])
+                    raise err
 
             if data['type'] in ['START', 'PREPARE']:
                 pass
