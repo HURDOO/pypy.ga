@@ -56,6 +56,7 @@ def handle_data(container, submit_id: int, problem_id: int, submit_type: SubmitT
                     print(s)
                     raise Exception([
                         ValueError(s),
+                        ValueError(input_ongoing, input_string, case_idx_ongoing),
                         err
                     ])
 
