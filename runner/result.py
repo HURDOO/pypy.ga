@@ -30,8 +30,16 @@ def handle_data(container, submit_id: int, problem_id: int, submit_type: SubmitT
         else:
             response = socket.read()
 
+        while b'\x01' in response:
+            index = response.index(b'\x01')
+            tmp = bytes()
+            if index > 0:
+                tmp = response[:index-1]
+            tmp += response[index+8:]
+            response = tmp
+
         # for s in socket.recv(16384).decode().split('\n'):
-        for s in response[8:].decode(encoding='utf-8').split('\n'):
+        for s in response.decode(encoding='utf-8').split('\n'):
             if len(s) == 0:
                 continue
             print(s)
