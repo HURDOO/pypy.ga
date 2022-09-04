@@ -1,5 +1,9 @@
 # 설치
 
+* 주의: Azure VM으로 설치할 때 5단락 연달아서 설치하고 VM 다시 시작하면 인터넷 연결이 되지 않는 오류가 발생하더라고요. 여러번 초기화하시지 않으려면 한 단락 끝나실 때마다 Azure Portal에서 VM 다시 시작 한번씩 하시는걸 추천합니다 ㅎㅎ..
+
+## Django 구동
+
 1. 파이썬 및 pip 설치
 ```
 sudo apt install python3
@@ -45,7 +49,7 @@ python3 manage.py runserver
 
 서버 닫을 땐 Ctrl+C
 
-## 채점 서버 설정
+## 채점 가상환경 설정
 1. .tmp 폴더 생성
 ```shell
 mkdir .tmp
@@ -58,10 +62,6 @@ mkdir .tmp
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 
-sudo apt install uidmap
-dockerd-rootless-setuptool.sh install
-export PATH=/usr/bin:$PATH
-export DOCKER_HOST=unix:///run/user/1000/docker.sock
 sudo usermod -aG docker $USER
 ```
 
@@ -83,7 +83,7 @@ sudo systemctl enable containerd.service
 
 4. 이미지 빌드
 ```shell
-docker build -t test1234 ~/pyton-trainer/runner/docker_dir
+docker build -t test1234 ~/python-trainer/runner/docker_dir
 ```
 
 ## gunicorn + nginx
@@ -124,7 +124,7 @@ SocketUser=YOUR_USERNAME
 [Install]
 WantedBy=sockets.target
 ```
-`YOUR_USERNAME` 부분을 유저 이름으로 변경한다.
+1개의 `YOUR_USERNAME` 부분을 유저 이름으로 변경한다.
 
 작성이 끝나면 'Ctrl+X → Y → Enter' 로 저장.
 
@@ -142,8 +142,8 @@ After=network.target
 [Service]
 User=YOUR_USERNAME
 Group=YOUR_USERNAME
-WorkingDirectory=/home/hurdoo/python-trainer
-ExecStart=/home/hurdoo/python-trainer/.venv/bin/gunicorn \
+WorkingDirectory=/home/YOUR_USERNAME/python-trainer
+ExecStart=/home/YOUR_USERNAME/python-trainer/.venv/bin/gunicorn \
         --workers 3 \
         --bind unix:/run/gunicorn.sock \
         pypyga.wsgi:application
@@ -151,7 +151,7 @@ ExecStart=/home/hurdoo/python-trainer/.venv/bin/gunicorn \
 [Install]
 WantedBy=multi-user.target
 ```
-`YOUR_USERNAME` 부분을 유저 이름으로 변경한다.
+4개의 `YOUR_USERNAME` 부분을 유저 이름으로 변경한다.
 
 작성이 끝나면 'Ctrl+X → Y → Enter' 로 저장.
 
@@ -194,7 +194,7 @@ server {
 
     location / {
         include proxy_params;
-        proxy_pass unix:/run/gunicorn.sock;
+        proxy_pass http://unix:/run/gunicorn.sock;
 
     }
 }
@@ -207,12 +207,28 @@ server {
 아래 명령어로 사이트를 등록한다.
 
 ```shell
-sudo ln -s /etc/nginx/sites-available/django_test /etc/nginx/sites-enabled
+sudo ln -s /etc/nginx/sites-available/pypyga /etc/nginx/sites-enabled
 sudo nginx -t
 sudo systemctl restart nginx
 ```
 
-4. 그 이후
+## SSL(https) 설정
+[공식 가이드(https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal)]에 따름
+1. certbot 설치
+```shell
+sudo snap install core
+sudo snap refresh core
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+```
+
+2. certbot 실행
+```shell
+sudo certbot --nginx
+```
+이후 절차에 따른다
+
+## 그 이후
 업데이트 할 때:
 ```shell
 cd ~/python-trainer
@@ -228,3 +244,4 @@ sudo systemctl restart gunicorn
 ```shell
 systemctl status gunicorn
 ```
+

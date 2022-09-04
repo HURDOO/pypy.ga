@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>로그인</h1>
+    <p>학교 정보 시간에 사용하는 구글 계정으로 로그인할 수 있습니다.</p>
+    <p>이메일: js22-학번@sonline20.sen.go.kr</p>
+    <p>비밀번호: jam학번</p>
+    <img src="{% static 'account_select.png' %}" width="320">
+    <br>
+    <a href="{{ login_url }}">로그인</a>
+{% endblock %}

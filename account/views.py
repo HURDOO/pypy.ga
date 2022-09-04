@@ -1,12 +1,13 @@
-import django.http
-import re
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
+
 from . import google
 from . import models
 
 
 def login(request):
-    return redirect(google.get_login_url())
+    return render(request, 'login.html', context={
+        'login_url': google.get_login_url()
+    })
 
 
 def logout(request):
@@ -17,7 +18,11 @@ def logout(request):
 def auth(request):
     code = request.GET.get('code')
     email = google.get_email(code)
-    account = models.handle_login(email)
-    request.session['user_id'] = account.id
-    return redirect('/')
+    try:
+        account = models.handle_login(email)
+        request.session['user_id'] = account.id
+        return redirect('/')
+    except AttributeError:
+        # not school account
+        return redirect('/account/login')
 
