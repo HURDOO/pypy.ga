@@ -35,6 +35,7 @@ def handle_data(container, submit_id: int, problem_id: int, submit_type: SubmitT
             tmp = bytes()
             if index > 0:
                 tmp = response[:index-1]
+            tmp += '\n'.encode()
             tmp += response[index+8:]
             response = tmp
 
