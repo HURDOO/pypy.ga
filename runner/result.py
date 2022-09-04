@@ -24,19 +24,14 @@ def handle_data(container, submit_id: int, problem_id: int, submit_type: SubmitT
 
     while True:
         end = False
-        initial_remove_start_bytes = True
 
         if platform.system() == 'Windows':
             response = socket.recv(1024 * 1024)
         else:
             response = socket.read()
 
-        if initial_remove_start_bytes:
-            response = response[8:]
-            initial_remove_start_bytes = False
-
         # for s in socket.recv(16384).decode().split('\n'):
-        for s in response.decode().split('\n'):
+        for s in response[8:].decode(encoding='utf-8').split('\n'):
             if len(s) == 0:
                 continue
             print(s)
