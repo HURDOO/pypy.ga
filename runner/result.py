@@ -54,7 +54,10 @@ def handle_data(container, submit_id: int, problem_id: int, submit_type: SubmitT
                     continue
                 else:
                     print(s)
-                    raise err
+                    raise Exception([
+                        ValueError(s),
+                        err
+                    ])
 
             if data['type'] in ['START', 'PREPARE']:
                 pass
