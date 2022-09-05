@@ -1,33 +1,39 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}제출 #{{ submit_id }}{% endblock %}
+
 {% block style %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'index.css' %}">
 {% endblock %}
 
 {% block content %}
-    <h1>Hello World!</h1>
+    <header>
+        <h1><a href="/submit/{{ submit_id }}"><u>#{{ submit_id }}</u></a></h1>
+    </header>
     <table>
-        <tr id="header">
-            <th>#</th>
-            <th>문제</th>
-            <th>사용자</th>
-            <th>결과</th>
-            <th>코드 길이</th>
-            <th>메모리</th>
-            <th>소요 시간</th>
-        </tr>
-
-        <tr>
-            <td>{{ submit_id }}</td>
-            <td>{{ problem_id }}</td>
-            <td>{{ user_id }}</td>
-            <td>{{ result }}</td>
-            <td>{{ code_length }}</td>
-            <td>{{ memory_usage }}</td>
-            <td>{{ time_usage }}</td>
-        </tr>
+        <thead>
+            <tr id="header">
+                <th>#</th>
+                <th>문제</th>
+                <th>사용자</th>
+                <th>결과</th>
+                <th>코드 길이</th>
+                <th>메모리</th>
+                <th>소요 시간</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ submit_id }}</td>
+                <td><a href="/problem/{{ problem_id }}">{{ problem_id }}</a></td>
+                <td>{{ user_id }}</td>
+                <td>{{ result }}</td>
+                <td>{{ code_length }}</td>
+                <td>{{ memory_usage }}</td>
+                <td>{{ time_usage }}</td>
+            </tr>
+        </tbody>
     </table>
     <p>코드</p>
     <p>{{ code }}</p>

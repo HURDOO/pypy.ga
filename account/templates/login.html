@@ -7,11 +7,14 @@
 {% endblock %}
 
 {% block content %}
-    <h1>로그인</h1>
-    <p>학교 정보 시간에 사용하는 구글 계정으로 로그인할 수 있습니다.</p>
-    <p>이메일: js22-학번@sonline20.sen.go.kr</p>
-    <p>비밀번호: jam학번</p>
-    <img src="{% static 'account_select.png' %}" width="320">
+    <header>
+        <h1><b>로그인</b></h1>
+        <h5>학교 정보 시간에 사용하는 구글 계정으로 로그인할 수 있습니다.</h5>
+    </header>
+    <p>이메일: <code>js22-학번@sonline20.sen.go.kr</code></p>
+    <p>비밀번호: <code>jam학번</code></p>
+    <a href="{{ login_url }}"><b>구글 로그인 바로가기</b></a>
     <br>
-    <a href="{{ login_url }}">로그인</a>
+    <br>
+    <img src="{% static 'account_select.png' %}" width="320">
 {% endblock %}

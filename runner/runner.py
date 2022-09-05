@@ -53,6 +53,7 @@ def handle_submit(
     socket = container.attach_socket()
     send_data(container, submit_id, work_dir)
     result.handle_data(socket, submit_id, problem_id, submit_type)
+    container.stop()
     container.remove()
 
     pass

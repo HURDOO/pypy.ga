@@ -14,24 +14,25 @@ div#problem {
 }
 
 nav {
-    height: 2%;
+    margin-bottom: 0.5rem
 }
 
 div#container {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    height: 98%;
+    height: 93%;
 }
 
 form {
     width: 50%;
-    height: inherit;
-    padding: 5px;
+    height: 100%;
 }
 
 div#editor {
-    height: inherit;
+    width: 100%;
+    height: 90%;
+    margin-bottom: 15px;
     /*font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', 'D2Coding', monospace */
     font-family: D2Coding, monospace
 }

@@ -1,31 +1,46 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}홈{% endblock %}
+
 {% block style %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'index.css' %}">
 {% endblock %}
 
 {% block content %}
-    <h1>Hello World!</h1>
-    <table>
-        <tr id="header">
-            <th>#</th>
-            <th>문제</th>
-            <th>난이도</th>
-            <th>제출 수</th>
-            <th>정답</th>
-        </tr>
-        {% for category in list %}
-            <tr>
-                <th colspan="5"><b>{{ category.category }}</b></th>
-            </tr>
-            {% for problem in category.problems %}
-                <tr>
-                    <th scope="row">{{ problem.id }}</th>
-                    <td><a href="/problem/{{ problem.id }}">{{ problem.name }}</a></td>
+    <header>
+        <h1><b>Life is short.<br class="mobile"> You need <a href="https://pypy.ga">Pypy.ga</a></b></h1>
+        <h3 class="desktop"><b><a href="https://pypy.ga"><u>파이가</u></a>에 오신 것을 환영합니다!</b></h3>
+        <br>
+        <h6>지금은 베타 테스트 기간입니다.<br class="mobile"> 오류 정보가 수집될 수 있습니다. (9.6~9.16)</h6>
+    </header>
+    <section>
+        <table>
+            <thead>
+                <tr id="header">
+                    <th>#</th>
+                    <th>문제</th>
+                    <th>난이도</th>
+                    <th>제출 수</th>
+                    <th>정답</th>
                 </tr>
-            {% endfor %}
-        {% endfor %}
-    </table>
+            </thead>
+            <tbody>
+                {% for category in list %}
+                    <tr>
+                        <th colspan="5" class="category"><b>{{ category.category }}</b></th>
+                    </tr>
+                    {% for problem in category.problems %}
+                        <tr>
+                            <th scope="row">{{ problem.id }}</th>
+                            <td><a href="/problem/{{ problem.id }}">{{ problem.name }}</a></td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <footer>
+    </footer>
 {% endblock %}

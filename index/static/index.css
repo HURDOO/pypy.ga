@@ -1,11 +1,7 @@
-body {
-    text-align: center;
+table tr:nth-child(even) {
+    background-color: var(--bg-color);
 }
 
-table {
-    width: 100%;
-    padding: 5px;
-}
-tr#header {
-    background-color: lightgrey;
+table tr .category {
+    background-color: var(--color-accent);
 }
