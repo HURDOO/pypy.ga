@@ -76,13 +76,16 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                     raise Exception('case_idx not equals to case_idx_ongoing')
 
                 if data['result'] == 'END':
+
                     if submit_type == SubmitType.GRADE:
+
                         if not grader.handle_data(data['out'], problem_id, case_idx_ongoing):
                             print('failed', case_idx_ongoing)
                             result, stdout, stderr \
                                 = ResultType.WRONG_ANSWER, data['out'], None
                             end = True
                             break
+
                         else:
                             if data['time'] > time_usage:
                                 time_usage = int(data['time'] * 1000)  # ms
@@ -90,7 +93,6 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                                 memory_usage = int(data['memory'] / 1024)  # kb
                             print('passed', case_idx_ongoing)
 
-                        pass
                     else:
                         result, time_usage, memory_usage, stdout \
                             = ResultType.COMPLETE, data['time'], data['memory'], data['out']
@@ -126,12 +128,15 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
         if end:
             if result == ResultType.ONGOING:
                 result = ResultType.ACCEPTED
+            if case_idx_ongoing == -1:
+                case_idx_ongoing = None
             submit.end(
                 _result=result,
                 _time_usage=time_usage,
                 _memory_usage=memory_usage,
                 _stdout=stdout,
-                _stderr=stderr
+                _stderr=stderr,
+                _last_case_idx=case_idx_ongoing
             )
             break
     print("end")

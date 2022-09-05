@@ -40,7 +40,7 @@
         {% if result == 'WA' or result == 'TLE' or result == 'RTE' %}
             <aside>
                 <h3>틀린 입력</h3>
-                <h5>입출력 보기 (준비중)</h5>
+                <h5><a href="#std">입출력 보기</a></h5>
             </aside>
         {% endif %}
 
@@ -78,12 +78,46 @@
 
     </section>
 
-    <br>
+    <hr>
     <h4>코드</h4>
     <div id="code">
         <pre><code>
 {{ code }}
         </code></pre>
     </div>
+
+    {% if result == 'WA' or result == 'TLE' or result == 'MLE' or result == 'RTE' %}
+        <hr>
+        <section id="std">
+            <header>
+                <h4>틀린 입력</h4>
+            </header>
+
+            <aside>
+                <h3>입력</h3>
+                <pre><code>
+{{ stdin }}
+                </code></pre>
+            </aside>
+
+            {% if result == 'WA' %}
+            <aside>
+                <h3>옳은 출력</h3>
+                <pre><code>
+{{ correct_stdout }}
+                </code></pre>
+            </aside>
+            {% endif %}
+
+            {% if result != 'TLE' %}
+            <aside>
+                <h3>실제 출력</h3>
+                <pre><code>
+{{ stdout }}
+                </code></pre>
+            </aside>
+            {% endif %}
+        </section>
+    {% endif %}
 <!--    <script>load_submit('{{ submit | safe }}')</script>-->
 {% endblock %}

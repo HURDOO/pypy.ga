@@ -125,10 +125,11 @@ class Submit(models.Model):
             _time_usage: int,
             _memory_usage: int,
             _stdout: str,
-            _stderr: str = None
+            _stderr: str = None,
+            _last_case_idx: int = None
             ):
-        self.result, self.time_usage, self.memory_usage, self.stdout, self.stderr \
-            = _result, _time_usage, _memory_usage, _stdout, _stderr
+        self.result, self.time_usage, self.memory_usage, self.stdout, self.stderr, self.last_case_idx \
+            = _result, _time_usage, _memory_usage, _stdout, _stderr, _last_case_idx
         self.save()
 
     def internal_error(self):

@@ -1,6 +1,10 @@
 import json
+from datetime import timedelta
 
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
+
+from problem.load import PROBLEMS_DIR
 from .models import Submit, ResultType, SubmitType, getSubmitType
 from runner import runner
 from account import info
@@ -48,7 +52,7 @@ def detail(request, submit_id):
         'result': submit.result,
         'code': submit.code,
         'code_length': submit.code_length,
-        'submit_time': str(submit.submit_time)
+        'submit_time': str(submit.submit_time + timedelta(hours=9))
     }
     data.update(get_details(submit))
     data.update(info.get_data(request.session))
@@ -63,6 +67,29 @@ def get_details(submit: Submit) -> dict:
                 'memory_usage': submit.memory_usage,
             }
 
+        stdin, correct_stdout = std(submit.problem_id, submit.last_case_idx)
+
+        if submit.result == ResultType.WRONG_ANSWER:
+            return {
+                'stdin': stdin,
+                'correct_stdout': correct_stdout,
+                'stdout': submit.stdout,
+            }
+
+        if submit.result in [ResultType.TIME_LIMIT, ResultType.MEMORY_LIMIT]:
+            return {
+                'stdin': stdin,
+                'stdout': submit.stdout
+            }
+
+        if submit.result == ResultType.RUNTIME_ERROR:
+            return {
+                'stdin': stdin,
+                'correct_stdout': correct_stdout,
+                'stdout': submit.stdout,
+                'stderr': submit.stderr
+            }
+
     else:
         if submit.result == ResultType.COMPLETE:
             return {
@@ -72,19 +99,29 @@ def get_details(submit: Submit) -> dict:
                 'memory_usage': submit.memory_usage,
             }
 
-    if submit.result in [ResultType.TIME_LIMIT, ResultType.MEMORY_LIMIT]:
-        return {
-            'stdin': submit.stdin,
-            'stdout': submit.stdout,
-        }
-    elif submit.result == ResultType.RUNTIME_ERROR:
-        return {
-            'stdin': submit.stdin,
-            'stdout': submit.stdout,
-            'stderr': submit.stderr
-        }
+        if submit.result in [ResultType.TIME_LIMIT, ResultType.MEMORY_LIMIT]:
+            return {
+                'stdin': submit.stdin,
+                'stdout': submit.stdout,
+            }
+        elif submit.result == ResultType.RUNTIME_ERROR:
+            return {
+                'stdin': submit.stdin,
+                'stdout': submit.stdout,
+                'stderr': submit.stderr
+            }
 
     return {}
+
+
+def std(problem_id: int, case_idx: int) -> tuple:
+
+    with open(PROBLEMS_DIR / str(problem_id) / 'in' / '{}.in'.format(case_idx), encoding='UTF-8') as f:
+        stdin = f.read()
+    with open(PROBLEMS_DIR / str(problem_id) / 'out' / '{}.out'.format(case_idx), encoding='UTF-8') as f:
+        correct_stdout = f.read()
+
+    return stdin, correct_stdout
 
 
 def index(request):

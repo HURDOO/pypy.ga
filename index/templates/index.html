@@ -43,6 +43,19 @@
             </tbody>
         </table>
     </section>
+    <!--{% for category in list %}
+        <section>
+            <header>
+                <h2>{{ category.category }}</h2>
+            </header>
+            {% for problem in category.problems %}
+                <aside>
+                    <h3><a href="/problem/{{ problem.id }}">{{ problem.name }}</a></h3>
+                    <h5>{{ problem.id }}</h5>
+                </aside>
+            {% endfor %}
+        </section>
+    {% endfor %}-->
     <footer>
     </footer>
 {% endblock %}
