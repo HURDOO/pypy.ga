@@ -5,42 +5,85 @@
 
 {% block style %}
     {{ block.super }}
+    <link rel="stylesheet" href="{% static 'detail.css' %}">
+{% endblock %}
+
+{% block module %}
+    {{ block.super }}
+    <script src="{% static 'detail.js' %}"></script>
 {% endblock %}
 
 {% block content %}
     <header>
-        <h1><a href="/submit/{{ submit_id }}"><u>#{{ submit_id }}</u></a></h1>
+        <h3><a href="/problem/{{ problem_id }}">{{ problem_id }}</a> / <a href="/submit/{{ submit_id }}"><u>#{{ submit_id }}</u></a></h3>
+        <br>
+        <h1>
+            {% if result == 'WA' %} ❌ 틀렸습니다
+            {% elif result == 'AC' %} ✅ 맞았습니다!!
+            {% elif result == 'CP' %} ✅ 실행 완료
+            {% elif result == 'TLE' %} 🕒 시간 제한 초과
+            {% elif result == 'RTE' %} 💥 오류 발생 (런타임 에러)
+            {% elif result == 'IE' %} ⚠️내부 오류 (다시 시도하거나, 관리자에게 문의하세요)
+            {% else %} 🤔 결과를 알 수 없음 (새로고침 하거나, 관리자에게 문의하세요)
+
+            {% endif %}
+        </h1>
+        {% if result == 'RTE' %}
+        <pre><code>
+{{ stderr }}
+        </code></pre>
+        {% endif %}
     </header>
-    <table>
-        <thead>
-            <tr id="header">
-                <th>#</th>
-                <th>문제</th>
-                <th>사용자</th>
-                <th>결과</th>
-                <th>코드 길이</th>
-                <th>메모리</th>
-                <th>소요 시간</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ submit_id }}</td>
-                <td><a href="/problem/{{ problem_id }}">{{ problem_id }}</a></td>
-                <td>{{ user_id }}</td>
-                <td>{{ result }}</td>
-                <td>{{ code_length }}</td>
-                <td>{{ memory_usage }}</td>
-                <td>{{ time_usage }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <p>코드</p>
-    <p>{{ code }}</p>
-    <p>입력</p>
-    <p>{{ stdin }}</p>
-    <p>출력</p>
-    <p>{{ stdout }}</p>
-    <p>오류</p>
-    <p>{{ stderr }}</p>
+
+    <section>
+
+        {% if result == 'WA' or result == 'TLE' or result == 'RTE' %}
+            <aside>
+                <h3>틀린 입력</h3>
+                <h5>입력 보기</h5>
+            </aside>
+        {% endif %}
+
+        {% if result == 'AC' or result == 'CP' %}
+            <aside>
+                <h3>최대 소요 시간</h3>
+                <h5>{{ time_usage }} <small>ms</small></h5>
+            </aside>
+            <aside>
+                <h3>최대 메모리 사용량</h3>
+                <h5>{{ memory_usage }} <small>KB</small></h5>
+            </aside>
+        {% endif %}
+
+        <aside>
+            <h3>코드</h3>
+            <h5><a href="#code">코드 보기</a> <small>({{ code_length }} byte)</small></h5>
+        </aside>
+        <aside>
+            <h4>문제 번호</h4>
+            <h5><a href="/problem/{{ problem_id }}">{{ problem_id }}</a></h5>
+        </aside>
+        <aside>
+            <h4>제출 시각</h4>
+            <h5>{{ submit_time }}</h5>
+        </aside>
+        <aside>
+            <h4>사용자</h4>
+            <h5>{{ user_id }}</h5>
+        </aside>
+        <aside>
+            <h4>제출 번호</h4>
+            <h5><a href="/submit/{{ submit_id }}">{{ submit_id }}</a></h5>
+        </aside>
+
+    </section>
+
+    <br>
+    <h4>코드</h4>
+    <div id="code" style="margin: 0 auto;">
+        <pre style="text-align: left"><code>
+{{ code }}
+        </code></pre>
+    </div>
+<!--    <script>load_submit('{{ submit | safe }}')</script>-->
 {% endblock %}
