@@ -71,17 +71,18 @@ def get_details(submit: Submit) -> dict:
                 'time_usage': submit.time_usage,
                 'memory_usage': submit.memory_usage,
             }
-        elif submit.result in [ResultType.TIME_LIMIT, ResultType.MEMORY_LIMIT]:
-            return {
-                'stdin': submit.stdin,
-                'stdout': submit.stdout,
-            }
-        elif submit.result == ResultType.RUNTIME_ERROR:
-            return {
-                'stdin': submit.stdin,
-                'stdout': submit.stdout,
-                'stderr': submit.stderr
-            }
+
+    if submit.result in [ResultType.TIME_LIMIT, ResultType.MEMORY_LIMIT]:
+        return {
+            'stdin': submit.stdin,
+            'stdout': submit.stdout,
+        }
+    elif submit.result == ResultType.RUNTIME_ERROR:
+        return {
+            'stdin': submit.stdin,
+            'stdout': submit.stdout,
+            'stderr': submit.stderr
+        }
 
     return {}
 
