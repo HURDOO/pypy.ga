@@ -56,24 +56,27 @@ def run(code_file: str, case_num: int):
                 mem_proc.terminate()
 
                 if err == b'':
-                    print(out.decode(), end='')
+                    # print(out.decode(), end='')
                     output({
                         'type': 'CASE_END',
                         'result': 'END',
                         'case_idx': i,
                         'time': after - before,
-                        'memory': mem.value
+                        'memory': mem.value,
+                        'out': out.decode()
                     })
                 else:
-                    print(out.decode(), end='')
+                    # print(out.decode(), end='')
                     output({
                         'type': 'CASE_END',
                         'result': 'RTE',
                         'case_idx': i,
                         'time': after - before,
-                        'memory': mem.value
+                        'memory': mem.value,
+                        'out': out.decode(),
+                        'err': err.decode()
                     })
-                    print(err.decode(), end='')
+                    # print(err.decode(), end='')
                     break
 
         except TimeoutExpired:

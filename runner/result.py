@@ -9,8 +9,6 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
     # docker.transport.npipesocket.NpipeSocket
     # similar to python socket
 
-    input_ongoing = False
-    input_string = ''
     case_idx_ongoing = -1
     not_found_cnt = 0
 
@@ -30,6 +28,9 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
             response = socket.recv(1024 * 1024)
         else:
             response = socket.read()
+
+        if b'\x02' in response:
+            print('error detected')
 
         while b'\x01' in response:
             index = response.index(b'\x01')
@@ -52,13 +53,8 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                 data = json.loads(s)
                 _ = data['type']
             except (json.JSONDecodeError, TypeError) as err:
-
-                if input_ongoing:
-                    input_string += s + '\n'
-                    continue
-                else:
-                    print(s)
-                    raise err
+                print(s)
+                raise err
 
             if data['type'] in ['START', 'PREPARE']:
                 pass
@@ -74,16 +70,17 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
 
             elif data['type'] == 'CASE_START':
                 case_idx_ongoing = data['case_idx']
-                input_ongoing = True
-                input_string = ''
 
             elif data['type'] == 'CASE_END':
+                if data['case_idx'] != case_idx_ongoing:
+                    raise Exception('case_idx not equals to case_idx_ongoing')
+
                 if data['result'] == 'END':
                     if submit_type == SubmitType.GRADE:
-                        if not grader.handle_data(input_string, problem_id, case_idx_ongoing):
+                        if not grader.handle_data(data['out'], problem_id, case_idx_ongoing):
                             print('failed', case_idx_ongoing)
                             result, stdout, stderr \
-                                = ResultType.WRONG_ANSWER, input_string, None
+                                = ResultType.WRONG_ANSWER, data['out'], None
                             end = True
                             break
                         else:
@@ -96,7 +93,7 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                         pass
                     else:
                         result, time_usage, memory_usage, stdout \
-                            = ResultType.COMPLETE, data['time'], data['memory'], input_string
+                            = ResultType.COMPLETE, data['time'], data['memory'], data['out']
                         end = True
                         break
 
@@ -106,8 +103,8 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                     break
 
                 elif data['result'] == 'RTE':
-                    # TODO stderr
-                    result, stderr = ResultType.RUNTIME_ERROR, input_string
+                    result, stdout, stderr \
+                        = ResultType.RUNTIME_ERROR, data['out'], data['err']
                     end = True
                     break
 
@@ -117,9 +114,6 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                     break
 
                 case_idx_ongoing = -1
-                print('input_ongoing changed to false')
-                input_ongoing = False
-                input_string = ''
 
             elif data['type'] == 'END':
                 end = True
