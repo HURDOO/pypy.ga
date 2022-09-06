@@ -16,7 +16,7 @@ aside {
     cursor: pointer;
 }
 
-h3.problem_name {
+.problem_name {
     color: var(--color-link);
     font-weight: bold;
 }

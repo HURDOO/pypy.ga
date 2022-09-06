@@ -44,14 +44,14 @@
         </table>
     </section>-->
     {% for category in list %}
-        <header class="category">
+        <header>
             <h2 class="category"><b>{{ category.category }}</b></h2>
         </header>
         <section>
             {% for problem in category.problems %}
                 <aside onclick="location.href = '/problem/{{ problem.id }}'">
                     <h3 class="problem_name">{{ problem.name }}</h3>
-                    <h5>{{ problem.id }}</h5>
+                    <p><small>{{ problem.id }}</small> ★</p>
                 </aside>
             {% endfor %}
         </section>

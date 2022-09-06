@@ -10,7 +10,6 @@
 
 {% block module %}
     {{ block.super }}
-    <script src="{% static 'detail.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -70,21 +69,18 @@
 
     </section>
 
-    <header>
-        <h4>코드</h4>
-    </header>
     <div id="code">
+        <br>
+        <h4>코드</h4>
         <pre><code>
 {{ code }}
         </code></pre>
     </div>
 
     {% if result == 'WA' or result == 'TLE' or result == 'MLE' or result == 'RTE' %}
-        <header>
-            <h4>틀린 입력</h4>
-        </header>
-        <section id="std">
 
+    <div id="std">
+        <section>
             <aside>
                 <h3>입력</h3>
                 <pre><code>
@@ -94,7 +90,7 @@
 
             {% if result == 'WA' %}
             <aside>
-                <h3>옳은 출력</h3>
+                <h3>출력 정답</h3>
                 <pre><code>
 {{ correct_stdout }}
                 </code></pre>
@@ -103,13 +99,14 @@
 
             {% if result != 'TLE' %}
             <aside>
-                <h3>실제 출력</h3>
+                <h3>출력</h3>
                 <pre><code>
 {{ stdout }}
                 </code></pre>
             </aside>
             {% endif %}
         </section>
+    </div>
     {% endif %}
 <!--    <script>load_submit('{{ submit | safe }}')</script>-->
 {% endblock %}
