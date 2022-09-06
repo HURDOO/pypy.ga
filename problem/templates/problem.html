@@ -26,7 +26,7 @@
         </div>
         <form action="/submit/new" method="post">
             {% csrf_token %}
-            <div id="editor">print('Hello World!')</div>
+            <div id="editor">{{ code }}</div>
             <textarea id="code" name="code" hidden></textarea>
             <input type="number" name="problem_id" value="{{ problem_id }}" hidden>
             <input type="text" name="type" hidden>

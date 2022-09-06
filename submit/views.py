@@ -61,15 +61,6 @@ def detail(request, submit_id):
 
 
 def get_result(result: ResultType) -> str:
-    """
-            {% if result == 'WA' %} ❌ 틀렸습니다
-            {% elif result == 'AC' %} ✅ 맞았습니다!!
-            {% elif result == 'CP' %} ✅ 실행 완료
-            {% elif result == 'TLE' %} 🕒 시간 제한 초과
-            {% elif result == 'RTE' %} 💥 오류 발생 (런타임 에러)
-            {% elif result == 'IE' %} ⚠️내부 오류 (다시 시도하거나, 관리자에게 문의하세요)
-            {% else %} 🤔 결과를 알 수 없음 (새로고침 하거나, 관리자에게 문의하세요)
-    """
     if result == ResultType.WRONG_ANSWER:
         return '❌ 틀렸습니다'
     elif result == ResultType.ACCEPTED:
@@ -79,7 +70,7 @@ def get_result(result: ResultType) -> str:
     elif result == ResultType.TIME_LIMIT:
         return '🕒 시간 제한 초과'
     elif result == ResultType.RUNTIME_ERROR:
-        return '💥 오류 발생 (런타임 에러)'
+        return '💥 오류 발생'
     elif result == ResultType.PREPARE:
         return '🔁 준비 중'
     elif result == ResultType.INTERNAL_ERROR:
