@@ -21,18 +21,20 @@
 
 {% block content %}
     <div id="container">
-        <div id="problem">
+        <form id="problem">
             <zero-md src="{{ problem_url }}"></zero-md>
-        </div>
-        <form action="/submit/new" method="post">
+        </form>
+        <form id="submit" action="/submit/new" method="post">
             {% csrf_token %}
             <div id="editor">{{ code }}</div>
             <textarea id="code" name="code" hidden></textarea>
             <input type="number" name="problem_id" value="{{ problem_id }}" hidden>
             <input type="text" name="type" hidden>
-            <input id="submit_time" type="text" name="submit_time" hidden>
-            <input type="submit" name="type" value="테스트 실행" disabled>
-            <input type="submit" name="type" value="코드 제출">
+            <div id="form_button">
+                <input type="submit" name="type" value="테스트 실행" disabled>
+                <input type="submit" name="type" value="코드 제출">
+            </div>
+
         </form>
     </div>
 {% endblock %}

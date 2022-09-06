@@ -1,11 +1,3 @@
-table tr:nth-child(even) {
-    background-color: var(--bg-color);
-}
-
-table tr .category {
-    background-color: var(--color-accent);
-}
-
 header .category {
     background-color: var(--color-accent);
     border-radius: 30px;

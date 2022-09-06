@@ -40,11 +40,10 @@ class Submit(models.Model):
                _problem_id: int,
                _user_id: int,
                _code: str,
-               _submit_time: str,
                _input_data: str = None
                ):
-        __submit_time = timezone.datetime.strptime(_submit_time.split('.')[0], "%Y-%m-%dT%H:%M:%S")
-        submit = Submit(type=_type, problem_id=_problem_id, user_id=_user_id, code=_code, submit_time=__submit_time)
+        _submit_time = timezone.datetime.now()
+        submit = Submit(type=_type, problem_id=_problem_id, user_id=_user_id, code=_code, submit_time=_submit_time)
         if _input_data is not None:
             submit.input_data = _input_data
         submit.code_length = len(_code)

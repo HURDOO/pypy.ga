@@ -17,32 +17,7 @@
         <p>처음 오셨나요? <a href="/problem/10000">파이가 이용 가이드</a>를 읽어보세요.</p>
         <h6>지금은 베타 테스트 기간입니다.<br class="mobile"> 오류 정보가 수집될 수 있습니다. (9.6~9.16)</h6>
     </header>
-    <!--<section>
-        <table>
-            <thead>
-                <tr id="header">
-                    <th>#</th>
-                    <th>문제</th>
-                    <th>난이도</th>
-                    <th>제출 수</th>
-                    <th>정답</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for category in list %}
-                    <tr>
-                        <th colspan="5" class="category"><b>{{ category.category }}</b></th>
-                    </tr>
-                    {% for problem in category.problems %}
-                        <tr>
-                            <th scope="row">{{ problem.id }}</th>
-                            <td><a href="/problem/{{ problem.id }}">{{ problem.name }}</a></td>
-                        </tr>
-                    {% endfor %}
-                {% endfor %}
-            </tbody>
-        </table>
-    </section>-->
+
     {% for category in list %}
         <header>
             <h2 class="category"><b>{{ category.category }}</b></h2>

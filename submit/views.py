@@ -19,9 +19,8 @@ def new(request):
         return redirect('/problem/12345')
     user_id = request.session['user_id']
 
-    problem_id, _type, code, submit_time = \
-        data['problem_id'], getSubmitType(data['type']), \
-        data['code'], data['submit_time']
+    problem_id, _type, code = \
+        data['problem_id'], getSubmitType(data['type']), data['code']
 
     input_data = None
     if _type == SubmitType.TEST:
@@ -32,7 +31,6 @@ def new(request):
         _problem_id=problem_id,
         _type=_type,
         _code=code,
-        _submit_time=submit_time,
         _input_data=input_data
     )
 
@@ -53,7 +51,7 @@ def detail(request, submit_id):
         'result_message': get_result(submit.result),
         'code': submit.code,
         'code_length': submit.code_length,
-        'submit_time': str(submit.submit_time + timedelta(hours=9))
+        'submit_time': str(submit.submit_time)[:19]  # + timedelta(hours=9)
     }
     data.update(get_details(submit))
     data.update(info.get_data(request.session))
