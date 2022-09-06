@@ -51,7 +51,7 @@
             {% for problem in category.problems %}
                 <aside onclick="location.href = '/problem/{{ problem.id }}'">
                     <h3 class="problem_name">{{ problem.name }}</h3>
-                    <p><small>{{ problem.id }}</small> ★</p>
+                    <h5>{{ problem.id }}</h5>
                 </aside>
             {% endfor %}
         </section>
