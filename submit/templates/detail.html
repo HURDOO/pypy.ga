@@ -18,15 +18,7 @@
         <h3><a href="/problem/{{ problem_id }}">{{ problem_id }}</a> / <a href="/submit/{{ submit_id }}"><u>#{{ submit_id }}</u></a></h3>
         <br>
         <h1>
-            {% if result == 'WA' %} ❌ 틀렸습니다
-            {% elif result == 'AC' %} ✅ 맞았습니다!!
-            {% elif result == 'CP' %} ✅ 실행 완료
-            {% elif result == 'TLE' %} 🕒 시간 제한 초과
-            {% elif result == 'RTE' %} 💥 오류 발생 (런타임 에러)
-            {% elif result == 'IE' %} ⚠️내부 오류 (다시 시도하거나, 관리자에게 문의하세요)
-            {% else %} 🤔 결과를 알 수 없음 (새로고침 하거나, 관리자에게 문의하세요)
-
-            {% endif %}
+            {{ result_message }}
         </h1>
         {% if result == 'RTE' %}
         <pre><code>

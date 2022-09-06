@@ -11,3 +11,12 @@ header .category {
     border-radius: 30px;
     padding: 20px;
 }
+
+aside {
+    cursor: pointer;
+}
+
+h3.problem_name {
+    color: var(--color-link);
+    font-weight: bold;
+}

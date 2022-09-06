@@ -49,8 +49,8 @@
         </header>
         <section>
             {% for problem in category.problems %}
-                <aside>
-                    <h3><a href="/problem/{{ problem.id }}">{{ problem.name }}</a></h3>
+                <aside onclick="location.href = '/problem/{{ problem.id }}'">
+                    <h3 class="problem_name">{{ problem.name }}</h3>
                     <h5>{{ problem.id }}</h5>
                 </aside>
             {% endfor %}

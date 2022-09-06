@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'submit.css' %}">
+{% endblock %}
+
+{% block content %}
+    <header>
+        <h1>제출 목록</h1>
+        <h5>최근 제출 20개</h5>
+    </header>
+    <section>
+        {% for submit in submits %}
+            <aside>
+                <h4>{{ submit.result_message }}</h4>
+                <h5>By {{ submit.user_id }}</h5>
+                <p><small><a href="{{ submit.problem_id }}">{{ submit.problem_id }}</a> / <a href="{{ submit.submit_id }}">#{{ submit.submit_id }}</a></small></p>
+            </aside>
+        {% endfor %}
+    </section>
+{% endblock %}
