@@ -17,7 +17,7 @@
         <p>처음 오셨나요? <a href="/problem/10000">파이가 이용 가이드</a>를 읽어보세요.</p>
         <h6>지금은 베타 테스트 기간입니다.<br class="mobile"> 오류 정보가 수집될 수 있습니다. (9.6~9.16)</h6>
     </header>
-    <section>
+    <!--<section>
         <table>
             <thead>
                 <tr id="header">
@@ -42,12 +42,12 @@
                 {% endfor %}
             </tbody>
         </table>
-    </section>
-    <!--{% for category in list %}
+    </section>-->
+    {% for category in list %}
+        <header class="category">
+            <h2 class="category"><b>{{ category.category }}</b></h2>
+        </header>
         <section>
-            <header>
-                <h2>{{ category.category }}</h2>
-            </header>
             {% for problem in category.problems %}
                 <aside>
                     <h3><a href="/problem/{{ problem.id }}">{{ problem.name }}</a></h3>
@@ -55,7 +55,8 @@
                 </aside>
             {% endfor %}
         </section>
-    {% endfor %}-->
+        <br>
+    {% endfor %}
     <footer>
     </footer>
 {% endblock %}

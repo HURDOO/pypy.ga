@@ -30,7 +30,7 @@
         </ul>
         <ul>
             {% if user_logged %}
-                <li>{{ user_id }} <a href="/account/logout">로그아웃</a></li>
+                <li>{{ user_id }} | <a href="/account/logout">로그아웃</a></li>
             {% else %}
                 <li><a href="/account/login">로그인</a></li>
             {% endif %}

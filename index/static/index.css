@@ -5,3 +5,9 @@ table tr:nth-child(even) {
 table tr .category {
     background-color: var(--color-accent);
 }
+
+header .category {
+    background-color: var(--color-accent);
+    border-radius: 30px;
+    padding: 20px;
+}

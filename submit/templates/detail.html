@@ -78,8 +78,9 @@
 
     </section>
 
-    <hr>
-    <h4>코드</h4>
+    <header>
+        <h4>코드</h4>
+    </header>
     <div id="code">
         <pre><code>
 {{ code }}
@@ -87,11 +88,10 @@
     </div>
 
     {% if result == 'WA' or result == 'TLE' or result == 'MLE' or result == 'RTE' %}
-        <hr>
+        <header>
+            <h4>틀린 입력</h4>
+        </header>
         <section id="std">
-            <header>
-                <h4>틀린 입력</h4>
-            </header>
 
             <aside>
                 <h3>입력</h3>
