@@ -30,7 +30,8 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
             response = socket.read()
 
         if b'\x02' in response:
-            print('error detected')
+            submit.internal_error()
+            return
 
         while b'\x01' in response:
             index = response.index(b'\x01')
