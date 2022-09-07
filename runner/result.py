@@ -5,9 +5,10 @@ from . import grader
 from submit.models import Submit, SubmitType, ResultType
 
 
-def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType):
+def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType) -> None:
     # docker.transport.npipesocket.NpipeSocket
     # similar to python socket
+    # https://docs.docker.com/engine/api/v1.24/#attach-to-a-container
 
     case_idx_ongoing = -1
     not_found_cnt = 0
@@ -25,119 +26,129 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
         end = False
 
         if platform.system() == 'Windows':
-            response = socket.recv(1024 * 1024)
+            response = socket.recv(1024 * 1024 * 1024)
         else:
             response = socket.read()
 
-        if b'\x02' in response:
-            submit.internal_error(_stderr=response.hex())
-            return
+        if len(response) == 0:
+            continue
 
-        while b'\x01' in response:
-            index = response.index(b'\x01')
-            tmp = bytes()
-            if index > 0:
-                tmp = response[:index-1]
-            tmp += '\n'.encode()
-            tmp += response[index+8:]
-            response = tmp
+        # print(response.hex())
 
-        decoded = response.decode(encoding='utf-8').split('\n')
-        responses.extend(decoded)
+        base = 0
+        while base < len(response):
+            size = 0
 
-        # for s in socket.recv(16384).decode().split('\n'):
-        for s in decoded:
-            if len(s) == 0:
-                continue
-            print(s)
-            try:
-                data = json.loads(s)
-                _ = data['type']
-            except (json.JSONDecodeError, TypeError) as err:
-                print(s)
-                raise err
+            if response[base] == 1:  # stdout
+                for i in range(4, 8):
+                    size <<= 8
+                    size += response[base+i]
 
-            if data['type'] in ['START', 'PREPARE']:
-                pass
+            else:  # stdin, stderr, or something else
+                submit.internal_error(_stderr=response.hex())
+                return
 
-            elif data['type'] == 'FOUND':
-                result = ResultType.ONGOING
+            decoded = response[base+8:base+8+size].decode(encoding='utf-8').splitlines()
+            # responses.extend(decoded)
+            base += size+8
 
-            elif data['type'] == 'NOT_FOUND':
-                not_found_cnt += 1
-                if not_found_cnt >= 10:
-                    # TODO Internal Error
-                    break
+            for s in decoded:
 
-            elif data['type'] == 'CASE_START':
-                case_idx_ongoing = data['case_idx']
+                if len(s) == 0:
+                    continue
+                # print(s)
 
-            elif data['type'] == 'CASE_END':
-                if data['case_idx'] != case_idx_ongoing:
-                    raise Exception('case_idx not equals to case_idx_ongoing')
+                try:
+                    data = json.loads(s)
+                    _ = data['type']
+                except (json.JSONDecodeError, TypeError) as err:
+                    print(s)
+                    raise err
 
-                if data['result'] == 'END':
+                if data['type'] in ['START', 'PREPARE']:
+                    pass
 
-                    if submit_type == SubmitType.GRADE:
+                elif data['type'] == 'FOUND':
+                    result = ResultType.ONGOING
 
-                        if not grader.handle_data(data['out'], problem_id, case_idx_ongoing):
-                            print('failed', case_idx_ongoing)
-                            result, stdout, stderr \
-                                = ResultType.WRONG_ANSWER, data['out'], None
+                elif data['type'] == 'NOT_FOUND':
+                    not_found_cnt += 1
+                    if not_found_cnt >= 10:
+                        submit.internal_error('NOT_FOUND')
+                        return
+
+                elif data['type'] == 'CASE_START':
+                    case_idx_ongoing = data['case_idx']
+
+                elif data['type'] == 'CASE_END':
+                    if data['case_idx'] != case_idx_ongoing:
+                        raise Exception('case_idx not equals to case_idx_ongoing')
+
+                    if data['result'] == 'END':
+
+                        if submit_type == SubmitType.GRADE:
+
+                            if not grader.handle_data(data['out'], problem_id, case_idx_ongoing):
+                                print('failed', case_idx_ongoing)
+                                result, stdout, stderr \
+                                    = ResultType.WRONG_ANSWER, data['out'], None
+                                end = True
+                                break
+
+                            else:
+                                if data['time'] > time_usage:
+                                    time_usage = int(data['time'] * 1000)  # ms
+                                if data['memory'] > memory_usage:
+                                    memory_usage = int(data['memory'] / 1024)  # kb
+                                # print('passed', case_idx_ongoing)
+
+                        else:
+                            result, time_usage, memory_usage, stdout \
+                                = ResultType.COMPLETE, data['time'], data['memory'], data['out']
                             end = True
                             break
 
-                        else:
-                            if data['time'] > time_usage:
-                                time_usage = int(data['time'] * 1000)  # ms
-                            if data['memory'] > memory_usage:
-                                memory_usage = int(data['memory'] / 1024)  # kb
-                            print('passed', case_idx_ongoing)
-
-                    else:
-                        result, time_usage, memory_usage, stdout \
-                            = ResultType.COMPLETE, data['time'], data['memory'], data['out']
+                    elif data['result'] == 'TLE':
+                        result = ResultType.TIME_LIMIT
                         end = True
                         break
 
-                elif data['result'] == 'TLE':
-                    result = ResultType.TIME_LIMIT
-                    end = True
-                    break
+                    elif data['result'] == 'RTE':
+                        result, stdout, stderr \
+                            = ResultType.RUNTIME_ERROR, data['out'], data['err']
+                        end = True
+                        break
 
-                elif data['result'] == 'RTE':
-                    result, stdout, stderr \
-                        = ResultType.RUNTIME_ERROR, data['out'], data['err']
+                    else:
+                        print('unknown case_end')
+                        print(data)
+                        break
+
+                    case_idx_ongoing = -1
+
+                elif data['type'] == 'END':
                     end = True
                     break
 
                 else:
-                    print('unknown case_end')
+                    print('unknown type')
                     print(data)
-                    break
 
-                case_idx_ongoing = -1
-
-            elif data['type'] == 'END':
-                end = True
+            if end:
+                if result == ResultType.ONGOING:
+                    result = ResultType.ACCEPTED
+                if case_idx_ongoing == -1:
+                    case_idx_ongoing = None
+                submit.end(
+                    _result=result,
+                    _time_usage=time_usage,
+                    _memory_usage=memory_usage,
+                    _stdout=stdout,
+                    _stderr=stderr,
+                    _last_case_idx=case_idx_ongoing
+                )
                 break
-
-            else:
-                print('unknown type')
-                print(data)
-
+        # socket not closed
         if end:
-            if result == ResultType.ONGOING:
-                result = ResultType.ACCEPTED
-            if case_idx_ongoing == -1:
-                case_idx_ongoing = None
-            submit.end(
-                _result=result,
-                _time_usage=time_usage,
-                _memory_usage=memory_usage,
-                _stdout=stdout,
-                _stderr=stderr,
-                _last_case_idx=case_idx_ongoing
-            )
             break
     print("end")

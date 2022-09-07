@@ -70,7 +70,7 @@ def get_result(result: ResultType) -> str:
     elif result == ResultType.RUNTIME_ERROR:
         return '💥 오류 발생'
     elif result == ResultType.PREPARE:
-        return '▶️ 준비 중'
+        return '🚩 준비 중'
     elif result == ResultType.ONGOING:
         return '🔁 채점 진행 중'
     elif result == ResultType.INTERNAL_ERROR:

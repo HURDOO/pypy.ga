@@ -5,7 +5,7 @@ import docker
 import tarfile
 from pypyga.settings import BASE_DIR
 from multiprocessing import Process, Queue
-from submit.models import SubmitType
+from submit.models import Submit, SubmitType
 from . import result
 from problem.load import PROBLEMS_DIR
 
@@ -21,7 +21,7 @@ proc_waiting = Queue()
 
 def run_docker(submit_id: int, case_cnt: int):
     client = docker.from_env()
-    client.containers.prune()
+    # client.containers.prune()
 
     return client.containers.run(
         image=DOCKER_IMAGE_NAME,
@@ -44,19 +44,20 @@ def handle_submit(
         submit_type: SubmitType,
         input_data: str = None
 ):
-    work_dir = TEMP_DIR / str(submit_id)
-    os.mkdir(work_dir)
+    try:
+        work_dir = TEMP_DIR / str(submit_id)
+        os.mkdir(work_dir)
 
-    case_cnt = create_tar(submit_id, problem_id, code, submit_type, work_dir, input_data)
-    container = run_docker(submit_id, case_cnt)
+        case_cnt = create_tar(submit_id, problem_id, code, submit_type, work_dir, input_data)
+        container = run_docker(submit_id, case_cnt)
 
-    socket = container.attach_socket()
-    send_data(container, submit_id, work_dir)
-    result.handle_data(socket, submit_id, problem_id, submit_type)
-    container.stop()
-    container.remove()
-
-    pass
+        socket = container.attach_socket()
+        send_data(container, submit_id, work_dir)
+        result.handle_data(socket, submit_id, problem_id, submit_type)
+        container.stop()
+        container.remove()
+    except Exception as err:
+        Submit.objects.get(id=submit_id).internal_error(_stderr=str(err))
 
 
 def create_tar(
