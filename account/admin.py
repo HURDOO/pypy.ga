@@ -1,3 +1,10 @@
 from django.contrib import admin
+from .models import AccountModel
 
-# Register your models here.
+
+class AccountModelAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+
+
+
+admin.site.register(AccountModel, AccountModelAdmin)
