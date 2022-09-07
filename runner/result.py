@@ -30,6 +30,14 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
             response = socket.read()
 
         if b'\x02' in response:
+            while b'\x02' in response:
+                index = response.index(b'\x02')
+                tmp = bytes()
+                if index > 0:
+                    tmp = response[:index - 1]
+                tmp += '\n'.encode()
+                tmp += response[index + 8:]
+                response = tmp
             submit.internal_error(_stderr=response.decode(encoding='utf-8'))
             return
 
