@@ -30,7 +30,7 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
             response = socket.read()
 
         if b'\x02' in response:
-            submit.internal_error(_stderr=response).hex()
+            submit.internal_error(_stderr=response.hex())
             return
 
         while b'\x01' in response:
