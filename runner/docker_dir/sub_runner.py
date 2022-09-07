@@ -1,7 +1,5 @@
-# import resource
-import ctypes
 from subprocess import Popen, PIPE, TimeoutExpired
-from multiprocessing import Process, Value, sharedctypes
+from multiprocessing import Process, Value
 import sys
 import os
 import time
@@ -36,11 +34,9 @@ def run(code_file: str, case_num: int):
             stdout=PIPE,
             stderr=PIPE,
             bufsize=10000,
-            # preexec_fn=limit
         )
 
         mem = Value('i', 0)
-        # TODO look for alternative of Value
         mem_proc = Process(target=mem_check, args=(proc.pid, mem), daemon=True)
         try:
             with open('{}.in'.format(i)) as f:

@@ -70,14 +70,20 @@ def get_result(result: ResultType) -> str:
     elif result == ResultType.RUNTIME_ERROR:
         return '💥 오류 발생'
     elif result == ResultType.PREPARE:
-        return '🔁 준비 중'
+        return '▶️ 준비 중'
+    elif result == ResultType.ONGOING:
+        return '🔁 채점 진행 중'
     elif result == ResultType.INTERNAL_ERROR:
-        return '⚠️내부 오류 (다시 시도하거나, 관리자에게 문의하세요)'
+        return '⚠️ 내부 오류 (다시 시도하거나, 관리자에게 문의하세요)'
     else:
         return '🤔 결과를 알 수 없음 (새로고침 하거나, 관리자에게 문의하세요)'
 
 
 def get_details(submit: Submit) -> dict:
+
+    if submit.result == ResultType.INTERNAL_ERROR:
+        return {}
+
     if submit.type == SubmitType.GRADE:
         if submit.result == ResultType.ACCEPTED:
             return {

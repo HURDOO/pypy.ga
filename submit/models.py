@@ -131,6 +131,6 @@ class Submit(models.Model):
             = _result, _time_usage, _memory_usage, _stdout, _stderr, _last_case_idx
         self.save()
 
-    def internal_error(self):
-        self.result = ResultType.INTERNAL_ERROR
+    def internal_error(self, _stderr: str):
+        self.result, self.stderr = ResultType.INTERNAL_ERROR, _stderr
         self.save()
