@@ -1,18 +1,16 @@
-import json
-from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 ROOM_GROUP_NAME = 'test'
 
 
-class SubmitConsumer(WebsocketConsumer):
+class SubmitConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         await self.channel_layer.group_add(
             ROOM_GROUP_NAME,
             self.channel_name
         )
-        self.accept()
+        await self.accept()
 
     async def disconnect(self, code):
         await self.channel_layer.group_discard(

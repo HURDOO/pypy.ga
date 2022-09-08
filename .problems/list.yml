@@ -1,4 +1,4 @@
-- category: 파이가 (pypy.ga)
+- category: 파이가 (Pypy.ga)
   problems:
     - id: 10000
       name: 파이가 이용 가이드
@@ -19,7 +19,7 @@
     - id: 10004
       name: 따옴표
 
-- category: 문자열
+- category: (미분류)
   problems:
     - id: 10005
       name: 우 to the 영 to the 우
