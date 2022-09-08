@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}제출 ws 테스트{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+{% endblock %}
+
+{% block module %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <header>
+        <h1>제출 웹소켓</h1>
+    </header>
+    <button id="send">Click me!</button>
+    <script src="{% static 'ws.js' %}"></script>
+{% endblock %}

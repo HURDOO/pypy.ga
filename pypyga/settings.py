@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'index',
     'problem',
     'submit',
+    'channels',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -85,8 +86,19 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'pypyga.asgi.application'
 WSGI_APPLICATION = "pypyga.wsgi.application"
 
+
+# channels redis (for websocket async)
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)]
+        }
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

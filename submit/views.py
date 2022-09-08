@@ -58,6 +58,26 @@ def detail(request, submit_id):
     return render(request, 'detail.html', context=data)
 
 
+def submit(request):
+    submits = Submit.objects.order_by('id')
+    submits = submits[len(submits)-1:len(submits)-21:-1]  # last 20 and reverse
+
+    data = {'submits': []}
+    for submit in submits:
+        data['submits'].append({
+            'submit_id': submit.id,
+            'problem_id': submit.problem_id,
+            'user_id': submit.user_id,
+            'result_message': get_result(submit.result),
+        })
+    data.update(info.get_data(request.session))
+    return render(request, 'submit.html', context=data)
+
+
+def ws(request):
+    return render(request, 'ws.html')
+
+
 def get_result(result: ResultType) -> str:
     if result == ResultType.WRONG_ANSWER:
         return '❌ 틀렸습니다'
@@ -147,18 +167,3 @@ def std(problem_id: int, case_idx: int) -> tuple:
 
     return stdin, correct_stdout
 
-
-def submit(request):
-    submits = Submit.objects.order_by('id')
-    submits = submits[len(submits)-1:len(submits)-21:-1]  # last 20 and reverse
-
-    data = {'submits': []}
-    for submit in submits:
-        data['submits'].append({
-            'submit_id': submit.id,
-            'problem_id': submit.problem_id,
-            'user_id': submit.user_id,
-            'result_message': get_result(submit.result),
-        })
-    data.update(info.get_data(request.session))
-    return render(request, 'submit.html', context=data)
