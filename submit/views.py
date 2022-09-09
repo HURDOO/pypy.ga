@@ -1,14 +1,9 @@
-import json
-from datetime import timedelta
-
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from problem.load import PROBLEMS_DIR
 from .models import Submit, ResultType, SubmitType, getSubmitType
 from runner import runner
 from account import info
-from urllib.parse import quote
 
 
 def new(request):
@@ -34,7 +29,7 @@ def new(request):
         _input_data=input_data
     )
 
-    runner.handle_submit(submit.id, problem_id, code, _type, input_data)
+    runner.register_submit(submit.id, problem_id, code, _type, input_data)
 
     # return redirect('/submit?problem_id={}&user_id={}'.format(problem_id, user_id))
     return redirect('/submit/{}'.format(submit.id))
@@ -48,7 +43,7 @@ def detail(request, submit_id):
         'user_id': submit.user_id,
         'submit_type': submit.type,
         'result': submit.result,
-        'result_message': get_result(submit.result),
+        'result_message': submit.get_result_display(),
         'code': submit.code,
         'code_length': submit.code_length,
         'submit_time': str(submit.submit_time)[:19]  # + timedelta(hours=9)
@@ -68,31 +63,10 @@ def submit(request):
             'submit_id': submit.id,
             'problem_id': submit.problem_id,
             'user_id': submit.user_id,
-            'result_message': get_result(submit.result),
+            'result_message': submit.get_result_display(),
         })
     data.update(info.get_data(request.session))
     return render(request, 'submit.html', context=data)
-
-
-def get_result(result: ResultType) -> str:
-    if result == ResultType.WRONG_ANSWER:
-        return '❌ 틀렸습니다'
-    elif result == ResultType.ACCEPTED:
-        return '✅ 맞았습니다!!'
-    elif result == ResultType.COMPLETE:
-        return '✅ 실행 완료'
-    elif result == ResultType.TIME_LIMIT:
-        return '🕒 시간 제한 초과'
-    elif result == ResultType.RUNTIME_ERROR:
-        return '💥 오류 발생'
-    elif result == ResultType.PREPARE:
-        return '🚩 준비 중'
-    elif result == ResultType.ONGOING:
-        return '🔁 채점 진행 중'
-    elif result == ResultType.INTERNAL_ERROR:
-        return '⚠️ 내부 오류 (다시 시도하거나, 관리자에게 문의하세요)'
-    else:
-        return '🤔 결과를 알 수 없음 (새로고침 하거나, 관리자에게 문의하세요)'
 
 
 def get_details(submit: Submit) -> dict:

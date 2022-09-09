@@ -1,4 +1,5 @@
 import json
+import time
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.layers import get_channel_layer
@@ -14,10 +15,7 @@ class SubmitConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, code):
         for register in self.registers:
-            await self.channel_layer.group_discard(
-                GROUP_NAME.format(register),
-                self.channel_name
-            )
+            await self.remove(register)
         await self.close(code)
 
     async def receive(self, text_data):
@@ -36,7 +34,6 @@ class SubmitConsumer(AsyncWebsocketConsumer):
             GROUP_NAME.format(register),
             self.channel_name
         )
-        await self.send('registered to ' + str(register))
 
     async def send_status(self, event):
         await self.send(text_data=event['message'])

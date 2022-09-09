@@ -16,7 +16,7 @@
     <header>
         <h3><a href="/problem/{{ problem_id }}">{{ problem_id }}</a> / <a href="/submit/{{ submit_id }}"><u>#{{ submit_id }}</u></a></h3>
         <br>
-        <h1>
+        <h1 id="result">
             {{ result_message }}
         </h1>
         {% if result == 'RTE' %}
@@ -109,5 +109,10 @@
     </div>
     {% endif %}
 
-<!--    <script>load_submit('{{ submit | safe }}')</script>-->
+    {% if result != 'AC' and result != 'CP' %}
+        <script src="{% static 'ws.js' %}"></script>
+        <script>
+            register('{{ submit_id }}');
+        </script>
+    {% endif %}
 {% endblock %}

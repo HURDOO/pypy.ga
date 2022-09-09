@@ -4,7 +4,8 @@ from pathlib import Path
 
 import docker
 import tarfile
-from multiprocessing import Process, Queue
+from multiprocessing import Pool
+from concurrent.futures.thread import ThreadPoolExecutor
 from submit.models import Submit, SubmitType
 from . import result
 from problem.load import PROBLEMS_DIR
@@ -13,9 +14,8 @@ DOCKER_IMAGE_NAME = 'test1234'
 DOCKER_NAME = 'runner_{}'
 SUB_RUNNER_NAME = 'sub_runner.py'
 
-PROCESS_LIMIT = 10
-proc_cnt = 0
-proc_waiting = Queue()
+pool = Pool(10)
+executor = ThreadPoolExecutor(10)
 
 
 def run_docker(submit_id: int, case_cnt: int):
@@ -112,18 +112,12 @@ def register_submit(
         submit_type: SubmitType,
         input_data: str = None
 ) -> None:
-    # if process is full
-    if proc_cnt > PROCESS_LIMIT:
-        proc_waiting.put((submit_id, problem_id, code, submit_type, input_data))
-        return
+    # pool.apply_async(
+    #     func=handle_submit,
+    #     args=(submit_id, problem_id, code, submit_type, input_data)
+    # )
 
-    proc = Process(
-        target=handle_submit,
-        args=(submit_id, problem_id, code, submit_type, input_data),
-        daemon=True
+    executor.submit(
+        handle_submit,
+        submit_id, problem_id, code, submit_type, input_data
     )
-    proc.start()
-
-
-def test2():
-    handle_submit(5678, 10005, "print('hello world!')\r\n", SubmitType.GRADE, None)

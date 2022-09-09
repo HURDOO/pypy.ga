@@ -3,6 +3,7 @@ import asyncio
 from django.db import models
 from django.utils import timezone
 from .consumers import update_status
+from django.utils.translation import gettext_lazy as _
 
 
 class SubmitType(models.TextChoices):
@@ -18,21 +19,21 @@ def getSubmitType(_type: str) -> SubmitType:
 
 
 class ResultType(models.TextChoices):
-    ACCEPTED = 'AC',  # 정답
-    WRONG_ANSWER = 'WA',  # 오답
-    COMPLETE = 'CP'  # 실행 완료 (type = Test)
+    ACCEPTED = 'AC', _('✅ 맞았습니다!!')  # 정답
+    WRONG_ANSWER = 'WA', _('❌ 틀렸습니다')  # 오답
+    COMPLETE = 'CP', _('✅ 실행 완료')  # 실행 완료 (type = Test)
 
-    TIME_LIMIT = 'TLE',  # 시간 초과
-    MEMORY_LIMIT = 'MLE',  # 메모리 초과
-    OUTPUT_LIMIT = 'OLE',  # 출력 초과
+    TIME_LIMIT = 'TLE', _('⏳ 시간 초과')  # 시간 초과
+    MEMORY_LIMIT = 'MLE', _('💣 메모리 초과')  # 메모리 초과
+    OUTPUT_LIMIT = 'OLE', _('📝 출력 초과')  # 출력 초과
 
-    RUNTIME_ERROR = 'RTE',  # 런타임 에러
-    COMPILE_ERROR = 'CE',  # 컴파일 에러
+    RUNTIME_ERROR = 'RTE', _('💥 오류 발생')  # 런타임 에러
+    # COMPILE_ERROR = 'CE',  # 컴파일 에러
 
-    PREPARE = 'PRE',  # 채점 준비 중
-    ONGOING = 'ON',  # 채점 중
+    PREPARE = 'PRE', _('🚩 준비 중')  # 채점 준비 중
+    ONGOING = 'ON', _('🔁 채점 중')  # 채점 중
 
-    INTERNAL_ERROR = 'IE',  # 내부 오류
+    INTERNAL_ERROR = 'IE', _('⚠️내부 오류'),  # 내부 오류
 
 
 class Submit(models.Model):
@@ -72,6 +73,7 @@ class Submit(models.Model):
         default=ResultType.PREPARE,
         null=False
     )
+    # get_result_display() to get display name
 
     time_usage = models.PositiveIntegerField(
         null=True  # result = ONGOING
@@ -122,13 +124,14 @@ class Submit(models.Model):
         self.result = ResultType.ONGOING
         self.save()
         self.send_websocket({
-            'result': self.result,
+            'type': 'progress',
+            'progress': 0
         }, close=False)
 
     def case_done(self, percentage: int):
         self.send_websocket({
-            'result': self.result,
-            'progress': percentage
+            'type': 'progress',
+            'progress': int(percentage)
         }, close=False)
 
     def end(self,
@@ -143,14 +146,14 @@ class Submit(models.Model):
             = _result, _time_usage, _memory_usage, _stdout, _stderr, _last_case_idx
         self.save()
         self.send_websocket({
-            'result': self.result,
+            'type': 'reload'
         }, close=True)
 
     def internal_error(self, _stderr: str):
         self.result, self.stderr = ResultType.INTERNAL_ERROR, _stderr
         self.save()
         self.send_websocket({
-            'result': self.result,
+            'type': 'reload',
         }, close=True)
 
     def send_websocket(self, data: dict, close: bool) -> None:

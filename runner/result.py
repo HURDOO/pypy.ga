@@ -70,6 +70,7 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
 
                 elif data['type'] == 'FOUND':
                     result = ResultType.ONGOING
+                    submit.start()
 
                 elif data['type'] == 'NOT_FOUND':
                     not_found_cnt += 1
@@ -132,9 +133,7 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                     break
 
                 else:
-                    print('unknown type')
-                    print(data)
-
+                    raise Exception('unknown type ' + str(data['type']))
             if end:
                 if result == ResultType.ONGOING:
                     result = ResultType.ACCEPTED
