@@ -4,9 +4,12 @@ socket.onmessage = function(e) {
     console.log(e.data)
 }
 
-document.getElementById('send').onclick = function(e) {
+function register(submit_id) {
     socket.send(JSON.stringify({
-        'register': document.getElementById('submit_id').value
+        'register': submit_id
     }))
 }
 
+document.getElementById('send').onclick = function(e) {
+    register(document.getElementById('submit_id').value)
+}

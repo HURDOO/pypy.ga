@@ -1,6 +1,5 @@
 import asyncio
 
-from asgiref.sync import async_to_sync
 from django.db import models
 from django.utils import timezone
 from .consumers import update_status

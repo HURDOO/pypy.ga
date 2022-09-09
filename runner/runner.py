@@ -1,9 +1,9 @@
 import os
+import tempfile
 from pathlib import Path
 
 import docker
 import tarfile
-from pypyga.settings import BASE_DIR
 from multiprocessing import Process, Queue
 from submit.models import Submit, SubmitType
 from . import result
@@ -11,7 +11,6 @@ from problem.load import PROBLEMS_DIR
 
 DOCKER_IMAGE_NAME = 'test1234'
 DOCKER_NAME = 'runner_{}'
-TEMP_DIR = BASE_DIR / '.tmp'
 SUB_RUNNER_NAME = 'sub_runner.py'
 
 PROCESS_LIMIT = 10
@@ -45,15 +44,18 @@ def handle_submit(
         input_data: str = None
 ):
     try:
-        work_dir = TEMP_DIR / str(submit_id)
-        os.mkdir(work_dir)
+        with tempfile.TemporaryDirectory() as work_dir:
 
-        case_cnt = create_tar(submit_id, problem_id, code, submit_type, work_dir, input_data)
-        container = run_docker(submit_id, case_cnt)
+            work_dir_path = Path(work_dir)
 
-        socket = container.attach_socket()
-        send_data(container, submit_id, work_dir)
+            case_cnt = create_tar(submit_id, problem_id, code, submit_type, work_dir_path, input_data)
+            container = run_docker(submit_id, case_cnt)
+
+            socket = container.attach_socket()
+            send_data(container, submit_id, work_dir_path)
+
         result.handle_data(socket, submit_id, problem_id, submit_type, case_cnt)
+
         container.stop()
         container.remove()
     except Exception as err:

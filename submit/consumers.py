@@ -18,6 +18,7 @@ class SubmitConsumer(AsyncWebsocketConsumer):
                 GROUP_NAME.format(register),
                 self.channel_name
             )
+        await self.close(code)
 
     async def receive(self, text_data):
         data = json.loads(text_data)
@@ -39,17 +40,26 @@ class SubmitConsumer(AsyncWebsocketConsumer):
 
     async def send_status(self, event):
         await self.send(text_data=event['message'])
-        if bool(event['close']):
-            # await self.disconnect(1000)
-            print(event['close'])
+        if 'close' in event:
+            await self.remove(event['close'])
+            pass
+
+    async def remove(self, submit_id: int):
+        await self.channel_layer.group_discard(
+            GROUP_NAME.format(submit_id),
+            self.channel_name
+        )
 
 
 async def update_status(submit_id: int, data: dict, close: bool):
+    send_data = {
+        'type': 'send_status',
+        'message': json.dumps(data),
+    }
+    if close:
+        send_data['close'] = submit_id
+
     await get_channel_layer().group_send(
         GROUP_NAME.format(submit_id),
-        {
-            'type': 'send_status',
-            'message': json.dumps(data),
-            'close': str(close)
-        }
+        send_data
     )

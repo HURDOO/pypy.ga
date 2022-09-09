@@ -74,10 +74,6 @@ def submit(request):
     return render(request, 'submit.html', context=data)
 
 
-def ws(request):
-    return render(request, 'ws.html')
-
-
 def get_result(result: ResultType) -> str:
     if result == ResultType.WRONG_ANSWER:
         return '❌ 틀렸습니다'
@@ -101,7 +97,7 @@ def get_result(result: ResultType) -> str:
 
 def get_details(submit: Submit) -> dict:
 
-    if submit.result == ResultType.INTERNAL_ERROR:
+    if submit.result in [ResultType.PREPARE, ResultType.ONGOING, ResultType.INTERNAL_ERROR]:
         return {}
 
     if submit.type == SubmitType.GRADE:

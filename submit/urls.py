@@ -6,5 +6,4 @@ urlpatterns = [
     path('new', views.new),
     path('', views.submit),
     path('<int:submit_id>', views.detail),
-    path('ws_index', views.ws)
 ]

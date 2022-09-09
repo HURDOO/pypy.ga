@@ -26,7 +26,7 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
         end = False
 
         if platform.system() == 'Windows':
-            response = socket.recv(1024 * 1024 * 1024)
+            response = socket.recv(1024 * 1024 * 128)  # 128MB
         else:
             response = socket.read()
 
