@@ -5,5 +5,8 @@ socket.onmessage = function(e) {
 }
 
 document.getElementById('send').onclick = function(e) {
-    socket.send('test')
+    socket.send(JSON.stringify({
+        'register': document.getElementById('submit_id').value
+    }))
 }
+

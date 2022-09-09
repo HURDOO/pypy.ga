@@ -5,7 +5,7 @@ from . import grader
 from submit.models import Submit, SubmitType, ResultType
 
 
-def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType) -> None:
+def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType, case_cnt: int) -> None:
     # docker.transport.npipesocket.NpipeSocket
     # similar to python socket
     # https://docs.docker.com/engine/api/v1.24/#attach-to-a-container
@@ -100,6 +100,7 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                                     time_usage = int(data['time'] * 1000)  # ms
                                 if data['memory'] > memory_usage:
                                     memory_usage = int(data['memory'] / 1024)  # kb
+                                submit.case_done(case_idx_ongoing / case_cnt * 100)
                                 # print('passed', case_idx_ongoing)
 
                         else:

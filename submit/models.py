@@ -1,5 +1,9 @@
+import asyncio
+
+from asgiref.sync import async_to_sync
 from django.db import models
 from django.utils import timezone
+from .consumers import update_status
 
 
 class SubmitType(models.TextChoices):
@@ -118,6 +122,15 @@ class Submit(models.Model):
     def start(self):
         self.result = ResultType.ONGOING
         self.save()
+        self.send_websocket({
+            'result': self.result,
+        }, close=False)
+
+    def case_done(self, percentage: int):
+        self.send_websocket({
+            'result': self.result,
+            'progress': percentage
+        }, close=False)
 
     def end(self,
             _result: ResultType,
@@ -130,7 +143,16 @@ class Submit(models.Model):
         self.result, self.time_usage, self.memory_usage, self.stdout, self.stderr, self.last_case_idx \
             = _result, _time_usage, _memory_usage, _stdout, _stderr, _last_case_idx
         self.save()
+        self.send_websocket({
+            'result': self.result,
+        }, close=True)
 
     def internal_error(self, _stderr: str):
         self.result, self.stderr = ResultType.INTERNAL_ERROR, _stderr
         self.save()
+        self.send_websocket({
+            'result': self.result,
+        }, close=True)
+
+    def send_websocket(self, data: dict, close: bool) -> None:
+        asyncio.run(update_status(self.id, data, close))
