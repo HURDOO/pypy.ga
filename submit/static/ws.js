@@ -1,4 +1,4 @@
-const socket = new WebSocket('ws://' + window.location.host + '/submit/ws');
+const socket = new WebSocket(location.protocol == 'https'?'wss://':'ws://' + window.location.host + '/submit/ws');
 const result = document.getElementById('result');
 
 socket.onmessage = function(e) {
