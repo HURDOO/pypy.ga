@@ -49,7 +49,7 @@ python3 manage.py runserver
 
 서버 닫을 땐 Ctrl+C
 
-## 채점 가상환경 설정
+## 채점 가상환경 설정 (docker)
 1. .tmp 폴더 생성
 ```shell
 mkdir .tmp
@@ -86,67 +86,40 @@ sudo systemctl enable containerd.service
 docker build -t test1234 ~/python-trainer/runner/docker_dir
 ```
 
-## gunicorn + nginx
+## 제출 페이지의 실시간 결과 설정 (redis)
 
-Unix 계열에선 기본 포트인 80, 443 포트로 서비스하려면 sudo 권한으로 실행해야 한다. 보안 상 안전하지 않기에, gunicorn + nginx를 추가로 사용한다.
-
-1. gunicorn 작동 테스트
+1. redis 설치
 ```shell
-gunicorn --bind 0.0.0.0:8000 pypyga.wsgi:application
+sudo apt install redis-server
 ```
-외부 접속이 허용된 상태로 8000번 포트에서 열린다.
 
-서버 닫을 땐 Ctrl+C
-
-작동이 잘 된다면 이제 가상 환경을 나와도 된다.
+2. daphne 테스트
 ```shell
-deactivate
+~/python-trainer/.venv/bin/daphne -b 0.0.0.0 -p 8001 pypyga.asgi:application
 ```
+실행 후 접속이 되는지 확인한다. (외부 접속 가능, 서버주소:8001 로 접속)
 
-2. gunicorn 자동 시작 설정
+접속 테스트가 완료되면 Ctrl+C를 눌러 테스트를 종료한다. (간혹 종료가 되지 않는 경우, ssh 창을 닫았다 다시 열자.)
+
+3. daphne 자동 실행 설정
 ```shell
-sudo nano /etc/systemd/system/gunicorn.socket
+sudo nano /etc/systemd/system/daphne.service
 ```
-아래 내용을 작성한다
-```
-[Unit]
-Description=gunicorn socket
-
-[Socket]
-ListenStream=/run/gunicorn.sock
-# Our service won't need permissions for the socket, since it
-# inherits the file descriptor by socket activation
-# only the nginx daemon will need access to the socket
-SocketUser=YOUR_USERNAME
-# Optionally restrict the socket permissions even more.
-# SocketMode=600
-
-[Install]
-WantedBy=sockets.target
-```
-1개의 `YOUR_USERNAME` 부분을 유저 이름으로 변경한다.
-
-작성이 끝나면 'Ctrl+X → Y → Enter' 로 저장.
-
-```shell
-sudo nano /etc/systemd/system/gunicorn.service
-```
-
-아래 내용을 작성한다
+아래 내용을 작성한다.
 
 ```
 [Unit]
-Description=gunicorn daemon
+Description=daphne daemon
 After=network.target
 
 [Service]
 User=YOUR_USERNAME
 Group=YOUR_USERNAME
 WorkingDirectory=/home/YOUR_USERNAME/python-trainer
-ExecStart=/home/YOUR_USERNAME/python-trainer/.venv/bin/gunicorn \
-        --workers 3 \
-        --bind unix:/run/gunicorn.sock \
-        pypyga.wsgi:application
+ExecStart=/home/YOUR_USERNAME/python-trainer/.venv/bin/daphne \
+        -b 0.0.0.0 \
+        -p 8001
+        pypyga.asgi:application
 
 [Install]
 WantedBy=multi-user.target
@@ -155,31 +128,30 @@ WantedBy=multi-user.target
 
 작성이 끝나면 'Ctrl+X → Y → Enter' 로 저장.
 
-아래 명령어로 gunicorn을 실행한다.
+아래 명령어로 daphne을 자동 실행하도록 실행한다.
 
 ```shell
 sudo systemctl daemon-reload
-sudo systemctl start gunicorn.socket
-sudo systemctl start gunicorn.service
-sudo systemctl enable gunicorn.socket
-sudo systemctl enable gunicorn.service
+sudo systemctl start daphne
+sudo systemctl enable daphne
 ```
 
 작동이 완료되었는지는 아래 명령어로 알아볼 수 있다.
 
 ```shell
-systemctl status gunicorn.socket
-systemctl status gunicorn.socket
+systemctl status daphne
 ```
 Ctrl+C를 한두번 누르면 로그에서 나올 수 있다.
 
-3. nginx 설치
+## 웹서버 설정 (nginx)
+
+1. nginx 설치
 
 ```shell
 sudo apt install nginx
 ```
 
-4. nginx에 gunicorn 등록하기
+2. nginx에 daphne 등록하기
 
 ```shell
 sudo nano /etc/nginx/sites-available/pypyga
@@ -193,9 +165,10 @@ server {
     server_name IP_ADDRESS;
 
     location / {
-        include proxy_params;
-        proxy_pass http://unix:/run/gunicorn.sock;
-
+        proxy_pass http://127.0.0.1:8001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
     }
 }
 ```
@@ -211,6 +184,9 @@ sudo ln -s /etc/nginx/sites-available/pypyga /etc/nginx/sites-enabled
 sudo nginx -t
 sudo systemctl restart nginx
 ```
+
+이제 서버 주소로 접속하면 된다.
+
 
 ## SSL(https) 설정
 [공식 가이드(https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal)]에 따름
@@ -228,8 +204,9 @@ sudo certbot --nginx
 ```
 이후 절차에 따른다
 
+
 ## 그 이후
-업데이트 할 때:
+프로젝트 변경 사항 업데이트:
 ```shell
 cd ~/python-trainer
 git pull
@@ -237,11 +214,13 @@ git pull
 
 추후 사이트에 변경 사항이 생겨 재시작할 때에는 다음 명령어를 사용한다.
 ```shell
-sudo systemctl restart gunicorn
+sudo systemctl restart nginx
+sudo systemctl restart daphne
 ```
+재시작에 약간 시간이 걸리는데, 기다리면 된다.
+daphne의 경우 1분을 넘어가면 Ctrl+C를 눌러 취소하고 nginx부터 다시 재시작해주자.
 
 서버 로그 보기
 ```shell
 systemctl status gunicorn
 ```
-
