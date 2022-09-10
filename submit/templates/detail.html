@@ -19,9 +19,29 @@
         <h1 id="result">
             {{ result_message }}
         </h1>
+
         {% if result == 'RTE' %}
-        <pre><code>{{ stderr }}</code></pre>
+            {% if 'stderr' in stderr %}
+                <pre><code>{{ stderr.stderr }}</code></pre>
+            {% else %}
+                <section>
+                    <aside>
+                        <h3>{{ stderr.error }}</h3>
+                        {% if stderr.cause is not None %}
+                            <p>{{ stderr.cause }}</p>
+                        {% else %}
+                            <p><small>추가 정보 없음</small></p>
+                        {% endif %}
+                    </aside>
+                    <aside>
+                        <h3>오류 발생 지점</h3>
+                        <h5><b>{{ stderr.line_num }}</b>번째 줄</h5>
+            <!--            <pre><code>{{ line_code }}</code></pre>-->
+                    </aside>
+                </section>
+            {% endif %}
         {% endif %}
+
         {% if result == 'CP' %}
         <section>
             <aside>
@@ -29,6 +49,10 @@
                 <pre><code>{{ stdout }}</code></pre>
                 </aside>
         </section>
+        {% endif %}
+
+        {% if result == 'IE' %}
+            <h5>다시 시도해보아도 오류가 반복된다면, 좌측 상단의 '문의'를 눌러 신고해주세요.</h5>
         {% endif %}
     </header>
 
@@ -57,20 +81,12 @@
             <h5><a href="#code">코드 보기</a> <small>({{ code_length }} byte)</small></h5>
         </aside>
         <aside>
-            <h4>문제 번호</h4>
-            <h5><a href="/problem/{{ problem_id }}">{{ problem_id }}</a></h5>
-        </aside>
-        <aside>
             <h4>제출 시각</h4>
             <h5>{{ submit_time }}</h5>
         </aside>
         <aside>
             <h4>사용자</h4>
             <h5>{{ user_id }}</h5>
-        </aside>
-        <aside>
-            <h4>제출 번호</h4>
-            <h5><a href="/submit/{{ submit_id }}">{{ submit_id }}</a></h5>
         </aside>
 
     </section>

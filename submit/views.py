@@ -115,16 +115,23 @@ def get_details(submit: Submit) -> dict:
                 'memory_usage': submit.memory_usage,
             }
 
-        if submit.result in [ResultType.TIME_LIMIT, ResultType.MEMORY_LIMIT]:
+        if submit.result == ResultType.TIME_LIMIT:
             return {
                 'stdin': submit.stdin,
                 'stdout': submit.stdout,
             }
+
         if submit.result == ResultType.RUNTIME_ERROR:
             return {
                 'stdin': submit.stdin,
                 'stdout': submit.stdout,
                 'stderr': submit.stderr
+            }
+
+        if submit.result == ResultType.MEMORY_LIMIT:
+            return {
+                'stdin': submit.stdin,
+                'stdout': submit.stdout
             }
 
     return {}

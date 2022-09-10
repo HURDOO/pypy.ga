@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 from django.db import models
 from django.utils import timezone
@@ -113,7 +114,9 @@ class Submit(models.Model):
         null=True  # result = ONGOING
     )
 
-    stderr = models.TextField(
+    stderr = models.JSONField(
+        encoder=json.JSONEncoder,
+        decoder=json.JSONDecoder,
         null=True  # result = ONGOING or no error
     )
 
@@ -140,7 +143,7 @@ class Submit(models.Model):
             _time_usage: int,
             _memory_usage: int,
             _stdout: str,
-            _stderr: str = None,
+            _stderr: dict = None,
             _last_case_idx: int = None
             ):
         self.result, self.time_usage, self.memory_usage, self.stdout, self.stderr, self.last_case_idx \

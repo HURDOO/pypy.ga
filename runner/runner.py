@@ -9,6 +9,7 @@ from concurrent.futures.thread import ThreadPoolExecutor
 from submit.models import Submit, SubmitType
 from . import result
 from problem.load import PROBLEMS_DIR
+import traceback
 
 DOCKER_IMAGE_NAME = 'test1234'
 DOCKER_NAME = 'runner_{}'
@@ -59,7 +60,7 @@ def handle_submit(
         container.stop()
         container.remove()
     except Exception as err:
-        Submit.objects.get(id=submit_id).internal_error(_stderr=str(err))
+        Submit.objects.get(id=submit_id).internal_error(_stderr=traceback.format_exc())
 
 
 def create_tar(

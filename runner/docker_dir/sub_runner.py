@@ -5,6 +5,10 @@ import os
 import time
 import json
 import psutil
+import resource
+
+TIME_LIMIT = 5  # 5s
+MEMORY_LIMIT = 128 * 1024 * 1024  # 128MB
 
 
 def output(data: dict):
@@ -34,6 +38,7 @@ def run(code_file: str, case_num: int):
             stdout=PIPE,
             stderr=PIPE,
             bufsize=10000,
+            preexec_fn=limit_mem
         )
 
         mem = Value('i', 0)
@@ -45,7 +50,7 @@ def run(code_file: str, case_num: int):
 
                 out, err = proc.communicate(
                     input=f.read().encode(),
-                    timeout=5,
+                    timeout=TIME_LIMIT,
                 )
 
                 after = time.time()
@@ -89,24 +94,17 @@ def run(code_file: str, case_num: int):
     })
 
 
-MAX_MEMORY = 128 * 1024 * 1024
-
-
-# def limit():
-#     # resource.setrlimit(resource.RLIMIT_AS, (MAX_MEMORY, MAX_MEMORY))
-#     pass
+def limit_mem():
+    resource.setrlimit(resource.RLIMIT_AS, (MEMORY_LIMIT, MEMORY_LIMIT))
+    pass
 
 
 def mem_check(pid: int, mem: Value) -> None:
     proc = psutil.Process(pid)
     while True:
-        try:
-            memory_usage = proc.memory_info().rss
-            if memory_usage > mem.value:
-                mem.value = memory_usage
-        except psutil.NoSuchProcess:
-            print('cannot find process')
-            pass
+        memory_usage = proc.memory_info().rss
+        if memory_usage > mem.value:
+            mem.value = memory_usage
 
 
 if __name__ == '__main__':

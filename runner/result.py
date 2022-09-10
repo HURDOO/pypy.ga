@@ -1,5 +1,6 @@
 import json
 import platform
+import re
 
 from . import grader
 from submit.models import Submit, SubmitType, ResultType
@@ -25,9 +26,9 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
     while True:
         end = False
 
-        if platform.system() == 'Windows':
+        if platform.system() == 'Windows':  # NpipeSocket
             response = socket.recv(1024 * 1024 * 128)  # 128MB
-        else:
+        else:  # SocketIO
             response = socket.read()
 
         if len(response) == 0:
@@ -42,15 +43,14 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
             if response[base] == 1:  # stdout
                 for i in range(4, 8):
                     size <<= 8
-                    size += response[base+i]
+                    size += response[base + i]
 
             else:  # stdin, stderr, or something else
-                submit.internal_error(_stderr=response.hex())
-                return
+                raise Exception(response.hex())
 
-            decoded = response[base+8:base+8+size].decode(encoding='utf-8').splitlines()
+            decoded = response[base + 8:base + 8 + size].decode(encoding='utf-8').splitlines()
             # responses.extend(decoded)
-            base += size+8
+            base += size + 8
 
             for s in decoded:
 
@@ -62,7 +62,6 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                     data = json.loads(s)
                     _ = data['type']
                 except (json.JSONDecodeError, TypeError) as err:
-                    print(s)
                     raise err
 
                 if data['type'] in ['START', 'PREPARE']:
@@ -75,8 +74,7 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                 elif data['type'] == 'NOT_FOUND':
                     not_found_cnt += 1
                     if not_found_cnt >= 10:
-                        submit.internal_error('NOT_FOUND')
-                        return
+                        raise Exception('NOT_FOUND')
 
                 elif data['type'] == 'CASE_START':
                     case_idx_ongoing = data['case_idx']
@@ -116,15 +114,18 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                         break
 
                     elif data['result'] == 'RTE':
-                        result, stdout, stderr \
-                            = ResultType.RUNTIME_ERROR, data['out'], data['err']
+                        err = parse_error(data['err'])
+                        if 'stderr' not in err and err['error'] == 'MemoryError\n':
+                            result, stdout, stderr \
+                                = ResultType.MEMORY_LIMIT, data['out'], err
+                        else:
+                            result, stdout, stderr \
+                                = ResultType.RUNTIME_ERROR, data['out'], err
                         end = True
                         break
 
                     else:
-                        print('unknown case_end')
-                        print(data)
-                        break
+                        raise Exception('unknown case_end result: ' + str(data['result']))
 
                     case_idx_ongoing = -1
 
@@ -133,7 +134,7 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                     break
 
                 else:
-                    raise Exception('unknown type ' + str(data['type']))
+                    raise Exception('unknown type: ' + str(data['type']))
             if end:
                 if result == ResultType.ONGOING:
                     result = ResultType.ACCEPTED
@@ -152,3 +153,39 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
         if end:
             break
     print("end")
+
+
+"""
+    Group 1: line number
+    Group 2: line code
+    Group 3: error name
+    Group 4: error cause
+"""
+err_re = re.compile(
+    r'^Traceback \(most recent call last\):\n'
+    '  File "/~/docker_dir/code.py", line (\\d+), in <module>\n'
+    '    ([^\n]+)\n'
+    '([^:]+):? ?([^\n]+)?')
+
+
+def parse_error(stderr: str) -> dict:
+
+    # TODO: SyntaxError handling
+
+    match = err_re.match(stderr)
+    if match is None:
+        return {
+            'stderr': stderr
+        }
+
+    data = {
+        'line_num': int(match.group(1))//2+1,
+        'line_code': match.group(2),
+        'error': match.group(3)
+    }
+    try:
+        data['cause'] = match.group(4)
+    except AttributeError:
+        data['cause'] = 'None'
+
+    return data
