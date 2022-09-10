@@ -27,9 +27,16 @@ div#editor {
     font-family: D2Coding, monospace
 }
 
-div #form_button {
+div#form_button, div#test_data {
     display: flex;
     justify-content: space-evenly;
+}
+
+textarea#input_data {
+    width: 50%;
+    height: 3.5em;
+    resize: none;
+    white-space: nowrap;
 }
 
 /* Desktop */

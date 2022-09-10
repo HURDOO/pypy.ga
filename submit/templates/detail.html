@@ -20,9 +20,15 @@
             {{ result_message }}
         </h1>
         {% if result == 'RTE' %}
-        <pre><code>
-{{ stderr }}
-        </code></pre>
+        <pre><code>{{ stderr }}</code></pre>
+        {% endif %}
+        {% if result == 'CP' %}
+        <section>
+            <aside>
+                <h3>출력</h3>
+                <pre><code>{{ stdout }}</code></pre>
+                </aside>
+        </section>
         {% endif %}
     </header>
 
@@ -71,38 +77,29 @@
 
     <br>
     <h4>코드</h4>
-    <section id="code">
-        <pre><code>
-{{ code }}
-        </code></pre>
+    <section id="code"><pre><code>{{ code }}</code></pre>
     </section>
 
-    {% if result == 'WA' or result == 'TLE' or result == 'MLE' or result == 'RTE' %}
+    {% if result == 'CP' or result == 'WA' or result == 'TLE' or result == 'MLE' or result == 'RTE' %}
 
     <div id="std">
         <section>
             <aside>
                 <h3>입력</h3>
-                <pre><code>
-{{ stdin }}
-                </code></pre>
+                <pre><code>{{ stdin }}</code></pre>
             </aside>
 
             {% if result == 'WA' %}
             <aside>
                 <h3>출력 정답</h3>
-                <pre><code>
-{{ correct_stdout }}
-                </code></pre>
+                <pre><code>{{ correct_stdout }}</code></pre>
             </aside>
             {% endif %}
 
-            {% if result != 'TLE' %}
+            {% if result == 'WA' or result == 'MLE' or result == 'RTE' %}
             <aside>
                 <h3>출력</h3>
-                <pre><code>
-{{ stdout }}
-                </code></pre>
+                <pre><code>{{ stdout }}</code></pre>
             </aside>
             {% endif %}
         </section>

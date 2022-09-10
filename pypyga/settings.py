@@ -31,11 +31,10 @@ SECRET_KEY = "django-insecure-bs60d85-v%+csk-ou+kihz((_0ri#^6gq20s3kwk*90vjus#c_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not conf['production']
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'pypy.ga', 'pypyga.azurewebsites.net']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'pypy.ga']
 CSRF_TRUSTED_ORIGINS = [
     'https://pypy.ga',
     'http://pypy.ga',
-    'https://pypyga.azurewebsites.net'
 ]
 
 # Application definition

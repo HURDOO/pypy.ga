@@ -19,7 +19,7 @@ def new(request):
 
     input_data = None
     if _type == SubmitType.TEST:
-        input_data = data['input_type'][0]
+        input_data = data['input_data'] + '\n'
 
     submit = Submit.create(
         _user_id=user_id,
@@ -49,6 +49,8 @@ def detail(request, submit_id):
         'submit_time': str(submit.submit_time)[:19]  # + timedelta(hours=9)
     }
     data.update(get_details(submit))
+    if 'stdin' in data and data['stdin'] is None:
+        data['stdin'] = ''
     data.update(info.get_data(request.session))
     return render(request, 'detail.html', context=data)
 
@@ -118,7 +120,7 @@ def get_details(submit: Submit) -> dict:
                 'stdin': submit.stdin,
                 'stdout': submit.stdout,
             }
-        elif submit.result == ResultType.RUNTIME_ERROR:
+        if submit.result == ResultType.RUNTIME_ERROR:
             return {
                 'stdin': submit.stdin,
                 'stdout': submit.stdout,

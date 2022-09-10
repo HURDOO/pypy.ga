@@ -47,7 +47,8 @@ class Submit(models.Model):
                _input_data: str = None
                ):
         _submit_time = timezone.datetime.now()
-        submit = Submit(type=_type, problem_id=_problem_id, user_id=_user_id, code=_code, submit_time=_submit_time)
+        submit = Submit(type=_type, problem_id=_problem_id, user_id=_user_id, code=_code, submit_time=_submit_time,
+                        stdin=_input_data)
         if _input_data is not None:
             submit.input_data = _input_data
         submit.code_length = len(_code)

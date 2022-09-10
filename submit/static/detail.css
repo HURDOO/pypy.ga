@@ -6,4 +6,5 @@ pre code {
     text-align: left;
     white-space: pre;
     overflow: scroll;
+    padding: 32px;
 }
