@@ -61,8 +61,8 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                 try:
                     data = json.loads(s)
                     _ = data['type']
-                except (json.JSONDecodeError, TypeError) as err:
-                    raise err
+                except json.JSONDecodeError:
+                    raise json.JSONDecodeError(s)
 
                 if data['type'] in ['START', 'PREPARE']:
                     pass
