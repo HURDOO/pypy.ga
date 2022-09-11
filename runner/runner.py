@@ -4,7 +4,6 @@ from pathlib import Path
 
 import docker
 import tarfile
-from multiprocessing import Pool
 from concurrent.futures.thread import ThreadPoolExecutor
 from submit.models import Submit, SubmitType
 from . import result
@@ -15,8 +14,8 @@ DOCKER_IMAGE_NAME = 'test1234'
 DOCKER_NAME = 'runner_{}'
 SUB_RUNNER_NAME = 'sub_runner.py'
 
-pool = Pool(10)
-executor = ThreadPoolExecutor(10)
+DOCKER_LIMIT = 10
+executor = ThreadPoolExecutor(DOCKER_LIMIT)
 
 
 def run_docker(submit_id: int, case_cnt: int):
