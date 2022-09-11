@@ -1,3 +1,4 @@
+import json
 import os
 import tempfile
 from pathlib import Path
@@ -58,7 +59,8 @@ def handle_submit(
 
         container.stop()
         container.remove()
-    except Exception as err:
+
+    except Exception:
         Submit.objects.get(id=submit_id).internal_error(_stderr=traceback.format_exc())
 
 
@@ -82,16 +84,24 @@ def create_tar(
     tarfile_name = '{}.tar'.format(submit_id)
     with tarfile.open(work_dir / tarfile_name, 'w', encoding='UTF-8') as tar:
         tar.add(work_dir / code_file_name, arcname=code_file_name)
+        out_lens = []
 
-        # copy grading input
+        # Grade
         if submit_type == SubmitType.GRADE:
-            case_dir = PROBLEMS_DIR / str(problem_id) / 'in'
-            for root, dirs, files in os.walk(case_dir):
+
+            # copy input files
+            in_dir = PROBLEMS_DIR / str(problem_id) / 'in'
+            for root, dirs, files in os.walk(in_dir):
                 for filename in files:
-                    tar.add(case_dir / filename, arcname=filename)
+                    tar.add(in_dir / filename, arcname=filename)
                     cnt += 1
 
-        # save custom input
+            # retrieve output file size
+            out_dir = PROBLEMS_DIR / str(problem_id) / 'out'
+            for i in range(1, cnt+1):
+                out_lens.append(os.stat(out_dir / '{}.out'.format(i)).st_size)
+
+        # Test
         else:
             input_file_name = '1.in'
             with open(work_dir / input_file_name, 'w', encoding='UTF-8') as input_file:
@@ -100,6 +110,20 @@ def create_tar(
                 input_file.close()
             tar.add(work_dir / input_file_name, arcname=input_file_name)
             cnt = 1
+            out_lens = [512]  # up to 1024(≒1000) characters
+
+        # save output size
+        output_file_name = 'output_size.json'
+        with open(work_dir / output_file_name, 'w', encoding='utf-8') as f:
+            f.write(json.dumps(out_lens))
+        tar.add(work_dir / output_file_name, arcname=output_file_name)
+
+        # make empty stdout and stderr file
+        with open(work_dir / 'case.out', 'w', encoding='utf-8'):
+            pass
+        with open(work_dir / 'case.err', 'w', encoding='utf-8'):
+            pass
+
         tar.close()
 
     return cnt

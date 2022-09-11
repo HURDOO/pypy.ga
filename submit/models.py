@@ -107,7 +107,8 @@ class Submit(models.Model):
 
     stdin = models.TextField(
         null=True,  # type = Grade
-        editable=False
+        editable=False,
+        max_length=1024
     )
 
     stdout = models.TextField(

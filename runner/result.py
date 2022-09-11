@@ -113,6 +113,11 @@ def handle_data(socket, submit_id: int, problem_id: int, submit_type: SubmitType
                         end = True
                         break
 
+                    elif data['result'] == 'OLE':
+                        result = ResultType.OUTPUT_LIMIT
+                        end = True
+                        break
+
                     elif data['result'] == 'RTE':
                         err = parse_error(data['err'])
                         if 'stderr' not in err and err['error'] == 'MemoryError\n':

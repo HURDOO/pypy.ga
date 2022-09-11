@@ -74,6 +74,10 @@ def submit(request):
     return render(request, 'submit.html', context=data)
 
 
+def result_info(request):
+    return render(request, 'result_info.html', context=info.get_data(request.session))
+
+
 def get_details(submit: Submit) -> dict:
 
     if submit.result in [ResultType.PREPARE, ResultType.ONGOING, ResultType.INTERNAL_ERROR]:
@@ -83,7 +87,7 @@ def get_details(submit: Submit) -> dict:
         if submit.result == ResultType.ACCEPTED:
             return {
                 'time_usage': submit.time_usage,
-                'memory_usage': submit.memory_usage,
+                'memory_usage': submit.memory_usage
             }
 
         stdin, correct_stdout = std(submit.problem_id, submit.last_case_idx)
@@ -118,7 +122,8 @@ def get_details(submit: Submit) -> dict:
                 'memory_usage': submit.memory_usage,
             }
 
-        if submit.result == ResultType.TIME_LIMIT:
+        if submit.result in [ResultType.TIME_LIMIT, ResultType.OUTPUT_LIMIT,
+                             ResultType.MEMORY_LIMIT]:
             return {
                 'stdin': submit.stdin,
                 'stdout': submit.stdout,
@@ -129,12 +134,6 @@ def get_details(submit: Submit) -> dict:
                 'stdin': submit.stdin,
                 'stdout': submit.stdout,
                 'stderr': submit.stderr
-            }
-
-        if submit.result == ResultType.MEMORY_LIMIT:
-            return {
-                'stdin': submit.stdin,
-                'stdout': submit.stdout
             }
 
     return {}

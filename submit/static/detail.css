@@ -2,6 +2,14 @@ h1, h3, h4 {
     font-weight: bold;
 }
 
+h1#result a {
+    color: black;
+}
+
+h1#result a:hover {
+    color: var(--color-link);
+}
+
 pre code {
     text-align: left;
     white-space: pre;
