@@ -19,14 +19,19 @@
     - id: 10004
       name: 따옴표
 
-- category: 연산
+- category: 변수와 연산
   problems:
     - id: 10007
       name: 올해는 2565년
     - id: 10006
       name: 사칙연산
 
+- category: 조건문
+  problems:
+    - id: 10008
+      name: 원숭이
+
 - category: (미분류)
   problems:
     - id: 10005
-      name: 우 to the 영 to the 우
+      name: 우영우
