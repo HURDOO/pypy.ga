@@ -11,7 +11,7 @@ def new(request):
     print(data)
 
     if 'user_id' not in request.session:
-        return redirect('/login')
+        return redirect('/account/login')
     user_id = request.session['user_id']
 
     problem_id, _type, code = \
