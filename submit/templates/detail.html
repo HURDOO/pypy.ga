@@ -104,24 +104,24 @@
                 <pre><code>{{ stdin }}</code></pre>
             </aside>
 
-            {% if result == 'WA' %}
+            {% if result == 'WA' or result == 'MLE' or result == 'RTE' %}
             <aside>
-                <h3>출력 정답</h3>
-                <pre><code>{{ correct_stdout }}</code></pre>
+                <h3>❌ 출력값</h3>
+                <pre><code>{{ stdout }}</code></pre>
             </aside>
             {% endif %}
 
-            {% if result == 'WA' or result == 'MLE' or result == 'RTE' %}
+            {% if result == 'WA' %}
             <aside>
-                <h3>출력</h3>
-                <pre><code>{{ stdout }}</code></pre>
+                <h3>⭕ 정답 출력</h3>
+                <pre><code>{{ correct_stdout }}</code></pre>
             </aside>
             {% endif %}
         </section>
     </div>
     {% endif %}
 
-    {% if result != 'AC' and result != 'CP' and result != 'IE' %}
+    {% if result == 'PRE' or result == 'ON' %}
         <script src="{% static 'ws.js' %}"></script>
         <script>
             register('{{ submit_id }}');
