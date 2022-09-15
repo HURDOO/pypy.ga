@@ -60,7 +60,7 @@ def submit(request):
     if len(submits) < 20:
         submits.reverse()
     else:
-        submits = submits[len(submits)-1:len(submits)-21:-1]  # last 20 and reverse
+        submits = submits[len(submits)-1:len(submits)-20:-1]  # last 20 and reverse
 
     data = {'submits': []}
     for submit in submits:
