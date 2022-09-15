@@ -23,6 +23,7 @@
   problems:
     - id: 10007
       name: 올해는 2565년
+
     - id: 10006
       name: 사칙연산
 
@@ -30,6 +31,9 @@
   problems:
     - id: 10008
       name: 원숭이
+
+    - id: 10009
+      name: 예체능
 
 - category: (미분류)
   problems:
