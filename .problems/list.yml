@@ -19,6 +19,11 @@
     - id: 10004
       name: 따옴표
 
+- category: 연산
+  problems:
+    - id: 10006
+      name: 사칙연산
+
 - category: (미분류)
   problems:
     - id: 10005
