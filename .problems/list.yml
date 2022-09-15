@@ -35,6 +35,9 @@
     - id: 10009
       name: 예체능
 
+    - id: 10010
+      name: 두 그래프
+
 - category: (미분류)
   problems:
     - id: 10005
