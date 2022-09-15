@@ -21,6 +21,8 @@
 
 - category: 연산
   problems:
+    - id: 10007
+      name: 올해는 2565년
     - id: 10006
       name: 사칙연산
 
