@@ -35,10 +35,6 @@ ul li {
     font-size: 18px;
 }
 
-ul li :hover {
-    /*background-color: black;*/
-}
-
 a {
     text-decoration: none;
 }
