@@ -32,6 +32,7 @@ ul {
 ul li {
     display: inline;
     padding: 5px;
+    font-size: 20px;
 }
 
 ul li :hover {
