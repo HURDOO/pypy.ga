@@ -21,6 +21,9 @@
 
 - category: 변수와 연산
   problems:
+    - id: 10012
+      name: A+B
+
     - id: 10007
       name: 올해는 2565년
 
