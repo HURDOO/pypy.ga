@@ -4,7 +4,7 @@ editor.setOptions({
     enableSnippets: true,
     enableLiveAutocompletion: true
 })
-editor.setFontSize(20);
+editor.setFontSize(22);
 // https://cdnjs.com/libraries/ace/
 ace.config.set('basePath','https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6');
 editor.getSession().setMode("ace/mode/python");
