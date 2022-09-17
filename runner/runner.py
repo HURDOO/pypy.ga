@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import tempfile
 from pathlib import Path
 
@@ -77,7 +78,11 @@ def create_tar(
     # save code
     code_file_name = 'code.py'
     with open(work_dir / code_file_name, 'w', encoding='UTF-8') as code_file:
-        code_file.write(code)
+
+        # delete interactive input - as it goes to stdout
+        safe_code = re.sub(r'input\([\'\"](.)*[\'\"]\)', 'input()', code)
+
+        code_file.write(safe_code)
         code_file.close()
 
     # make tar file
