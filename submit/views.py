@@ -55,6 +55,9 @@ def detail(request, submit_id):
     return render(request, 'detail.html', context=data)
 
 
+SEARCH_QUOTA = 20
+
+
 def submit(request):
     submits = Submit.objects.order_by('id')
 
@@ -72,11 +75,10 @@ def submit(request):
         except ValueError:
             pass
 
-    print(submits)
-    if len(submits) < 20:
-        submits.reverse()
+    if len(submits) <= SEARCH_QUOTA:
+        submits = submits[::-1]
     else:
-        submits = submits[len(submits)-1:len(submits)-20:-1]  # last 20 and reverse
+        submits = submits[len(submits)-1: len(submits) - SEARCH_QUOTA - 1: -1]
 
     data = {'submits': []}
     for submit in submits:
@@ -95,7 +97,6 @@ def result_info(request):
 
 
 def get_details(submit: Submit) -> dict:
-
     if submit.result in [ResultType.PREPARE, ResultType.ONGOING, ResultType.INTERNAL_ERROR]:
         return {}
 
@@ -156,11 +157,9 @@ def get_details(submit: Submit) -> dict:
 
 
 def std(problem_id: int, case_idx: int) -> tuple:
-
     with open(PROBLEMS_DIR / str(problem_id) / 'in' / '{}.in'.format(case_idx), encoding='UTF-8') as f:
         stdin = f.read()
     with open(PROBLEMS_DIR / str(problem_id) / 'out' / '{}.out'.format(case_idx), encoding='UTF-8') as f:
         correct_stdout = f.read()
 
     return stdin, correct_stdout
-
