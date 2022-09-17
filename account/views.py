@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from .info import USER_ID_KEY
 
 from . import google
 from . import models
@@ -11,7 +12,7 @@ def login(request):
 
 
 def logout(request):
-    del request.session['user_id']
+    del request.session[USER_ID_KEY]
     return redirect('/')
 
 
@@ -20,9 +21,9 @@ def auth(request):
     email = google.get_email(code)
     try:
         account = models.handle_login(email)
-        request.session['user_id'] = account.id
+        request.session[USER_ID_KEY] = account.id
         return redirect('/')
     except AttributeError:
         # not school account
-        return redirect('/account/login')
+        return redirect(USER_ID_KEY)
 

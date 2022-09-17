@@ -10,9 +10,9 @@ def new(request):
     data = request.POST
     print(data)
 
-    if 'user_id' not in request.session:
-        return redirect('/account/login')
-    user_id = request.session['user_id']
+    user_id = info.get_user_id(request.session)
+    if user_id is None:
+        return redirect(request, '/account/login', {})
 
     problem_id, _type, code = \
         data['problem_id'], getSubmitType(data['type']), data['code']
