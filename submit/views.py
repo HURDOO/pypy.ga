@@ -57,6 +57,22 @@ def detail(request, submit_id):
 
 def submit(request):
     submits = Submit.objects.order_by('id')
+
+    if 'submit_id' in request.GET:
+        try:
+            submit_id = int(request.GET.get('submit_id'))
+            submits = submits.filter(problem_id=submit_id)
+        except ValueError:
+            pass
+
+    if 'user_id' in request.GET:
+        try:
+            user_id = int(request.GET.get('user_id'))
+            submits = submits.filter(user_id=user_id)
+        except ValueError:
+            pass
+
+    print(submits)
     if len(submits) < 20:
         submits.reverse()
     else:

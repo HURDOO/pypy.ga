@@ -128,10 +128,7 @@ class Submit(models.Model):
     def start(self):
         self.result = ResultType.ONGOING
         self.save()
-        self.send_websocket({
-            'type': 'progress',
-            'progress': 0
-        }, close=False)
+        self.case_done(0)
 
     def case_done(self, percentage: int):
         self.send_websocket({

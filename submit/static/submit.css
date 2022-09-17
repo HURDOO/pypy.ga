@@ -1,3 +1,27 @@
 h1, h4 {
     font-weight: bold;
 }
+
+/* desktop */
+@media screen and (min-width: 540px) {
+    form#search {
+        display: flex;
+        justify-content: center;
+    }
+
+    form * {
+        margin: 5px;
+    }
+}
+
+/* mobile */
+@media screen and (max-width: 539px) {
+    form#search {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    form * {
+        margin: 5px;
+    }
+}
