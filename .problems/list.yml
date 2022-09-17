@@ -1,47 +1,59 @@
-- category: 파이가 (Pypy.ga)
-  problems:
-    - id: 10000
-      name: 파이가 이용 가이드
-
 - category: 출력
   problems:
     - id: 10001
       name: Hello World
+      level: 10
 
     - id: 10002
       name: 교가
+      level: 15
 
 - category: 입력
   problems:
     - id: 10003
       name: 자기소개
+      level: 10
 
     - id: 10004
       name: 따옴표
+      level: 15
 
 - category: 변수와 연산
   problems:
     - id: 10012
       name: A+B
+      level: 10
 
     - id: 10007
       name: 올해는 2565년
+      level: 15
 
     - id: 10006
       name: 사칙연산
+      level: 20
 
 - category: 조건문
   problems:
-    - id: 10008
-      name: 원숭이
-
     - id: 10009
       name: 예체능
+      level: 15
+
+    - id: 10008
+      name: 원숭이
+      level: 20
 
     - id: 10010
       name: 두 그래프
+      level: 30
 
 - category: (미분류)
   problems:
     - id: 10005
       name: 우영우
+      level: 40
+
+- category: 파이가 (Pypy.ga)
+  problems:
+    - id: 10000
+      name: 파이가 이용 가이드
+      level: 10

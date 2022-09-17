@@ -1,0 +1,11 @@
+/* CSS of Naver NanumBarunGothic - https://github.com/moonspam/NanumBarunGothic */
+@import url("https://cdn.jsdelivr.net/gh/moonspam/NanumBarunGothic@latest/nanumbarungothicsubset.css");
+
+.markdown-body, code {
+    font-family: NanumBarunGothic
+}
+
+.markdown-body code {
+    /* font-family: Consolas,Monaco, 'Andale Mono','Ubuntu Mono',monospace; */
+    font-family: Consolas, Monaco, 'Andale Mono', D2Coding, 'Ubuntu Mono', monospace;
+}

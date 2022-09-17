@@ -4,10 +4,11 @@
 zero-md {
     text-align: left;
     word-break: keep-all;
+    font-family: NanumBarunGothic;
 }
 
-nav {
-    margin-bottom: 0;
+div#main {
+    padding-top: 60px;
 }
 
 div#container {

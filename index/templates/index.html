@@ -9,12 +9,13 @@
 {% endblock %}
 
 {% block content %}
-    <header>
+    <header id="info">
         <h1><b>Life is short.<br class="mobile"> You need <a href="https://pypy.ga">Pypy.ga</a></b></h1>
         <h3 class="desktop"><b>파이썬 코딩 연습은 <a href="/problem/10000"><u>파이가</u></a>!</b></h3>
 
         <br>
         <p>파이가는 온라인으로 파이썬 코드를<br class="mobile"> 채점받을 수 있는 공간입니다 :)</p>
+        <p><a href="/problem/10000">파이가 이용 가이드</a>를 읽고, <br class="mobile">아래의 문제를 선택하여 코드를 작성해보세요!</p>
     </header>
 
     {% for category in list %}
@@ -25,7 +26,8 @@
             {% for problem in category.problems %}
                 <aside onclick="location.href = '/problem/{{ problem.id }}'">
                     <h3 class="problem_name">{{ problem.name }}</h3>
-                    <h5>{{ problem.id }}</h5>
+                    <h5>{{ score }} / {{ problem.level }}</h5>
+                    <small>{{ problem.id }}</small>
                 </aside>
             {% endfor %}
         </section>

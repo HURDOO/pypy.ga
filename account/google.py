@@ -1,7 +1,7 @@
 import requests
 from pypyga.settings import conf
 
-LOGIN_URL = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code'
+LOGIN_URL = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&access_type=offline'
 TOKEN_URL = 'https://oauth2.googleapis.com/token'
 EMAIL_URL = 'https://openidconnect.googleapis.com/v1/userinfo'
 

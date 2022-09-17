@@ -23,6 +23,26 @@
     --width-content: 1080px;
 }
 
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #60d17e;
+    color: white;
+    font-weight: normal;
+    justify-content: safe space-between;
+}
+
+nav a {
+    color: white;
+}
+
+nav .message, nav .message a {
+    color: beige;
+    font-weight: bold;
+}
+
 ul {
     margin: 5px;
     padding: 0px;
@@ -48,6 +68,12 @@ html, body {
     height: 100%;
     text-align: center;
 }
+
+div#main {
+    padding-top: 120px;
+    height: 100%;
+}
+
 
 @media screen and (max-width: 539px) {
     .desktop {

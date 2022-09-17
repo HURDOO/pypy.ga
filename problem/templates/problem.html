@@ -22,7 +22,23 @@
 {% block content %}
     <div id="container">
         <form id="problem">
-            <zero-md src="{{ problem_url }}"></zero-md>
+            <zero-md src="{{ problem_url }}">
+                <template>
+                    <link
+                      rel="stylesheet"
+                      href="https://cdn.jsdelivr.net/gh/sindresorhus/github-markdown-css@4/github-markdown.min.css"
+                    />
+                    <link
+                      rel="stylesheet"
+                      href="https://cdn.jsdelivr.net/gh/PrismJS/prism@1/themes/prism.min.css"
+                    />
+                    <link rel="stylesheet" href="{% static 'md.css' %}">
+                </template>
+                <script type="text/markdown">
+                    # 오류
+                    문제를 불러올 수 없어요.
+                </script>
+            </zero-md>
         </form>
         <form id="submit" action="/submit/new" method="post" onsubmit="return onFormSubmit();">
             {% csrf_token %}

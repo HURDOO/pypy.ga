@@ -47,22 +47,44 @@
         {% if result == 'CP' %}
         <section>
             <aside>
+                <h3>입력</h3>
+                <pre><code>{{ stdin }}</code></pre>
+            </aside>
+            <aside>
                 <h3>출력</h3>
                 <pre><code>{{ stdout }}</code></pre>
-                </aside>
+            </aside>
         </section>
         {% endif %}
 
     </header>
 
-    <section>
+    {% if result == 'WA' or result == 'TLE' or result == 'MLE' or result == 'RTE' or result == 'OLE' %}
+        <div id="std">
+            <section>
+                <aside>
+                    <h3>입력</h3>
+                    <pre><code>{{ stdin }}</code></pre>
+                </aside>
 
-        {% if result == 'WA' or result == 'TLE' or result == 'RTE' %}
-            <aside>
-                <h3>틀린 입력</h3>
-                <h5><a href="#std">입출력 보기</a></h5>
-            </aside>
-        {% endif %}
+                {% if result == 'WA' or result == 'MLE' or result == 'RTE' %}
+                <aside>
+                    <h3>❌ 출력</h3>
+                    <pre><code>{{ stdout }}</code></pre>
+                </aside>
+                {% endif %}
+
+                {% if result == 'WA' %}
+                <aside>
+                    <h3>⭕ 정답 출력</h3>
+                    <pre><code>{{ correct_stdout }}</code></pre>
+                </aside>
+                {% endif %}
+            </section>
+        </div>
+    {% endif %}
+
+    <section>
 
         {% if result == 'AC' or result == 'CP' %}
             <aside>
@@ -94,32 +116,6 @@
     <h4>코드</h4>
     <section id="code"><pre><code>{{ code }}</code></pre>
     </section>
-
-    {% if result == 'CP' or result == 'WA' or result == 'TLE' or result == 'MLE' or result == 'RTE' or result == 'OLE' %}
-
-    <div id="std">
-        <section>
-            <aside>
-                <h3>입력</h3>
-                <pre><code>{{ stdin }}</code></pre>
-            </aside>
-
-            {% if result == 'WA' or result == 'MLE' or result == 'RTE' %}
-            <aside>
-                <h3>❌ 출력</h3>
-                <pre><code>{{ stdout }}</code></pre>
-            </aside>
-            {% endif %}
-
-            {% if result == 'WA' %}
-            <aside>
-                <h3>⭕ 정답 출력</h3>
-                <pre><code>{{ correct_stdout }}</code></pre>
-            </aside>
-            {% endif %}
-        </section>
-    </div>
-    {% endif %}
 
     {% if result == 'PRE' or result == 'ON' %}
         <script src="{% static 'ws.js' %}"></script>
