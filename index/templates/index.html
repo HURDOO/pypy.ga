@@ -18,6 +18,7 @@
         <p><a href="/problem/10000">파이가 이용 가이드</a>를 읽고, <br class="mobile">아래의 문제를 선택하여 코드를 작성해보세요!</p>
     </header>
 
+    {{ submits }}
     {% for category in list %}
         <header>
             <h2 class="category"><b>{{ category.category }}</b></h2>
@@ -26,7 +27,11 @@
             {% for problem in category.problems %}
                 <aside onclick="location.href = '/problem/{{ problem.id }}'">
                     <h3 class="problem_name">{{ problem.name }}</h3>
-                    <h5>🏅 0 / {{ problem.level }}</h5>
+                    {% if 'score' in problem %}
+                        <h5>🏅 {{ problem.score }} / {{ problem.level }}</h5>
+                    {% else %}
+                        <h5>🏅 {{ problem.level }}</h5>
+                    {% endif %}
                     <small>{{ problem.id }}</small>
                 </aside>
             {% endfor %}

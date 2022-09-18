@@ -5,6 +5,8 @@ from django.db import models
 from django.utils import timezone
 from .consumers import update_status
 from django.utils.translation import gettext_lazy as _
+from account.models import Account
+from problem.load import PROBLEM_LEVEL
 
 
 class SubmitType(models.TextChoices):
@@ -150,6 +152,14 @@ class Submit(models.Model):
         self.send_websocket({
             'type': 'reload'
         }, close=True)
+
+        Account.objects.get(id=self.user_id).add_submit(
+            self.problem_id, self.id,
+            (lambda:
+             PROBLEM_LEVEL[str(self.problem_id)]
+             if self.result == ResultType.ACCEPTED
+             else 0)()
+        )
 
     def internal_error(self, _stderr: str):
         self.result, self.stderr = ResultType.INTERNAL_ERROR, _stderr

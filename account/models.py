@@ -42,7 +42,6 @@ class Account(models.Model):
             if prev['score'] > score:
                 return
             prev_score = prev['score']
-            print(prev_score)
         else:
             prev_score = 0
 
