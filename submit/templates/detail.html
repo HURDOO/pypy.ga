@@ -23,9 +23,7 @@
         {% endif %}
 
         {% if result == 'RTE' %}
-            {% if 'stderr' in stderr %}
-                <pre><code>{{ stderr.stderr }}</code></pre>
-            {% else %}
+            {% if 'error' in stderr %}
                 <section>
                     <aside>
                         <h3>{{ stderr.error }}</h3>
@@ -41,6 +39,8 @@
             <!--            <pre><code>{{ line_code }}</code></pre>-->
                     </aside>
                 </section>
+            {% else %}
+                <pre><code>{{ stderr.stderr }}</code></pre>
             {% endif %}
         {% endif %}
 

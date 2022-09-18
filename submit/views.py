@@ -59,7 +59,7 @@ SEARCH_QUOTA = 20
 
 
 def submit(request):
-    submits = Submit.objects.order_by('id')
+    submits = Submit.objects.order_by('-id')
 
     if 'submit_id' in request.GET:
         try:
@@ -75,10 +75,8 @@ def submit(request):
         except ValueError:
             pass
 
-    if len(submits) <= SEARCH_QUOTA:
-        submits = submits[::-1]
-    else:
-        submits = submits[len(submits)-1: len(submits) - SEARCH_QUOTA - 1: -1]
+    if len(submits) > SEARCH_QUOTA:
+        submits = submits[0:19]
 
     data = {'submits': []}
     for submit in submits:
