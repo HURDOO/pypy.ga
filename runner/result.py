@@ -184,6 +184,7 @@ def parse_error(stderr: str) -> dict:
         }
 
     data = {
+        'stderr': stderr,
         'line_num': int(match.group(1))//2+1,
         'line_code': match.group(2),
         'error': match.group(3)
