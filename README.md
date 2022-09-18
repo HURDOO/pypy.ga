@@ -29,10 +29,13 @@
 
 ## 4. 사이트 구조도
 
-* `/` 메인 페이지
-* `/doc?id=###` 설명 페이지
-* `/problem?id=###` 문제 페이지
-* `/submit?problem_id=###&submit_id=###` 제출 및 정답 페이지
+* `/` 메인
+* `/problem/<int>` 문제
+* `/submit` 제출 목록
+* `/submit/<int>` 제출 상세보기
+* `/account` 사용자 목록 (랭킹)
+* `/account/login` 로그인
+* `/account/logout` 로그아웃
 
 ## 5. 구현 방식
 
