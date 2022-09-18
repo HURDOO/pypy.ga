@@ -46,6 +46,10 @@
       name: 두 그래프
       level: 30
 
+    - id: 10011
+      name: 배달의 민족
+      level: 40
+
 - category: (미분류)
   problems:
     - id: 10005
