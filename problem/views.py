@@ -11,8 +11,9 @@ def index(request, problem):
         'problem_id': problem,
         'problem_url': load.PROBLEM_URL.format(problem, problem),
     }
-    if 'user_id' in request.session:
-        recent_submit = Submit.objects.filter(problem_id=problem, user_id=request.session['user_id'])
+    user_id = info.get_user_id(request.session)
+    if user_id is not None:
+        recent_submit = Submit.objects.filter(problem_id=problem, user_id=user_id)
         if recent_submit.exists():
             submit = recent_submit.last()
             data['code'] = submit.code
@@ -20,6 +21,7 @@ def index(request, problem):
             data['code'] = HELLO_WORLD_CODE
     else:
         data['code'] = HELLO_WORLD_CODE
+
     data.update(info.get_data(request.session))
 
     return render(request, 'problem.html', data)
