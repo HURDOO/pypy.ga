@@ -127,6 +127,11 @@ class Submit(models.Model):
         null=True  # result = ONGOING or ACCEPTED
     )
 
+    score = models.IntegerField(
+        null=False,
+        default=0
+    )
+
     def start(self):
         self.result = ResultType.ONGOING
         self.save()
@@ -149,24 +154,35 @@ class Submit(models.Model):
         self.result, self.time_usage, self.memory_usage, self.stdout, self.stderr, self.last_case_idx \
             = _result, _time_usage, _memory_usage, _stdout, _stderr, _last_case_idx
         self.save()
+
+        self.calc_score()
+
         self.send_websocket({
             'type': 'reload'
         }, close=True)
 
-        Account.objects.get(id=self.user_id).add_submit(
-            self.problem_id, self.id,
-            (lambda:
-             PROBLEM_LEVEL[str(self.problem_id)]
-             if self.result == ResultType.ACCEPTED
-             else 0)()
-        )
-
     def internal_error(self, _stderr: str):
         self.result, self.stderr = ResultType.INTERNAL_ERROR, _stderr
         self.save()
+
+        self.calc_score()
+
         self.send_websocket({
             'type': 'reload',
         }, close=True)
 
     def send_websocket(self, data: dict, close: bool) -> None:
         asyncio.run(update_status(self.id, data, close))
+
+    def calc_score(self):
+
+        if self.result == ResultType.ACCEPTED:
+            self.score = PROBLEM_LEVEL[str(self.problem_id)]
+        else:
+            self.score = 0
+
+        Account.objects.get(id=self.user_id).add_submit(
+            problem_id=self.problem_id,
+            submit_id=self.id,
+            score=self.score
+        )
