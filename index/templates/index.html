@@ -26,7 +26,7 @@
             {% for problem in category.problems %}
                 <aside onclick="location.href = '/problem/{{ problem.id }}'">
                     <h3 class="problem_name">{{ problem.name }}</h3>
-                    <h5>{{ score }} / {{ problem.level }}</h5>
+                    <h5>🏅 0 / {{ problem.level }}</h5>
                     <small>{{ problem.id }}</small>
                 </aside>
             {% endfor %}

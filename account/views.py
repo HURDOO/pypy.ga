@@ -1,8 +1,7 @@
 from django.shortcuts import redirect, render
-from .info import USER_ID_KEY
 
-from . import google
-from . import models
+from . import google, models, info
+from .models import Account
 
 
 def login(request):
@@ -12,7 +11,7 @@ def login(request):
 
 
 def logout(request):
-    del request.session[USER_ID_KEY]
+    del request.session[info.USER_ID_KEY]
     return redirect('/')
 
 
@@ -21,9 +20,25 @@ def auth(request):
     email = google.get_email(code)
     try:
         account = models.handle_login(email)
-        request.session[USER_ID_KEY] = account.id
+        request.session[info.USER_ID_KEY] = account.id
         return redirect('/')
     except AttributeError:
         # not school account
-        return redirect(USER_ID_KEY)
+        return redirect('/account/login')
 
+
+def ranking(request):
+    accounts = Account.objects.order_by('-score')
+    if len(accounts) < 4:
+        data = {
+            'accounts': accounts
+        }
+    else:
+        data = {
+            'first': accounts[0],
+            'second': accounts[1],
+            'third': accounts[2],
+            'accounts': accounts[3:]
+        }
+    data.update(info.get_data(request.session))
+    return render(request, 'account.html', data)

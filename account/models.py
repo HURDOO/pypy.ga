@@ -1,3 +1,5 @@
+import json
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from pypyga.settings import conf
@@ -9,13 +11,48 @@ regex = re.compile(EMAIL_REGEX)
 
 class Account(models.Model):
 
-    id = models.PositiveIntegerField(primary_key=True, null=False, editable=False, default=10000)
+    id = models.PositiveIntegerField(
+        primary_key=True,
+        null=False,
+        editable=False,
+    )
+
+    score = models.PositiveIntegerField(
+        default=0,
+        null=False,
+    )
+
+    submits = models.JSONField(
+        null=False,
+        default=dict,
+        encoder=json.JSONEncoder,
+        decoder=json.JSONDecoder,
+    )
 
     @classmethod
     def create(cls, user_id: int):
         account = Account(id=user_id)
         account.save()
         return account
+
+    def add_submit(self, problem_id: int, submit_id: int, score: int):
+        problem_id = str(problem_id)
+        if problem_id in self.submits:
+            prev = self.submits[problem_id]
+            if prev['score'] > score:
+                return
+            prev_score = prev['score']
+            print(prev_score)
+        else:
+            prev_score = 0
+
+        self.submits[problem_id] = {
+            'submit_id': submit_id,
+            'score': score
+        }
+
+        self.score += score - prev_score
+        self.save()
 
 
 def handle_login(email: str) -> Account:

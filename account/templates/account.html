@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}랭킹{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'account.css' %}">
+{% endblock %}
+
+{% block content %}
+    <header>
+        <h1>랭킹</h1>
+    </header>
+
+    {% if first %}
+        <section>
+            <aside>
+                <h1>🥇</h1>
+                <h3>{{ first.id }}</h3>
+                <h4>🏅 {{ first.score }}</h4>
+            </aside>
+        </section>
+        <section>
+            <aside>
+                <h1>🥈</h1>
+                <h3>{{ second.id }}</h3>
+                <h4>🏅 {{ second.score }}</h4>
+            </aside>
+            <aside>
+                <h1>🥉</h1>
+                <h3>{{ third.id }}</h3>
+                <h4>🏅 {{ third.score }}</h4>
+            </aside>
+        </section>
+    {% endif %}
+
+    <section>
+        {% for account in accounts %}
+            <aside>
+                <h3>{{ account.id }}</h3>
+                <h4>🏅 {{ account.score }}</h4>
+            </aside>
+        {% endfor %}
+    </section>
+    <script src="{% static 'submit.js' %}"></script>
+{% endblock %}
