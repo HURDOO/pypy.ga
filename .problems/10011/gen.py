@@ -51,13 +51,13 @@ def get_input_output() -> list[tuple[str, str]]:
         hap = a+b+c
 
         d, e = 0, 0
-        lst.append((f'{a}\n{b}\n{c}\n{d}\n{e}', f'{hap}'))
+        lst.append((f'{a}\n{b}\n{c}\n{d}\n{e}', f'{hap}원'))
 
         d, e = 0, hap + random.randint(0, uk*3-hap)
-        lst.append((f'{a}\n{b}\n{c}\n{d}\n{e}', f'{hap+4000}'))
+        lst.append((f'{a}\n{b}\n{c}\n{d}\n{e}', f'{hap+4000}원'))
 
         d, e = hap - random.randint(0, uk*3-hap), 0
-        lst.append((f'{a}\n{b}\n{c}\n{d}\n{e}', f'{hap}'))
+        lst.append((f'{a}\n{b}\n{c}\n{d}\n{e}', f'{hap}원'))
 
     return lst
 
