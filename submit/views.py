@@ -12,7 +12,7 @@ def new(request):
 
     user_id = info.get_user_id(request.session)
     if user_id is None:
-        return redirect(request, '/account/login', {})
+        return redirect('/account/login')
 
     problem_id, _type, code = \
         data['problem_id'], getSubmitType(data['type']), data['code']
