@@ -28,7 +28,7 @@ def auth(request):
 
 
 def ranking(request):
-    accounts = Account.objects.order_by('-score')
+    accounts = Account.objects.order_by('-score', 'id')
     if len(accounts) < 4:
         data = {
             'accounts': accounts

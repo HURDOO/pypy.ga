@@ -35,13 +35,26 @@
         </section>
     {% endif %}
 
-    <section>
-        {% for account in accounts %}
-            <aside>
-                <h3>{{ account.id }}</h3>
-                <h4>🏅 {{ account.score }}</h4>
-            </aside>
-        {% endfor %}
-    </section>
-    <script src="{% static 'submit.js' %}"></script>
+    <table>
+        <thead>
+            <tr>
+                <td>#</td>
+                <td>학번</td>
+                <td>점수</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts %}
+                <tr>
+                    {% if first %}
+                        <td>{{ forloop.counter|add:"3" }}</td>
+                    {% else %}
+                        <td>{{ forloop.counter }}</td>
+                    {% endif %}
+                    <td>{{ account.id }}</td>
+                    <td>🏅 {{ account.score }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
