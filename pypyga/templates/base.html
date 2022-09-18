@@ -36,7 +36,7 @@
         </ul>
         <ul>
             {% if account_user_id %}
-                <li>🏅 0</li>
+                <li>🏅 {{ account_score }}</li>
                 <li class="desktop">{{ account_user_id }}</li>
                 <li><a href="/account/logout">로그아웃</a></li>
             {% else %}
