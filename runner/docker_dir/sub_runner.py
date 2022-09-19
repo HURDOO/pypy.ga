@@ -9,7 +9,7 @@ import time
 import json
 import psutil
 
-# import resource
+import resource
 
 TIME_LIMIT = 5  # 5s
 MEMORY_LIMIT = 128 * 1024 * 1024  # 128MB
@@ -50,7 +50,7 @@ def run(case_cnt: int):
             stdin=in_file,
             stdout=out_file,
             stderr=err_file,
-            # preexec_fn=limit_mem
+            preexec_fn=limit_mem
         )
 
         mem = Value('i', 0)
@@ -120,7 +120,7 @@ def run(case_cnt: int):
 
 
 def limit_mem():
-    # resource.setrlimit(resource.RLIMIT_AS, (MEMORY_LIMIT, MEMORY_LIMIT))
+    resource.setrlimit(resource.RLIMIT_AS, (MEMORY_LIMIT, MEMORY_LIMIT))
     pass
 
 
