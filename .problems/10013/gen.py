@@ -7,9 +7,11 @@ def get_input_output() -> list[tuple[str, str]]:
     lst = []
 
     for a, aa in [('1', '짜장면'), ('2', '짬뽕')]:
-        for b, bb in [('3', '찍먹'), ('4', '부먹')]:
-            for c, cc in [('5', '민초'), ('6', '반민초')]:
-                lst.append((f'{a}\n{b}\n{c}', f'나는 {aa}를 좋아하고, {bb}파고, {cc}파야!'))
+        for b, bb in [('3', '신라면'), ('4', '진라면')]:
+            for c, cc in [('5', '물냉면'), ('6', '비빔냉면')]:
+                for d, dd in [('7', '파스타'), ('8', '스파게티')]:
+                    lst.append((f'{a}\n{b}\n{c}\n{d}',
+                                f'나는 {aa}과 {bb}, {cc}하고 {dd}를 좋아해!'))
 
     return lst
 
