@@ -2,6 +2,9 @@ from django.shortcuts import redirect, render
 
 from . import google, models, info
 from .models import Account
+from pypyga.settings import conf
+
+ADMIN_USER_ID = conf['admin_id']
 
 
 def login(request):
@@ -28,7 +31,7 @@ def auth(request):
 
 
 def ranking(request):
-    accounts = Account.objects.order_by('-score', 'id')
+    accounts = Account.objects.order_by('-score', 'id').exclude(id=ADMIN_USER_ID)
     if len(accounts) < 4:
         data = {
             'accounts': accounts

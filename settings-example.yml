@@ -25,3 +25,6 @@ db:
 
 # Determines whether DEBUG mode is off
 production: false
+
+# user id to hide from ranking
+admin_id: -1
