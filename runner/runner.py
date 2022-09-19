@@ -12,7 +12,7 @@ from . import result
 from problem.load import PROBLEMS_DIR
 import traceback
 
-DOCKER_IMAGE_NAME = 'test1234'
+DOCKER_IMAGE_NAME = 'pypyga'
 DOCKER_NAME = 'runner_{}'
 SUB_RUNNER_NAME = 'sub_runner.py'
 
@@ -109,9 +109,10 @@ def create_tar(
         # Test
         else:
             input_file_name = '1.in'
-            with open(work_dir / input_file_name, 'w', encoding='UTF-8') as input_file:
+            with open(work_dir / input_file_name, 'w',
+                      encoding='UTF-8', newline='\n') as input_file:
                 if input_data is not None:
-                    input_file.write(input_data)
+                    input_file.write(input_data.replace('\r\n', '\n'))
                 input_file.close()
             tar.add(work_dir / input_file_name, arcname=input_file_name)
             cnt = 1
