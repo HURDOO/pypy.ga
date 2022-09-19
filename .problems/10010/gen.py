@@ -21,11 +21,14 @@ def get_input_output() -> list[tuple[str, str]]:
             b = random.randint(-uk, uk)
         lst.append((f'{a}\n{b}', '만남'))
 
-    for _ in range(30):
-        n = m = 0
-        while n*m != -1.0:
-            n = random.randint(-uk, uk)
-            m = -1 / n
+    for i in range(1, 13):
+        n = 2 ** i
+        m = -1 / n
+        lst.append((f'{n}\n{m}', '만남\n수직'))
+
+    for i in range(1, 6):
+        n = 5 ** i
+        m = -1 / n
         lst.append((f'{n}\n{m}', '만남\n수직'))
 
     return lst
