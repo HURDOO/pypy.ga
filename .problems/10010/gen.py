@@ -22,10 +22,11 @@ def get_input_output() -> list[tuple[str, str]]:
         lst.append((f'{a}\n{b}', '만남'))
 
     for _ in range(30):
-        n = 0
-        while n == 0:
+        n = m = 0
+        while n*m != -1.0:
             n = random.randint(-uk, uk)
-        lst.append((f'{n}\n{-n}', '만남\n수직'))
+            m = -1 / n
+        lst.append((f'{n}\n{m}', '만남\n수직'))
 
     return lst
 
