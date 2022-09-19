@@ -54,7 +54,7 @@
   problems:
     - id: 10013
       name: 면 음식 월드컵
-      level: 30
+      level: 20
 
 - category: 문자열
   problems:
