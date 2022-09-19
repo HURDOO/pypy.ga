@@ -11,7 +11,7 @@ def get_input_output() -> list[tuple[str, str]]:
             for c, cc in [('5', '물냉면'), ('6', '비빔냉면')]:
                 for d, dd in [('7', '파스타'), ('8', '스파게티')]:
                     lst.append((f'{a}\n{b}\n{c}\n{d}',
-                                f'나는 {aa}과 {bb}, {cc}하고 {dd}를 좋아해!'))
+                                f'{aa}하고 {bb}하고 {cc}하고 {dd}'))
 
     return lst
 
