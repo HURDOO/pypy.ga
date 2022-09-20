@@ -101,45 +101,13 @@ CHANNEL_LAYERS = {
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-if conf['db']['type'] == 'local':
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
-elif conf['db']['type'] == 'azure-sql':
+}
 
-    name = conf['db']['name']
-    user = conf['db']['user']
-    password = conf['db']['password']
-    host = conf['db']['host']
-    port = int(conf['db']['port'])
-    driver = conf['db']['driver']
-
-    sql_params = f"Driver={{{driver}}};Server=tcp:{host},{port};" \
-                 f"Database={name};Uid={user};Pwd={password};Encrypt=yes;" \
-                 f"TrustServerCertificate=no;Connection Timeout=30;"
-
-    DATABASES = {
-        "default": {
-            "ENGINE": 'mssql',
-
-            "NAME": name,
-            "USER": user,
-            "PASSWORD": password,
-            "HOST": host,
-            "PORT": port,
-
-            'Trusted_Connection': 'no',
-            'OPTIONS': {
-                'driver': driver,
-                'extra_params': sql_params
-            }
-        }
-    }
-else:
-    print('Invalid DB type')
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

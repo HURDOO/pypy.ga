@@ -1,4 +1,3 @@
-
 # Use Google Cloud Platform to manage accounts
 google:
   # OAuth Client_Secrets
@@ -12,16 +11,6 @@ google:
 url:
   problem_list: https://raw.githubusercontent.com/HURDOO/python-trainer/master/.problems/list.yml
   problem: https://raw.githubusercontent.com/HURDOO/python-trainer/master/.problems/{}/{}.md
-
-db:
-  type: local # 'local' or 'azure_sql' (Azure SQL Database)
-
-  # below is needed only for 'azure_sql'
-  name: YOUR_DB_NAME
-  user: YOUR_DB_USER_NAME
-  password: YOUR_DB_USER_PASSWORD
-  host: YOUR_DB_HOST
-  port: YOUR_DB_PORT  # 1433
 
 # Determines whether DEBUG mode is off
 production: false
