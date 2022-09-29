@@ -60,6 +60,14 @@
       name: 출력 초과
       level: 20
 
+    - id: 10015
+      name: ㅇㅅㅇ
+      level: 20
+
+    - id: 10016
+      name: ㅇㅅㅇ 2
+      level: 20
+
     - id: 10005
       name: 우영우
       level: 30
