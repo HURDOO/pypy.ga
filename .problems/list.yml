@@ -8,6 +8,10 @@
       name: 교가
       level: 15
 
+    - id: 10013
+      name: 면 음식 월드컵
+      level: 20
+
 - category: 입력
   problems:
     - id: 10003
@@ -50,14 +54,12 @@
       name: 배달의 민족
       level: 40
 
-- category: 입출력 심화
-  problems:
-    - id: 10013
-      name: 면 음식 월드컵
-      level: 20
-
 - category: 문자열
   problems:
+    - id: 10014
+      name: 출력 초과
+      level: 20
+
     - id: 10005
       name: 우영우
       level: 30
