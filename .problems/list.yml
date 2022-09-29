@@ -72,6 +72,10 @@
       name: 0부터 세기
       level: 20
 
+    - id: 10018
+      name: 공백 채점
+      level: 30
+
     - id: 10005
       name: 우영우
       level: 30
