@@ -39,7 +39,12 @@ nano settings.yml
 python3 manage.py migrate
 ```
 
-7. 서버 실행
+7. 정적 파일 모으기 (static)
+```shell
+python3 manage.py collectstatic
+```
+
+8. 서버 실행
 ```shell
 python3 manage.py runserver
 ```
