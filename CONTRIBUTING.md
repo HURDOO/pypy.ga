@@ -83,7 +83,7 @@ sudo systemctl enable containerd.service
 
 3. 이미지 빌드
 ```shell
-docker build -t test1234 ~/python-trainer/runner/docker_dir
+docker build -t pypyga ~/python-trainer/runner/docker_dir
 ```
 
 ## 제출 페이지의 실시간 결과 설정 (redis)
@@ -214,6 +214,7 @@ git pull
 python3 manage.py migrate
 python3 manage.py collectstatic
 deactivate
+docker build -t pypyga ~/python-trainer/runner/docker_dir
 ```
 
 추후 사이트에 변경 사항이 생겨 재시작할 때에는 다음 명령어를 사용한다.
