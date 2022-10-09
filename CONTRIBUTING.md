@@ -55,12 +55,7 @@ python3 manage.py runserver
 서버 닫을 땐 Ctrl+C
 
 ## 채점 가상환경 설정 (docker)
-1. .tmp 폴더 생성
-```shell
-mkdir .tmp
-```
-
-2. docker 설치
+1. docker 설치
 
 [공식 사이트(Ubuntu)](https://docs.docker.com/engine/install/ubuntu/)에서 권장하는 방법이다.
 ```shell
@@ -80,13 +75,13 @@ docker run hello-world
 sudo reboot
 ```
 
-3. docker 자동 실행 설정
+2. docker 자동 실행 설정
 ```shell
 sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
 ```
 
-4. 이미지 빌드
+3. 이미지 빌드
 ```shell
 docker build -t test1234 ~/python-trainer/runner/docker_dir
 ```
