@@ -215,6 +215,10 @@ sudo certbot --nginx
 ```shell
 cd ~/python-trainer
 git pull
+. .venv/bin/activate
+python3 manage.py migrate
+python3 manage.py collectstatic
+deactivate
 ```
 
 추후 사이트에 변경 사항이 생겨 재시작할 때에는 다음 명령어를 사용한다.
