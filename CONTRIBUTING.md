@@ -215,6 +215,8 @@ python3 manage.py migrate
 python3 manage.py collectstatic
 deactivate
 docker build -t pypyga ~/python-trainer/runner/docker_dir
+sudo systemctl restart nginx
+sudo systemctl restart daphne
 ```
 
 추후 사이트에 변경 사항이 생겨 재시작할 때에는 다음 명령어를 사용한다.
