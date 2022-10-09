@@ -118,7 +118,7 @@ Group=YOUR_USERNAME
 WorkingDirectory=/home/YOUR_USERNAME/python-trainer
 ExecStart=/home/YOUR_USERNAME/python-trainer/.venv/bin/daphne \
         -b 0.0.0.0 \
-        -p 8001
+        -p 8001 \
         pypyga.asgi:application
 
 [Install]
