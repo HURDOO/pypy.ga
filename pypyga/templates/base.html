@@ -28,12 +28,12 @@
             <li class="desktop"><a href="https://forms.gle/Sw4JnLzTSXUrH2dt6" target="_blank">문의</a></li>
 
         </ul>
-        <ul class="desktop">
-<!--            <li class="message">Life is short. You need <a href="https://pypy.ga">Pypy.ga</a></li>-->
-            <li>
-                <a href="/"><img height="30" src="{% static 'logo_white.svg' %}"></a>
-            </li>
-        </ul>
+<!--        <ul class="desktop">-->
+<!--&lt;!&ndash;            <li class="message">Life is short. You need <a href="https://pypy.ga">Pypy.ga</a></li>&ndash;&gt;-->
+<!--            <li>-->
+<!--                <a href="/"><img height="30" src="{% static 'logo-white.svg' %}"></a>-->
+<!--            </li>-->
+<!--        </ul>-->
         <ul>
             {% if account_user_id %}
                 <li>🏅 {{ account_score }}</li>
@@ -43,6 +43,7 @@
                 <li><a href="/account/login">로그인</a></li>
             {% endif %}
         </ul>
+        <img class="desktop logo" src="{% static 'logo-white.svg' %}">
     </nav>
     <div id="main">
         {% block content %}{% endblock %}

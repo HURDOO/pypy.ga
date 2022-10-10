@@ -55,6 +55,16 @@ ul li {
     font-size: 18px;
 }
 
+nav img.logo {
+    width: 40px;
+    height: 30px;
+    position: fixed;
+    margin: 7px -20px;
+    left: 50%;
+    right: 50%;
+    top: 0;
+}
+
 a {
     text-decoration: none;
 }
