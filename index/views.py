@@ -6,8 +6,6 @@ from copy import deepcopy
 
 
 def index(request):
-    if len(load.PROBLEMS_LIST) == 0:
-        load.load_problems()
     categories = deepcopy(load.PROBLEMS_LIST)
 
     user_id = info.get_user_id(request.session)

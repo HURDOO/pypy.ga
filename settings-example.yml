@@ -8,10 +8,6 @@ google:
   # pattern to get account id
   email_regex: (.+)@(.+)\\.(.+)  # ^js22-(\d+)@sonline20\.sen\.go\.kr$
 
-url:
-  problem_list: https://raw.githubusercontent.com/HURDOO/python-trainer/master/.problems/list.yml
-  problem: https://raw.githubusercontent.com/HURDOO/python-trainer/master/.problems/{}/{}.md
-
 # Determines whether DEBUG mode is off
 production: false
 

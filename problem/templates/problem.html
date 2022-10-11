@@ -22,7 +22,7 @@
 {% block content %}
     <div id="container">
         <form id="problem">
-            <zero-md src="{{ problem_url }}">
+            <zero-md>
                 <template>
                     <link
                       rel="stylesheet"
@@ -34,10 +34,7 @@
                     />
                     <link rel="stylesheet" href="{% static 'md.css' %}">
                 </template>
-                <script type="text/markdown">
-                    # 오류
-                    문제를 불러올 수 없어요.
-                </script>
+                <script type="text/markdown">{{ problem_md|safe }}</script>
             </zero-md>
         </form>
         <form id="submit" action="/submit/new" method="post" onsubmit="return onFormSubmit();">

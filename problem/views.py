@@ -9,7 +9,7 @@ HELLO_WORLD_CODE = 'print("Hello World!")'
 def index(request, problem):
     data = {
         'problem_id': problem,
-        'problem_url': load.PROBLEM_URL.format(problem, problem),
+        'problem_md': load.PROBLEM_MD[str(problem)],
     }
     user_id = info.get_user_id(request.session)
     if user_id is not None:
