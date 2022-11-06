@@ -2,7 +2,6 @@
 import yaml
 from pypyga.settings import BASE_DIR
 
-
 PROBLEMS_LIST = []
 PROBLEM_MD = {}
 PROBLEM_LEVEL = dict()
@@ -20,5 +19,6 @@ def load_problems():
             PROBLEM_LEVEL[problem_id] = problem['level']
             with open(PROBLEMS_DIR / problem_id / (problem_id + '.md'), encoding='UTF-8') as f:
                 PROBLEM_MD[problem_id] = f.read()
+
 
 load_problems()

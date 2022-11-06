@@ -90,7 +90,9 @@
       name: 판플렛 숫자
       level: 15
 
-
+    - id: 10021
+      name: 동시에 자기소개
+      level: 20
 
 - category: 파이가 (Pypy.ga)
   problems:
