@@ -94,6 +94,10 @@
       name: 동시에 자기소개
       level: 20
 
+    - id: 10022
+      name: 369 게임
+      level: 50
+
 - category: 파이가 (Pypy.ga)
   problems:
     - id: 10000
