@@ -80,6 +80,18 @@
       name: 우영우
       level: 30
 
+- category: 반복문
+  problems:
+    - id: 10019
+      name: 판플렛
+      level: 15
+
+    - id: 10020
+      name: 판플렛 숫자
+      level: 15
+
+
+
 - category: 파이가 (Pypy.ga)
   problems:
     - id: 10000
