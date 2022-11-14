@@ -29,13 +29,20 @@ class Account(models.Model):
         decoder=json.JSONDecoder,
     )
 
+    permissions = models.JSONField(
+        null=False,
+        default=list,
+        encoder=json.JSONEncoder,
+        decoder=json.JSONDecoder,
+    )
+
     @classmethod
     def create(cls, user_id: int):
         account = Account(id=user_id)
         account.save()
         return account
 
-    def add_submit(self, problem_id: int, submit_id: int, score: int):
+    def add_submit(self, problem_id: int, submit_id: int, score: int) -> None:
         problem_id = str(problem_id)
         if problem_id in self.submits:
             prev = self.submits[problem_id]
@@ -52,6 +59,16 @@ class Account(models.Model):
 
         self.score += score - prev_score
         self.save()
+
+    def grant_permission(self, perm: str) -> None:
+        if perm not in self.permissions:
+            self.permissions.append(perm)
+            self.save()
+
+    def revoke_permission(self, perm: str) -> None:
+        if perm in self.permissions:
+            self.permissions.remove(perm)
+            self.save()
 
 
 def handle_login(email: str) -> Account:

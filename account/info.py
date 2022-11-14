@@ -1,3 +1,5 @@
+from typing import Optional
+
 from .models import Account
 
 USER_ID_KEY = 'account_user_id'
@@ -15,8 +17,13 @@ def get_data(session: dict) -> dict:
         return {}
 
 
-def get_user_id(session: dict):
+def get_user_id(session: dict) -> Optional[int]:
     if USER_ID_KEY in session:
         return session[USER_ID_KEY]
     else:
         return None
+
+
+def has_permission(user_id: int, perms: list[str]) -> bool:
+    account = Account.objects.get(id=user_id)
+    return all((perm in account.permissions) for perm in perms)

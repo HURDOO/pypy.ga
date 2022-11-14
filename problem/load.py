@@ -4,7 +4,8 @@ from pypyga.settings import BASE_DIR
 
 PROBLEMS_LIST = []
 PROBLEM_MD = {}
-PROBLEM_LEVEL = dict()
+PROBLEM_LEVEL = {}
+PROBLEM_PERMS = {}
 
 PROBLEMS_DIR = BASE_DIR / '.problems'
 
@@ -19,6 +20,11 @@ def load_problems():
             PROBLEM_LEVEL[problem_id] = problem['level']
             with open(PROBLEMS_DIR / problem_id / (problem_id + '.md'), encoding='UTF-8') as f:
                 PROBLEM_MD[problem_id] = f.read()
+
+    global PROBLEM_PERMS
+    with open(PROBLEMS_DIR / 'perm.yml', encoding='UTF-8') as f:
+        PROBLEM_PERMS = yaml.load(f.read(), Loader=yaml.FullLoader)
+    print(PROBLEM_PERMS)
 
 
 load_problems()
