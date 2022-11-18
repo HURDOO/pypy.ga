@@ -184,7 +184,6 @@ class Submit(models.Model):
             # If user viewed other's code => 30%
             if str(self.problem_id) in account.submits and 'view_code' in account.submits[str(self.problem_id)]:
                 self.score //= 3
-                print('asdf')
         else:
             self.score = 0
 
