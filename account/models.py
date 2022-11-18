@@ -60,6 +60,12 @@ class Account(models.Model):
         self.score += score - prev_score
         self.save()
 
+    def view_code(self, problem_id):
+        if str(problem_id) not in self.submits:
+            self.add_submit(problem_id, -2, 0)
+        self.submits[str(problem_id)]['view_code'] = True
+        self.save()
+
     def grant_permission(self, perm: str) -> None:
         if perm not in self.permissions:
             self.permissions.append(perm)

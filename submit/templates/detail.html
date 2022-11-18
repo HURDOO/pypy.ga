@@ -10,6 +10,7 @@
 
 {% block module %}
     {{ block.super }}
+    <script src="{% static 'detail.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -99,7 +100,7 @@
 
         <aside>
             <h3>코드</h3>
-            <h5><a href="#code">코드 보기</a> <small>({{ code_length }} byte)</small></h5>
+            <h5><a href="#code" id="view_code">코드 보기</a> <small>({{ code_length }} byte)</small></h5>
         </aside>
         <aside>
             <h4>제출 시각</h4>
@@ -113,9 +114,16 @@
     </section>
 
     <br>
-    <h4>코드</h4>
-    <section id="code"><pre><code>{{ code }}</code></pre>
-    </section>
+    {% if code %}
+        <h4>코드</h4>
+        <section id="code">
+            <pre><code>{{ code }}</code></pre>
+        </section>
+    {% else %}
+        <script>
+            init_view_code();
+        </script>
+    {% endif %}
 
     {% if result == 'PRE' or result == 'ON' %}
         <script src="{% static 'ws.js' %}"></script>

@@ -4,6 +4,7 @@ from problem.load import PROBLEMS_DIR
 from .models import Submit, ResultType, SubmitType, getSubmitType
 from runner import runner
 from account import info
+from account.models import Account
 
 
 def new(request):
@@ -44,13 +45,30 @@ def detail(request, submit_id):
         'submit_type': submit.type,
         'result': submit.result,
         'result_message': submit.get_result_display(),
-        'code': submit.code,
+        # 'code': submit.code,
         'code_length': submit.code_length,
-        'submit_time': str(submit.submit_time)[:19]  # + timedelta(hours=9)
+        'submit_time': str(submit.submit_time)[:19]  # + timedelta(hours=9),
     }
+
     data.update(get_details(submit))
+
     if 'stdin' in data and data['stdin'] is None:
         data['stdin'] = ''
+
+    # Give code
+    viewer_id = info.get_user_id(request.session)
+    if viewer_id is not None:
+        viewer = Account.objects.get(id=viewer_id)
+        problem_id = submit.problem_id
+
+        # View code
+        if 'view_code' in request.GET:
+            viewer.view_code(problem_id)
+
+        if str(problem_id) in viewer.submits and \
+                (viewer.submits[str(problem_id)]['score'] > 0 or 'view_code' in viewer.submits[str(problem_id)]):
+            data['code'] = submit.code
+
     data.update(info.get_data(request.session))
     return render(request, 'detail.html', context=data)
 
@@ -76,7 +94,7 @@ def submit(request):
             pass
 
     if len(submits) > SEARCH_QUOTA:
-        submits = submits[0:19]
+        submits = submits[0:SEARCH_QUOTA-1]
 
     data = {'submits': []}
     for submit in submits:

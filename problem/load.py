@@ -24,7 +24,8 @@ def load_problems():
     global PROBLEM_PERMS
     with open(PROBLEMS_DIR / 'perm.yml', encoding='UTF-8') as f:
         PROBLEM_PERMS = yaml.load(f.read(), Loader=yaml.FullLoader)
-    print(PROBLEM_PERMS)
+    if PROBLEM_PERMS is None:
+        PROBLEM_PERMS = {}
 
 
 load_problems()
