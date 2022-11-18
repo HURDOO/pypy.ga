@@ -68,6 +68,9 @@ def detail(request, submit_id):
         if str(problem_id) in viewer.submits and \
                 (viewer.submits[str(problem_id)]['score'] > 0 or 'view_code' in viewer.submits[str(problem_id)]):
             data['code'] = submit.code
+    else:
+        if 'view_code' in request.GET:
+            return redirect('/account/login')
 
     data.update(info.get_data(request.session))
     return render(request, 'detail.html', context=data)
