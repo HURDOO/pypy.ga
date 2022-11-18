@@ -153,9 +153,10 @@ class Submit(models.Model):
             ):
         self.result, self.time_usage, self.memory_usage, self.stdout, self.stderr, self.last_case_idx \
             = _result, _time_usage, _memory_usage, _stdout, _stderr, _last_case_idx
-        self.save()
 
         self.calc_score()
+        self.save()
+
 
         self.send_websocket({
             'type': 'reload'
@@ -176,12 +177,18 @@ class Submit(models.Model):
 
     def calc_score(self):
 
+        account = Account.objects.get(id=self.user_id)
+
         if self.result == ResultType.ACCEPTED:
             self.score = PROBLEM_LEVEL[str(self.problem_id)]
+            # If user viewed other's code => 30%
+            if str(self.problem_id) in account.submits and 'view_code' in account.submits[str(self.problem_id)]:
+                self.score //= 3
+                print('asdf')
         else:
             self.score = 0
 
-        Account.objects.get(id=self.user_id).add_submit(
+        account.add_submit(
             problem_id=self.problem_id,
             submit_id=self.id,
             score=self.score
