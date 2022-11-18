@@ -15,10 +15,8 @@ def index(request, problem):
     user_id = info.get_user_id(request.session)
 
     # Check Permissions
-    if str(problem) in load.PROBLEM_PERMS:
-        perm = load.PROBLEM_PERMS[str(problem)]
-        if user_id is None or not info.has_permission(user_id, perm):
-            return redirect('/account/login')
+    if not load.has_permission(user_id, problem):
+        return redirect('/account/login')
 
     # Load previous code
     if user_id is not None:

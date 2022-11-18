@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from problem.load import PROBLEMS_DIR
+from problem.load import PROBLEMS_DIR, has_permission
 from .models import Submit, ResultType, SubmitType, getSubmitType
 from runner import runner
 from account import info
@@ -12,11 +12,12 @@ def new(request):
     print(data)
 
     user_id = info.get_user_id(request.session)
-    if user_id is None:
-        return redirect('/account/login')
 
     problem_id, _type, code = \
         data['problem_id'], getSubmitType(data['type']), data['code']
+
+    if user_id is None or not has_permission(user_id, problem_id):
+        return redirect('/account/login')
 
     input_data = None
     if _type == SubmitType.TEST:
