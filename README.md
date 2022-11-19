@@ -61,10 +61,56 @@
 * `/account/logout` 로그아웃
 
 ### 4-2. DB 구조
-사용자 계정
+#### 사용자 계정
 |이름|설명|타입|비고|
 |-|-|-|-|
-|id|ㅁㄴㅇㄹ|ㅁㄴㅇㄹ|ㅁㄴㅇㄹ|
+|id|사용자 고유 ID (학번)|unsigned int|수정 불가|
+|score|총 점수|unsigned int|0|
+|submits|각 문제의 마지막 제출, 획득 점수, 타인 코드 열람 유무 기록|JSON Dict||
+|permissions|사용자의 문제 열람용 권한 목록|JSON List||
+
+#### 제출 목록
+|이름|설명|타입|비고|
+|-|-|-|-|
+|type|제출 종류|SubmitType|수정 불가|
+|code|제출한 코드|string|수정 불가|
+|result|실행/채점 결과|ResultType|3글자 제한|
+|time_usage|실행 시간 (ms)|unsigned int|nullable|
+|memory_usage|사용한 메모리 (kb)|unsigned int|nullable|
+|submit_time|제출한 시간 (서버 기준)|unsigned int|수정 불가|
+|code_length|코드 길이 (=`len(code)`)|unsigned int|수정 불가|
+|problem_id|제출한 문제 번호(ID)|unsigned int|수정 불가|
+|user_id|제출한 사용자 ID|unsigned int|수정 불가|
+|stdin|`Test` 타입의 제출에서 지정된 입력. 또는 `Grade` 타입에서 틀리거나 오류가 발생한 경우의 입력값.|string|1024자 제한, nullable|
+|stdout|`Test` 타입의 제출에서 실행 결과 출력값. 또는 `Grade` 타입에서 틀리거나 오류가 발생한 경우의 출력값. (오류가 발생하기 직전까지의 출력)|string|nullable, `출력 초과` 결과가 있기에 제한 없음|
+|stderr|실행 중 오류가 발생했을 때, 오류 정보 (형식은 아래 참고)|JSON Dict|nullable|
+|last_cast_idx|`Grade` 타입에서 틀리거나 오류가 발생한 경우의 테스트케이스 번호|unsigned int|nullable|
+|score|이 제출에서 획득한 점수|int|unsigned int로 변경 예정|
+
+##### SubmitType
+|Enum|Code|설명|
+|-|-|-|
+|TEST|`T`|테스트 실행|
+|Grade|`G`|코드 채점|
+
+##### ResultType
+|Enum|Code|실행 결과|SubmitType|
+|-|-|-|-|
+|ACCEPTED|`AC`|✅ 맞았습니다!!|`Grade`|
+|WRONG_ANSWER|`WA`|❌ 틀렸습니다|`Grade`|
+|COMPLETE|`CP`|✅ 실행 완료|`Test`|
+||||
+|TIME_LIMIT|`TLE`|⏳ 시간 초과||
+|MEMORY_LIMIT|`MLE`|💣 메모리 초과||
+|OUTPUT_LIMIT|`OLE`|📝 출력 초과||
+||||
+|RUNTIME_ERROR|`RTE`|💥 오류 발생||
+||||
+|PREPARE|`PRE`|🚩 준비 중||
+|ONGOING|`ON`|🔁 채점 중||
+||||
+|INTERNAL_ERROR|`IE`|⚠️내부 오류||
+
 
 ## 5. 구현 방식
 
