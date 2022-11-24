@@ -67,7 +67,7 @@ def detail(request, submit_id):
             viewer.view_code(problem_id)
 
         if str(problem_id) in viewer.submits and \
-                (viewer.submits[str(problem_id)]['score'] > 0 or 'view_code' in viewer.submits[str(problem_id)]):
+                (submit.user_id == viewer_id or viewer.submits[str(problem_id)]['score'] > 0 or 'view_code' in viewer.submits[str(problem_id)]):
             data['code'] = submit.code
     else:
         if 'view_code' in request.GET:
