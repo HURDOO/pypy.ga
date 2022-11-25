@@ -1,3 +1,10 @@
+- category: 수행평가 대비
+  problems:
+    - id: 11001
+      name: ㅁㄴㅇㄹ
+      level: 20
+      serve_code: true
+
 - category: 출력
   problems:
     - id: 10001
