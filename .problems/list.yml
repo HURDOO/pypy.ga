@@ -5,6 +5,11 @@
       level: 20
       serve_code: true
 
+    - id: 11002
+      name: 정수 구분
+      level: 20
+      serve_code: true
+
 - category: 출력
   problems:
     - id: 10001
