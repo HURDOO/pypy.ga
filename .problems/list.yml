@@ -10,6 +10,11 @@
       level: 20
       serve_code: true
 
+    - id: 11003
+      name: BMI
+      level: 30
+      serve_code: true
+
 - category: 출력
   problems:
     - id: 10001
