@@ -15,6 +15,11 @@
       level: 30
       serve_code: true
 
+    - id: 11004
+      name: 새벽배송
+      level: 20
+      serve_code: true
+
 - category: 출력
   problems:
     - id: 10001
