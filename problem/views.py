@@ -14,6 +14,10 @@ def index(request, problem):
     }
     user_id = info.get_user_id(request.session)
 
+    # Temporal forced login
+    if user_id is None:
+        return redirect('/account/login')
+
     # Check Permissions
     if not load.has_permission(user_id, problem):
         return redirect('/account/login')
@@ -24,12 +28,12 @@ def index(request, problem):
         if recent_submit.exists():
             submit = recent_submit.last()
             data['code'] = submit.code
-        elif str(problem) in load.PROBLEM_CODE:
+
+    if 'code' not in data:
+        if str(problem) in load.PROBLEM_CODE:
             data['code'] = load.PROBLEM_CODE[str(problem)]
         else:
             data['code'] = HELLO_WORLD_CODE
-    else:
-        data['code'] = HELLO_WORLD_CODE
 
     # Load login data
     data.update(info.get_data(request.session))
