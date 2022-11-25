@@ -40,6 +40,11 @@
       level: 20
       serve_code: true
 
+    - id: 11009
+      name: 2배수 10합
+      level: 25
+      serve_code: true
+
 - category: 출력
   problems:
     - id: 10001
