@@ -45,6 +45,11 @@
       level: 25
       serve_code: true
 
+    - id: 11010
+      name: while 10합
+      level: 15
+      serve_code: true
+
 - category: 출력
   problems:
     - id: 10001
