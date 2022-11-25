@@ -24,6 +24,8 @@ def index(request, problem):
         if recent_submit.exists():
             submit = recent_submit.last()
             data['code'] = submit.code
+        elif str(problem) in load.PROBLEM_CODE:
+            data['code'] = load.PROBLEM_CODE[str(problem)]
         else:
             data['code'] = HELLO_WORLD_CODE
     else:
