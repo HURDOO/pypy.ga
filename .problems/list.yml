@@ -1,7 +1,7 @@
-- category: 수행평가 대비
+- category: ※ 수행평가 대비 ※
   problems:
     - id: 11001
-      name: ㅁㄴㅇㄹ
+      name: 합격
       level: 20
       serve_code: true
 
