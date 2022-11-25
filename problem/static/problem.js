@@ -2,7 +2,7 @@ let editor = ace.edit("editor");
 editor.setOptions({
     enableBasicAutocompletion: true,
     enableSnippets: true,
-    enableLiveAutocompletion: true
+//    enableLiveAutocompletion: true
 })
 editor.setFontSize(22);
 // https://cdnjs.com/libraries/ace/
