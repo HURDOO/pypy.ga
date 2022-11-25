@@ -55,6 +55,16 @@
       level: 30
       serve_code: true
 
+    - id: 11012
+      name: 직각삼각형
+      level: 35
+      serve_code: true
+
+    - id: 11013
+      name: 합산기
+      level: 40
+      serve_code: true
+
 - category: 출력
   problems:
     - id: 10001
