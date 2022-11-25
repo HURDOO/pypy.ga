@@ -50,6 +50,11 @@
       level: 15
       serve_code: true
 
+    - id: 11011
+      name: 별세상
+      level: 30
+      serve_code: true
+
 - category: 출력
   problems:
     - id: 10001
