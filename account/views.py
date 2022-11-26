@@ -12,15 +12,20 @@ def login(request):
         student_id = request.POST['student_id']
         return redirect(google.get_student_login_url(student_id))
 
-    # data = {
-    #     'login_url': google.get_login_url()
-    # }
-    #
-    # user_agent = request.META['HTTP_USER_AGENT']
-
-    return render(request, 'login.html', context={
+    data = {
         'login_url': google.get_login_url()
-    })
+    }
+
+    user_agent = request.META['HTTP_USER_AGENT']
+    if 'kakaotalk' in user_agent:
+        if 'iphone' in user_agent:
+            data['kakaotalk'] = 'iphone'
+        else:
+            data['kakaotalk'] = 'android'
+    else:
+        data['kakaotalk'] = 'none'
+
+    return render(request, 'login.html', context=data)
 
 
 def logout(request):
