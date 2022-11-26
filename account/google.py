@@ -15,6 +15,10 @@ def get_login_url() -> str:
     return f'{LOGIN_URL}&client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&scope={SCOPE}'
 
 
+def get_student_login_url(student_id: str) -> str:
+    return get_login_url() + f'&login_hint=js22-{student_id}@sonline20.sen.go.kr'
+
+
 def token_request(code: str) -> requests.Response:
     return requests.post(TOKEN_URL, data={
         'client_id': CLIENT_ID,

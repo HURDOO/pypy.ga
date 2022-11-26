@@ -8,6 +8,16 @@ ADMIN_USER_ID = conf['admin_id']
 
 
 def login(request):
+    if request.POST:
+        student_id = request.POST['student_id']
+        return redirect(google.get_student_login_url(student_id))
+
+    # data = {
+    #     'login_url': google.get_login_url()
+    # }
+    #
+    # user_agent = request.META['HTTP_USER_AGENT']
+
     return render(request, 'login.html', context={
         'login_url': google.get_login_url()
     })

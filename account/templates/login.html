@@ -6,6 +6,7 @@
 {% block style %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'index.css' %}">
+    <link rel="stylesheet" href="{% static 'login.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -13,11 +14,25 @@
         <h1><b>로그인</b></h1>
         <h5>학교 정보 시간에 사용하는<br class="mobile"> 구글 계정으로 로그인할 수 있습니다.</h5>
     </header>
-    <p><code>js22-학번@sonline20.sen.go.kr</code></p>
+
+    <section>
+        <form action="/account/login" method="post">
+            {% csrf_token %}
+            <input type="number" name="student_id" min="10101" max="11030" placeholder="학번 입력">
+            <input type="submit" value="로그인">
+        </form>
+    </section>
+
+    <br>
+    <p>로그인에 문제가 있나요?<br class="mobile"> <a href="{{ login_url }}">여기</a>를 눌러 직접 로그인해 보세요.</p>
+    <br>
+    <!--<br>
+    <p>또는</p>
+    <p><code>js22-학번@sonline20.sen.go.kr</code></p>-->
     <!--<p>비밀번호: <code>jam학번</code></p>-->
-    <a href="{{ login_url }}"><b>구글 로그인 바로가기</b></a>
+    <!--<a href="{{ login_url }}"><b>구글 로그인 바로가기</b></a>
     <p class="mobile" style="color: red;"><b>카카오톡</b>으로 접속 시, <br class="mobile">위의 버튼을 길게 눌러 <br class="mobile"><b>"다른 브라우저로 열기"</b>를 선택해주세요.</p>
     <br>
-    <br>
+    <br>-->
     <img src="{% static 'account_select.png' %}" width="320">
 {% endblock %}
