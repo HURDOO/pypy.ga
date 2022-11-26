@@ -3,8 +3,17 @@ editor.setOptions({
     enableBasicAutocompletion: true,
     enableSnippets: true,
 //    enableLiveAutocompletion: true
-})
-editor.setFontSize(22);
+});
+
+if (window.matchMedia('only screen and (max-width: 539px)')) {
+    editor.setFontSize(18);
+    editor.setOptions({
+        wrap: true,
+        indentedSoftWrap: false,
+    });
+}
+else editor.setFontSize(22);
+
 // https://cdnjs.com/libraries/ace/
 ace.config.set('basePath','https://cdnjs.cloudflare.com/ajax/libs/ace/1.9.6');
 editor.getSession().setMode("ace/mode/python");
