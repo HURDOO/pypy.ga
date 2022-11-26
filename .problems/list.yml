@@ -6,7 +6,7 @@
       serve_code: true
 
     - id: 11002
-      name: 정수 구분
+      name: 양수, 0, 음수
       level: 20
       serve_code: true
 
