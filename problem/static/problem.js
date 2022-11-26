@@ -5,7 +5,7 @@ editor.setOptions({
 //    enableLiveAutocompletion: true
 });
 
-if (window.matchMedia('only screen and (max-width: 539px)')) {
+if (window.matchMedia('only screen and (max-width: 539px)').matches) {
     editor.setFontSize(18);
     editor.setOptions({
         wrap: true,
