@@ -27,6 +27,7 @@
     <br>
     <p>로그인에 문제가 있나요?<br class="mobile"> <a href="{{ login_url }}">여기</a>를 눌러 직접 로그인해 보세요.</p>
     <br>
+    <img src="{% static 'account_select.png' %}" width="320">
     {% elif kakaotalk == 'android' %}
     <section>
         <p style="color: red;">카카오톡에서는 로그인할 수 없습니다.<br>아래 버튼을 길게 눌러<br><b>"다른 브라우저에서 열기"</b>를 선택해주세요.</p>
@@ -46,5 +47,4 @@
     <p class="mobile" style="color: red;"><b>카카오톡</b>으로 접속 시, <br class="mobile">위의 버튼을 길게 눌러 <br class="mobile"><b>"다른 브라우저로 열기"</b>를 선택해주세요.</p>
     <br>
     <br>-->
-    <img src="{% static 'account_select.png' %}" width="320">
 {% endblock %}
