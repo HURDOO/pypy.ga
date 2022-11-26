@@ -16,7 +16,7 @@ def login(request):
         'login_url': google.get_login_url()
     }
 
-    user_agent = request.META['HTTP_USER_AGENT']
+    user_agent = request.META['HTTP_USER_AGENT'].lower()
     if 'kakaotalk' in user_agent:
         if 'iphone' in user_agent:
             data['kakaotalk'] = 'iphone'
