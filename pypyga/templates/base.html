@@ -25,7 +25,7 @@
         <ul>
             <li><a href="/">홈</a></li>
             <li><a href="/submit">제출</a></li>
-            <li><a href="/account" class="ranking">랭킹</a></li>
+            <li><a href="/account">랭킹</a></li>
             <li class="desktop"><a href="https://forms.gle/Sw4JnLzTSXUrH2dt6" target="_blank">문의</a></li>
 
         </ul>
@@ -37,9 +37,11 @@
 <!--        </ul>-->
         <ul>
             {% if account_user_id %}
-                <li>🏅 {{ account_score }}</li>
+                <li class="desktop">🏅 {{ account_score }}</li>
                 <li class="desktop">{{ account_user_id }}</li>
-                <li><a href="/account/logout">로그아웃</a></li>
+                <li class="desktop"><a href="/account/logout">로그아웃</a></li>
+
+                <li class="mobile"><a href="/account/logout" title="로그아웃" style="font-weight: normal;">🏅 {{ account_score }}</a></li>
             {% else %}
                 <li><a href="/account/login">로그인</a></li>
             {% endif %}
