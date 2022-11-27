@@ -135,7 +135,13 @@
     {% if result == 'AC' %}
         <a href="/"><i>문제 목록으로 돌아가기</i></a>
     {% else %}
-        <a href="/problem/{{ problem_id }}"><i>문제로 돌아가기</i></a>
+        <a href="/problem/{{ problem_id }}"><b>문제로 돌아가기</b></a>
+    {% endif %}
+
+    {% if result == 'WA' or result == 'TLE' or result == 'MLE' or result == 'RTE' or result == 'OLE' %}
+        <br>
+        <br>
+        <a href="/submit?submit_id={{ problem_id }}">다른 친구들의 풀이 보기</a>
     {% endif %}
 
     <footer>
