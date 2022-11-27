@@ -157,7 +157,6 @@ class Submit(models.Model):
         self.calc_score()
         self.save()
 
-
         self.send_websocket({
             'type': 'reload'
         }, close=True)

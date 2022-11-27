@@ -46,7 +46,7 @@ def auth(request):
 
 
 def ranking(request):
-    accounts = Account.objects.order_by('-score', 'id').exclude(id=ADMIN_USER_ID)
+    accounts = Account.objects.order_by('-score', 'last_submit').exclude(id=ADMIN_USER_ID)
     if len(accounts) < 4:
         data = {
             'accounts': accounts

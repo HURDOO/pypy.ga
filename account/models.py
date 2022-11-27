@@ -29,6 +29,11 @@ class Account(models.Model):
         decoder=json.JSONDecoder,
     )
 
+    last_submit = models.PositiveIntegerField(
+        default=0,
+        null=False
+    )
+
     permissions = models.JSONField(
         null=False,
         default=list,
@@ -57,7 +62,10 @@ class Account(models.Model):
             'score': score
         }
 
-        self.score += score - prev_score
+        delta = score - prev_score
+        self.score += delta
+        if delta > 0:
+            self.last_submit = submit_id
         self.save()
 
     def view_code(self, problem_id):
