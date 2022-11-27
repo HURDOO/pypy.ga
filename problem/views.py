@@ -15,8 +15,8 @@ def index(request, problem):
     user_id = info.get_user_id(request.session)
 
     # Temporal forced login
-    if user_id is None:
-        return redirect('/account/login')
+    # if user_id is None:
+    #     return redirect('/account/login')
 
     # Check Permissions
     if not load.has_permission(user_id, problem):
