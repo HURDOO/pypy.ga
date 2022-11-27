@@ -37,6 +37,7 @@
                 <script type="text/markdown">{{ problem_md|safe }}</script>
             </zero-md>
         </form>
+        {% if account_user_id %}
         <form id="submit" action="/submit/new" method="post" onsubmit="return onFormSubmit();">
             {% csrf_token %}
             <div id="editor">{{ code }}</div>
@@ -51,5 +52,10 @@
                 <input type="submit" name="type" value="테스트 실행" onclick="this.form.submitted='TT'">
             </div>
         </form>
+        {% else %}
+        <form style="text-align: center;">
+            <a><b>로그인하여 문제 풀기</b></a>
+        </form>
+        {% endif %}
     </div>
 {% endblock %}
