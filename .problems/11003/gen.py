@@ -21,12 +21,12 @@ def get_input_output() -> list[tuple[str, str]]:
         else:
             ans = '고도 비만입니다.'
 
-        lst.append((f'{weight}\n{height}', ans))
+        lst.append((f'{height}\n{weight}', ans))
 
     lst.extend([
-        ('59.94\n180', '표준입니다.'),  # bmi = 18.5
-        ('81\n180', '비만입니다.'),  # bmi = 25
-        ('76.8\n160', '고도 비만입니다.')  # bmi = 30
+        ('180\n59.94', '표준입니다.'),  # bmi = 18.5
+        ('180\n81', '비만입니다.'),  # bmi = 25
+        ('160\n76.8', '고도 비만입니다.')  # bmi = 30
     ])
 
     return lst
