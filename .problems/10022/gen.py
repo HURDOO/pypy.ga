@@ -26,7 +26,7 @@ def get_input_output() -> list[tuple[str, str]]:
     # 박수 쳐야하는데 안침
     for i in range(2, 22):
         n = random.randint(2, 100)
-        m = ((random.randrange(3, 3 ** i) // 10000 + 1) // 10) * 10 + random.choice([3, 6, 9])
+        m = ((random.randrange(3, 3 ** i) % 10000 + 1) // 10) * 10 + random.choice([3, 6, 9])
         s = ''
 
         for j in range(1, m):
@@ -37,7 +37,7 @@ def get_input_output() -> list[tuple[str, str]]:
     # 박수 안쳐야하는데 침
     for _ in range(20):
         n = random.randint(2, 100)
-        k = random.randint(1, 5)
+        k = random.randint(1, 4)
         m = 0
         s = ''
 
@@ -54,7 +54,7 @@ def get_input_output() -> list[tuple[str, str]]:
     # 박수 횟수 틀림
     for i in range(2, 22):
         n = random.randint(2, 100)
-        m = ((random.randrange(3, 3 ** i) // 10000 + 1) // 10) * 10 + random.choice([3, 6, 9])
+        m = ((random.randrange(3, 3 ** i) % 10000 + 1) // 10) * 10 + random.choice([3, 6, 9])
         s = ''
 
         for j in range(1, m):
@@ -66,7 +66,7 @@ def get_input_output() -> list[tuple[str, str]]:
     # 숫자 틀림
     for _ in range(20):
         n = random.randint(2, 100)
-        k = random.randint(1, 5)
+        k = random.randint(1, 4)
         m = 0
         s = ''
 
