@@ -21,5 +21,6 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('problem/', include('problem.urls')),
     path('submit/', include('submit.urls')),
-    path('', include('index.urls'))
+    path('', include('index.urls')),
+    path('manito/', include('manito.urls'))
 ]

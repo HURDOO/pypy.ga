@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'index',
     'problem',
     'submit',
+    'manito',
     'channels',
     "django.contrib.admin",
     "django.contrib.auth",
