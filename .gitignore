@@ -3,3 +3,6 @@
 db.sqlite3
 settings.yml
 .staticfiles
+
+.problems/students.yml
+.problems/first_day.yml

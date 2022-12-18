@@ -5,10 +5,47 @@
 
 {% block style %}
     {{ block.super }}
+    <link rel="stylesheet" href="{% static 'manito_bg.css' %}">
+    <link rel="stylesheet" href="{% static 'manito.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div>
-        Hello World!
+    <div id="manito">
+        <h1 id="title">🎉 학년말 마니또 🎉</h1>
+        <br>
+        <h3 id="my"><span class="name">{{ name }}</span>의 마니또는...</h3>
+        <br>
+        <section class="day">
+            <aside>
+                <h3 class="name">✨ {{ first_manito }} ✨</h3>
+                <h4>미션 : 마니또 소개해주기</h4>
+                <h5><a href="/manito/about">[ 소개 적으러 가기 ]</a></h5>
+                <p><small>1일차</small></p>
+            </aside>
+        </section>
+        <section class="day">
+            <aside>
+                <h3 class="name">❓</h3>
+                <p><small>2일차</small></p>
+            </aside>
+        </section>
+        <section class="day">
+            <aside>
+                <h3 class="name">❓</h3>
+                <p><small>3일차</small></p>
+            </aside>
+        </section>
+        <section class="day">
+            <aside>
+                <h3 class="name">❓</h3>
+                <p><small>4일차</small></p>
+            </aside>
+        </section>
+        <section class="day">
+            <aside>
+                <h3 class="name">❓</h3>
+                <p><small>5일차</small></p>
+            </aside>
+        </section>
     </div>
 {% endblock %}

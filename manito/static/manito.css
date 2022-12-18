@@ -1,0 +1,28 @@
+#title {
+    animation: fadein 1s;
+}
+
+#my {
+    animation: fadein 0.5s;
+    animation-delay: 0.5s;
+    animation-fill-mode: backwards;
+}
+
+a {
+    color: skyblue;
+}
+
+.day {
+    animation: fadein 0.5s;
+    animation-delay: 1.5s;
+    animation-fill-mode: backwards;
+}
+
+.name {
+    color: lightgreen;
+}
+
+section aside small {
+    color: #ecce66;
+}
+

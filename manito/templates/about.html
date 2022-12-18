@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}3반 마니또{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'manito_bg.css' %}">
+    <link rel="stylesheet" href="{% static 'about.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="manito">
+        <h1 id="title">🎉 1일차 미션 🎉</h1>
+        <br>
+        <h3 id="subtitle">마니또를 소개합니다</h3>
+        <br>
+        {% if account_user_id %}
+        <form id="my" method="post">
+            <h3>내 마니또 <span class="name">✨{{ first_manito }}✨</span> <br class="mobile">소개해주세요!</h3>
+            <textarea id="info" name="info" placeholder="(여기에 적어주세요)"></textarea>
+            {% csrf_token %}
+            <input type="submit" id="submit" value="올리기">
+        </form>
+        {% endif %}
+
+        <hr class="information">
+        <section class="information">
+        {% for stu in manito %}
+            <aside>
+                <h3 class="name">{{ stu.name }}</h3>
+                {% if stu.text == "" %}
+                    <p><small>마니또 기다리는 중...</small></p>
+                {% else %}
+                    <p>{{ stu.text }}</p>
+                    <p><small>By. 너의 마니또 ♡</small></p>
+                {% endif %}
+            </aside>
+        {% endfor %}
+        </section>
+    </div>
+{% endblock %}
