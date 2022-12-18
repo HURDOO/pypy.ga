@@ -18,4 +18,8 @@ def index(request):
 
     data = {'list': categories}
     data.update(info.get_data(request.session))
+
+    if user_id is not None:
+        data['manito'] = (user_id // 100 == 103)
+
     return render(request, 'index.html', data)
