@@ -1,6 +1,6 @@
 import yaml
 
-from manito.models import get_manito_account
+from . import models
 from problem import load
 
 first_day_manito = {}
@@ -15,4 +15,5 @@ with open(load.PROBLEMS_DIR / 'students.yml', encoding='UTF-8') as f:
 print(student_name)
 for student in student_name:
     print(student)
-    get_manito_account(int(student))
+    account = models.get_manito_account(int(student))
+    account.gen_balance()

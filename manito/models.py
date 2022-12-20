@@ -30,14 +30,14 @@ class ManitoAccount(models.Model):
     my_balance = models.JSONField(
         encoder=json.JSONEncoder,
         decoder=json.JSONDecoder,
-        default=list
+        default=dict
     )
 
     # 마니또가 해줌
     your_balance = models.JSONField(
         encoder=json.JSONEncoder,
         decoder=json.JSONDecoder,
-        default=list
+        default=dict
     )
 
     @classmethod
@@ -49,6 +49,19 @@ class ManitoAccount(models.Model):
     def write_about(self, info: str) -> None:
         self.about_text_record.append(info)
         self.about_text = info
+        self.save()
+
+    balance = models.IntegerField(
+        default=-1
+    )
+
+    def gen_balance(self) -> None:
+        if not len(self.my_balance) or not len(self.your_balance) or self.balance != -1:
+            return
+        self.balance = 0
+        for suffix in ['food', 'phone', 'ramen', 'money', 'chocopie']:
+            if self.my_balance['my_'+suffix] == self.your_balance['your_'+suffix]:
+                self.balance += 20
         self.save()
 
 

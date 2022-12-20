@@ -51,10 +51,12 @@ def balance(request):
 
             my_account.my_balance = my
             my_account.save()
+            my_account.gen_balance()
 
             manito_account = models.get_manito_account(manito_num)
             manito_account.your_balance = your
             manito_account.save()
+            manito_account.gen_balance()
 
         data['first_manito'] = student_name[str(manito_num)]
         data['show_form'] = not bool(len(my_account.my_balance))
@@ -63,7 +65,7 @@ def balance(request):
     for manito in models.ManitoAccount.objects.all():
         lst.append({
             'name': student_name[str(manito.id)],
-            'text': manito.about_text
+            'balance': manito.balance
         })
     data['manito'] = lst
     # print(lst)

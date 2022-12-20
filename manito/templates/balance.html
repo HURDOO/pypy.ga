@@ -90,7 +90,11 @@
         {% for stu in manito %}
             <aside>
                 <h3 class="name">{{ stu.name }}</h3>
-                <p><small>선택을 기다리는 중...</small></p>
+                {% if stu.balance == -1 %}
+                    <p><small>선택을 기다리는 중...</small></p>
+                {% else %}
+                    <h5>적중률: {{ stu.balance }}%</h5>
+                {% endif %}
             </aside>
         {% endfor %}
         </section>
