@@ -51,11 +51,12 @@ def balance(request):
 
             my_account.my_balance = my
             my_account.save()
-            my_account.gen_balance()
 
             manito_account = models.get_manito_account(manito_num)
             manito_account.your_balance = your
             manito_account.save()
+
+            my_account.gen_balance()
             manito_account.gen_balance()
 
         data['first_manito'] = student_name[str(manito_num)]
