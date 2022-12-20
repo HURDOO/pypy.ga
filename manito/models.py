@@ -22,6 +22,24 @@ class ManitoAccount(models.Model):
         default=list
     )
 
+    photo = models.FileField(
+        null=True
+    )
+
+    # 내가 함
+    my_balance = models.JSONField(
+        encoder=json.JSONEncoder,
+        decoder=json.JSONDecoder,
+        default=list
+    )
+
+    # 마니또가 해줌
+    your_balance = models.JSONField(
+        encoder=json.JSONEncoder,
+        decoder=json.JSONDecoder,
+        default=list
+    )
+
     @classmethod
     def create(cls, user_id: int):
         account = ManitoAccount(id=user_id)

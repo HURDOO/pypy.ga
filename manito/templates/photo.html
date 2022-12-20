@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}3반 마니또{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'manito_bg.css' %}">
+    <link rel="stylesheet" href="{% static 'photo.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="manito">
+        <h1 id="title">🎉 2일차 미션 🎉</h1>
+        <br>
+        <h3 id="subtitle">마니또 몰래 사진 찍기</h3>
+        <br>
+        {% if account_user_id %}
+        <form id="my" method="post" enctype="multipart/form-data">
+            <!--{{ first_manito }}-->
+            <h3><span class="name">✨✨</span> 뒤에서 <br class="mobile"><span class="pose">손하트</span> 사진 찍기!</h3>
+            <input type="file" id="file" name="uploaded_photo" accept="image/*, video/*">
+            {% csrf_token %}
+            <input type="submit" id="submit" value="확인">
+        </form>
+        <p id="warn">* 상대방 동의 없이 얼굴을 찍으면 <br>초상권 침해가 발생할 수 있습니다.</p>
+        {% endif %}
+
+        <hr class="photos">
+        <section class="photos">
+        {% for stu in manito %}
+            <aside>
+                <h3 class="name">{{ stu.name }}</h3>
+                {% if stu.photo == "" %}
+                    <p><small>마니또 기다리는 중...</small></p>
+                {% else %}
+                    {{ stu.photo }}
+                    <img src="{{ stu.photo.url }}">
+                    <p><small>By. 너의 마니또 ♡</small></p>
+                {% endif %}
+            </aside>
+        {% endfor %}
+        </section>
+    </div>
+{% endblock %}

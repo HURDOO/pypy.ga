@@ -1,0 +1,50 @@
+#title {
+    animation: fadein 0.5s;
+}
+
+#subtitle {
+    animation: fadein 0.5s;
+    animation-delay: 0.5s;
+    animation-fill-mode: backwards;
+}
+
+form#my {
+    display: inline-block;
+    text-align: center;
+    animation: fadein 0.5s;
+    animation-delay: 1.5s;
+    animation-fill-mode: backwards;
+}
+
+input#file {
+    width: 100%;
+}
+
+input#submit {
+    display: inline-block;
+}
+
+p#warn {
+    color: lightgrey;
+    animation: fadein 0.5s;
+    animation-delay: 2s;
+    animation-fill-mode: backwards;
+}
+
+.photos {
+    animation: fadein 0.5s;
+    animation-delay: 2s;
+    animation-fill-mode: backwards;
+}
+
+.name {
+    color: #ecce66;
+}
+
+.pose {
+    color: aqua;
+}
+
+aside p small {
+    color: pink;
+}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}3반 마니또{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'manito_bg.css' %}">
+    <link rel="stylesheet" href="{% static 'balance.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="manito">
+        <h1 id="title">🎉 2일차 미션 🎉</h1>
+        <br>
+        <h3 id="subtitle">밸런스 게임</h3>
+        <br>
+
+        {% if show_form %}
+        <form id="my" method="post">
+            <h3><span class="highlight">나의</span> 밸런스 게임!</h3>
+            <p>내 취향대로 선택하기</p>
+            <br>
+
+            <p>
+            <input type="radio" name="my_food" value="짜장면"> 짜장면 <span class="name">|</span> 짬뽕
+            <input type="radio" name="my_food" value="짬뽕">
+            </p>
+
+            <p>
+            <input type="radio" name="my_phone" value="갤럭시"> 갤럭시 <span class="name">|</span> 아이폰
+            <input type="radio" name="my_phone" value="아이폰">
+            </p>
+
+            <p>
+            <input type="radio" name="my_ramen" value="라면에 민트초코"> 라면에 민트초코 <span class="name">|</span> 라면에 다크초코
+            <input type="radio" name="my_ramen" value="라면에 다크초코">
+            </p>
+
+            <p>
+            <input type="radio" name="my_money" value="50% 확률로 20억"> 50% 확률로 20억 <span class="name">|</span> 100% 확률로 1억
+            <input type="radio" name="my_money" value="100% 확률로 1억">
+            </p>
+
+            <p>
+            <input type="radio" name="my_chocopie" value="초코파이는 과자다"> 초코파이는 과자다 <span class="name">|</span> 초코파이는 파이다
+            <input type="radio" name="my_chocopie" value="초코파이는 파이다">
+            </p>
+
+            <hr>
+
+            <h3><span class="highlight">마니또의</span> 밸런스 게임!</h3>
+            <p>마니또 선택 맞춰보기</p>
+
+            <br>
+
+            <p>
+            <input type="radio" name="your_food" value="짜장면"> 짜장면 <span class="name">|</span> 짬뽕
+            <input type="radio" name="your_food" value="짬뽕">
+            </p>
+
+            <p>
+            <input type="radio" name="your_phone" value="갤럭시"> 갤럭시 <span class="name">|</span> 아이폰
+            <input type="radio" name="your_phone" value="아이폰">
+            </p>
+
+            <p>
+            <input type="radio" name="your_ramen" value="라면에 민트초코"> 라면에 민트초코 <span class="name">|</span> 라면에 다크초코
+            <input type="radio" name="your_ramen" value="라면에 다크초코">
+            </p>
+
+            <p>
+            <input type="radio" name="your_money" value="50% 확률로 20억"> 50% 확률로 20억 <span class="name">|</span> 100% 확률로 1억
+            <input type="radio" name="your_money" value="100% 확률로 1억">
+            </p>
+
+            <p>
+            <input type="radio" name="your_chocopie" value="초코파이는 과자다"> 초코파이는 과자다 <span class="name">|</span> 초코파이는 파이다
+            <input type="radio" name="your_chocopie" value="초코파이는 파이다">
+            </p>
+
+            <br>
+            {% csrf_token %}
+            <input type="submit" id="submit" value="올리기">
+        </form>
+        {% endif %}
+
+        <hr class="result">
+        <section class="result">
+        {% for stu in manito %}
+            <aside>
+                <h3 class="name">{{ stu.name }}</h3>
+                <p><small>선택을 기다리는 중...</small></p>
+            </aside>
+        {% endfor %}
+        </section>
+    </div>
+{% endblock %}
