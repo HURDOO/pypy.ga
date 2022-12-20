@@ -93,7 +93,11 @@
                 {% if stu.balance == -1 %}
                     <p><small>선택을 기다리는 중...</small></p>
                 {% else %}
-                    <h5>적중률: {{ stu.balance }}%</h5>
+                    <h5>적중률: <span class="highlight">{{ stu.balance }}%</span></h5>
+                    <p>{{ stu.choice.my_food }} / {{ stu.choice.my_phone }}</p>
+                    <p>{{ stu.choice.my_ramen }}</p>
+                    <p>{{ stu.choice.my_money }}</p>
+                    <p>{{ stu.choice.my_chocopie }}</p>
                 {% endif %}
             </aside>
         {% endfor %}

@@ -66,7 +66,8 @@ def balance(request):
     for manito in models.ManitoAccount.objects.all():
         lst.append({
             'name': student_name[str(manito.id)],
-            'balance': manito.balance
+            'balance': manito.balance,
+            'choice': manito.my_balance
         })
     data['manito'] = lst
     # print(lst)
