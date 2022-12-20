@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from account.info import get_data, get_user_id
 from . import models
-from .load import student_name, first_day_manito
+from .load import student_name, first_day_manito, second_day_manito
 
 
 def main(request):
@@ -11,6 +11,8 @@ def main(request):
         return redirect('/')
     data['name'] = student_name[str(student_id % 100)]
     data['first_manito'] = student_name[str(first_day_manito[str(student_id % 100)])]
+    data['second_manito'] = student_name[str(second_day_manito[str(student_id % 100)])]
+
     return render(request, 'manito.html', data)
 
 
@@ -81,17 +83,19 @@ def photo(request):
         manito_num = first_day_manito[str(student_id % 100)]
         if request.POST:
             manito_account = models.get_manito_account(manito_num)
-            manito_account.photo = request.FILES.get('file', None)
+            manito_account.photo = request.FILES.get('uploaded_photo', None)
             manito_account.save()
-            print('saved')
+            print(request.FILES)
 
         data['first_manito'] = student_name[str(manito_num)]
+        second_manito_num = second_day_manito[str(student_id % 100)]
+        data['second_manito'] = student_name[str(second_manito_num)]
 
     lst = []
     for manito in models.ManitoAccount.objects.all():
         lst.append({
             'name': student_name[str(manito.id)],
-            'photo': (lambda: manito.photo.url() if manito.photo.name is None else "")()
+            'photo': (lambda: manito.photo.url if manito.photo.name != "" else "")()
         })
     data['manito'] = lst
     print(data)

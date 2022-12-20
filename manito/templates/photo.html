@@ -11,19 +11,19 @@
 
 {% block content %}
     <div id="manito">
-        <h1 id="title">🎉 2일차 미션 🎉</h1>
+        <h1 id="title">🎉 3일차 미션 🎉</h1>
         <br>
-        <h3 id="subtitle">마니또 몰래 사진 찍기</h3>
-        <br>
+        <h3 id="subtitle">1. <span class="name">✨{{ second_manito }}✨</span> 에게 말 걸어보기</h3>
         {% if account_user_id %}
+        <br>
         <form id="my" method="post" enctype="multipart/form-data">
             <!--{{ first_manito }}-->
-            <h3><span class="name">✨✨</span> 뒤에서 <br class="mobile"><span class="pose">손하트</span> 사진 찍기!</h3>
+            <h3>2. <span class="name">{{ first_manito }}</span> 뒤에서 <br class="mobile"><span class="pose">✌ 브이</span> 사진 찍기!</h3>
+            <h6 id="warn">Tip. 여럿이 뭉쳐있을 때를 노려보세요!<br>얼굴이 나오면 인정 X (가리기 가능)</h6>
             <input type="file" id="file" name="uploaded_photo" accept="image/*, video/*">
             {% csrf_token %}
-            <input type="submit" id="submit" value="확인">
+            <input type="submit" id="submit" value="올리기">
         </form>
-        <p id="warn">* 상대방 동의 없이 얼굴을 찍으면 <br>초상권 침해가 발생할 수 있습니다.</p>
         {% endif %}
 
         <hr class="photos">
@@ -32,10 +32,9 @@
             <aside>
                 <h3 class="name">{{ stu.name }}</h3>
                 {% if stu.photo == "" %}
-                    <p><small>마니또 기다리는 중...</small></p>
+                    <p><small>사진 찍는 중...</small></p>
                 {% else %}
-                    {{ stu.photo }}
-                    <img src="{{ stu.photo.url }}">
+                    <img src="{{ stu.photo }}">
                     <p><small>By. 너의 마니또 ♡</small></p>
                 {% endif %}
             </aside>

@@ -12,7 +12,7 @@ form#my {
     display: inline-block;
     text-align: center;
     animation: fadein 0.5s;
-    animation-delay: 1.5s;
+    animation-delay: 1.0s;
     animation-fill-mode: backwards;
 }
 
@@ -24,11 +24,8 @@ input#submit {
     display: inline-block;
 }
 
-p#warn {
+#warn {
     color: lightgrey;
-    animation: fadein 0.5s;
-    animation-delay: 2s;
-    animation-fill-mode: backwards;
 }
 
 .photos {
