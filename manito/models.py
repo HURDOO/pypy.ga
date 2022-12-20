@@ -1,7 +1,6 @@
 import json
 
 import yaml
-from django.core.exceptions import SynchronousOnlyOperation
 from django.db import models
 from problem import load
 
@@ -73,5 +72,3 @@ def get_manito_account(student_id: int) -> ManitoAccount:
         return ManitoAccount.objects.get(id=student_id)
     except ManitoAccount.DoesNotExist:
         return ManitoAccount.create(student_id)
-    except SynchronousOnlyOperation:
-        return get_manito_account(student_id)
