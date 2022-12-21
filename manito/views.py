@@ -93,10 +93,7 @@ def photo(request):
 
     lst = []
     for manito in models.ManitoAccount.objects.all():
-        try:
-            url = (lambda: manito.photo.url if manito.photo.name != "" else "")()
-        except ValueError:
-            url = ""
+        url = (lambda: manito.photo.url if manito.photo.name is not None and manito.photo.name != "" else "")()
         lst.append({
             'name': student_name[str(manito.id)],
             'photo': url

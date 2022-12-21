@@ -13,8 +13,8 @@
     <div id="manito">
         <h1 id="title">🎉 3일차 미션 🎉</h1>
         <br>
-        <h3 id="subtitle">1. <span class="name">✨{{ second_manito }}✨</span> 에게 말 걸어보기</h3>
         {% if account_user_id %}
+        <h3 id="subtitle">1. <span class="name">✨{{ second_manito }}✨</span> 에게 말 걸어보기</h3>
         <br>
         <form id="my" method="post" enctype="multipart/form-data">
             <!--{{ first_manito }}-->
@@ -24,6 +24,8 @@
             {% csrf_token %}
             <input type="submit" id="submit" value="올리기">
         </form>
+        {% else %}
+        <h3 id="photos">마니또 몰래 사진 찍기</h3>
         {% endif %}
 
         <hr class="photos">
