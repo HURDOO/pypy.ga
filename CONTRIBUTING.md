@@ -1,12 +1,12 @@
 # 설치
 
-* 주의: Azure VM으로 설치할 때 5단락 연달아서 설치하고 VM 다시 시작하면 인터넷 연결이 되지 않는 오류가 발생하더라고요. 여러번 초기화하시지 않으려면 한 단락 끝나실 때마다 Azure Portal에서 VM 다시 시작 한번씩 하시는걸 추천합니다 ㅎㅎ..
+* 주의: Azure VM을 사용할 때, `sudo reboot` 대신 Azure Portal의 '다시 시작' 기능을 사용하세요.
 
 ## Django 구동
 
-1. 파이썬 및 pip 설치
+1. 파이썬 및 pip 설치 (Python >= 3.9)
 ```
-sudo apt install python3
+sudo apt install python3.9
 sudo apt install pip
 ```
 
@@ -18,8 +18,8 @@ cd python-trainer
 
 3. 가상 환경 생성
 ```shell
-sudo apt install python3-venv
-python3 -m venv .venv
+sudo apt install python3.9-venv
+python3.9 -m venv .venv
 . .venv/bin/activate
 ```
 
@@ -36,17 +36,17 @@ nano settings.yml
 
 6. DB 변경사항 적용 (migrate)
 ```shell
-python3 manage.py migrate
+python3.9 manage.py migrate
 ```
 
 7. 정적 파일 모으기 (static)
 ```shell
-python3 manage.py collectstatic
+python3.9 manage.py collectstatic
 ```
 
 8. 서버 실행
 ```shell
-python3 manage.py runserver
+python3.9 manage.py runserver
 ```
 서버 주소는 127.0.0.1:8000 (서버 연 컴퓨터에서만 접속 가능)
 
@@ -65,14 +65,15 @@ sudo sh get-docker.sh
 sudo usermod -aG docker $USER
 ```
 
-설치 확인
-```shell
-docker run hello-world
-```
 
 설치가 완료된 다음에는 한번 재시작해 주자. Azure의 경우에는 아래 명령어 대신 Azure Portal에서 재시작해주는 것이 좋다.
 ```shell
 sudo reboot
+```
+
+설치 확인
+```shell
+docker run hello-world
 ```
 
 2. docker 자동 실행 설정
@@ -230,4 +231,12 @@ daphne의 경우 1분을 넘어가면 Ctrl+C를 눌러 취소하고 nginx부터 
 서버 로그 보기
 ```shell
 systemctl status gunicorn
+```
+
+refresh.sh
+```shell
+git pull
+.venv/bin/python3 manage.py migrate
+.venv/bin/python3 manage.py collectstatic --noinput
+sudo systemctl restart daphne
 ```
