@@ -1,6 +1,7 @@
-# python-trainer
+# 파이가 : pypy.ga
 
 ### 설치 방법: [CONTRIBUTING.md](CONTRIBUTING.md)
+* 이 글의 원문은 https://github.com/HURDOO/pypy.ga 에서도 확인하실 수 있습니다.
 ---
 
 ## 차례
