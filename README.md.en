@@ -1,0 +1,19 @@
+# Pypy.ga
+Python Online Judge
+
+## What is this?
+ Pypy.ga is a simple python online judge, where you can practice and improve your python coding skill. You submit code you wrote according to problem's suggestion, then pypy.ga runs your code with several inputs and tells you whether your code is correct.
+
+ I've made this for my high school students, who learn python in informatics class and have difficulties with it. This was used in 2nd semester (September to December) in 2022.
+
+## Requirements
+- Python 3.9 or higher
+- Docker
+- Redis
+- ..and python modules in [requirements.txt](requirements.txt)
+
+## Language
+- Korean
+
+## Setup
+Follow [SETUP.md](setup.md).
