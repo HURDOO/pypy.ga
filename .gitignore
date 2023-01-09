@@ -3,3 +3,10 @@
 db.sqlite3
 settings.yml
 .staticfiles
+
+.problems/first_day.yml
+.problems/second_day.yml
+.problems/students.yml
+
+# DB used in development
+db2.sqlite3
