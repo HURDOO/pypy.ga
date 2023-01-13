@@ -4,6 +4,10 @@
       name: 숫자 뒤집기
       level: 35
 
+    - id: 12002
+      name: 순서 뒤집기
+      level: 30
+
 - category: ※ 수행평가 대비 ※
   problems:
     - id: 11001
