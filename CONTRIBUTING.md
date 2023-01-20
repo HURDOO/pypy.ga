@@ -12,8 +12,8 @@ sudo apt install pip
 
 2. git clone
 ```shell
-git clone https://github.com/HURDOO/python-trainer
-cd python-trainer
+git clone https://github.com/HURDOO/pypy.ga
+cd pypy.ga
 ```
 
 3. 가상 환경 생성
@@ -27,6 +27,9 @@ python3.9 -m venv .venv
 ```shell
 pip install -r requirements.txt
 ```
+> 오류 발생 시 다음 링크 참조:
+> https://stackoverflow.com/questions/74981558/error-updating-python3-pip-attributeerror-module-lib-has-no-attribute-openss
+
 5. settings.py 작성
 ```shell
 cp settings-example.yml settings.yml
@@ -84,7 +87,7 @@ sudo systemctl enable containerd.service
 
 3. 이미지 빌드
 ```shell
-docker build -t pypyga ~/python-trainer/runner/docker_dir
+docker build -t pypyga ~/pypy.ga/runner/docker_dir
 ```
 
 ## 제출 페이지의 실시간 결과 설정 (redis)
@@ -96,7 +99,7 @@ sudo apt install redis-server
 
 2. daphne 테스트
 ```shell
-~/python-trainer/.venv/bin/daphne -b 0.0.0.0 -p 8001 pypyga.asgi:application
+~/pypy.ga/.venv/bin/daphne -b 0.0.0.0 -p 8001 pypyga.asgi:application
 ```
 실행 후 접속이 되는지 확인한다. (외부 접속 가능, 서버주소:8001 로 접속)
 
@@ -114,10 +117,10 @@ Description=daphne daemon
 After=network.target
 
 [Service]
-User=YOUR_USERNAME
-Group=YOUR_USERNAME
-WorkingDirectory=/home/YOUR_USERNAME/python-trainer
-ExecStart=/home/YOUR_USERNAME/python-trainer/.venv/bin/daphne \
+User=hurdoo
+Group=hurdoo
+WorkingDirectory=/home/hurdoo/pypy.ga
+ExecStart=/home/hurdoo/pypy.ga/.venv/bin/daphne \
         -b 0.0.0.0 \
         -p 8001 \
         pypyga.asgi:application
@@ -125,7 +128,7 @@ ExecStart=/home/YOUR_USERNAME/python-trainer/.venv/bin/daphne \
 [Install]
 WantedBy=multi-user.target
 ```
-4개의 `YOUR_USERNAME` 부분을 유저 이름으로 변경한다.
+6,7,8,9번째 줄의 `hurdoo` 부분을 우분투 계정 이름으로 변경한다.
 
 작성이 끝나면 'Ctrl+X → Y → Enter' 로 저장.
 
@@ -163,7 +166,7 @@ sudo nano /etc/nginx/sites-available/pypyga
 ```
 server {
     listen 80;
-    server_name IP_ADDRESS;
+    server_name pypy.ga;
 
     location / {
         proxy_pass http://127.0.0.1:8001;
@@ -174,7 +177,7 @@ server {
 }
 ```
 
-`IP_ADDRESS` 부분에 서버 주소를 적는다.
+`pypy.ga` 부분에 서버 주소를 적는다.
 
 작성이 끝나면 'Ctrl+X → Y → Enter' 로 저장.
 
@@ -209,13 +212,13 @@ sudo certbot --nginx
 ## 그 이후
 프로젝트 변경 사항 업데이트:
 ```shell
-cd ~/python-trainer
+cd ~/pypy.ga
 git pull
 . .venv/bin/activate
-python3 manage.py migrate
-python3 manage.py collectstatic
+python3.9 manage.py migrate
+python3.9 manage.py collectstatic
 deactivate
-docker build -t pypyga ~/python-trainer/runner/docker_dir
+docker build -t pypyga ~/pypy.ga/runner/docker_dir
 sudo systemctl restart nginx
 sudo systemctl restart daphne
 ```
@@ -236,7 +239,7 @@ systemctl status gunicorn
 refresh.sh
 ```shell
 git pull
-.venv/bin/python3 manage.py migrate
-.venv/bin/python3 manage.py collectstatic --noinput
+.venv/bin/python3.9 manage.py migrate
+.venv/bin/python3.9 manage.py collectstatic --noinput
 sudo systemctl restart daphne
 ```
