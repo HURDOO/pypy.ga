@@ -5,10 +5,10 @@ google:
   client_secret: YOUR_GCP_CLIENT_SECRET
   redirect_uri: YOUR_GCP_REDIRECT_URI  # http://127.0.0.1:8000/account/auth
 
-  # pattern to get account id
+  # Regex pattern to get account ID (First group will be used for ID; if group doesn't exist, entire ID from email will be used)
   email_regex: (.+)@(.+)\\.(.+)  # ^js22-(\d+)@sonline20\.sen\.go\.kr$
 
-# Determines whether DEBUG mode is off
+# Whether to disable developer debug mode. Always set to true in production!
 production: false
 
 # user id to hide from ranking
