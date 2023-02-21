@@ -1,5 +1,11 @@
-- category: "#1 코딩은 수학이다!"
+- category: "#1 : 코딩은 수학이다!"
   problems:
     - id: 10001
       name: x+y
       level: 10
+
+- category: "#2 : 2/23(목) 업로드 예정"
+  problems:
+    - id: 10000
+      name: 2/23(목)
+      level: 0
