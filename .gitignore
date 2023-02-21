@@ -6,3 +6,4 @@ settings.yml
 
 # DB used in development
 db2.sqlite3
+db3.sqlite3
