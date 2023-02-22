@@ -31,10 +31,13 @@ SECRET_KEY = "django-insecure-bs60d85-v%+csk-ou+kihz((_0ri#^6gq20s3kwk*90vjus#c_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not conf['production']
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'pypy.ga', 'pyga.rodela.tk']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'pypy.ga', 'rodela.tk']
+
 CSRF_TRUSTED_ORIGINS = [
     'https://pypy.ga',
     'http://pypy.ga',
+    'https://rodela.tk',
+    'http://rodela.tk'
 ]
 
 # Application definition
