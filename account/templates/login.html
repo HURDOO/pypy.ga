@@ -12,33 +12,20 @@
 {% block content %}
     <header>
         <h1><b>로그인</b></h1>
-        <h5>학교 정보 시간에 사용하는<br class="mobile"> 구글 계정으로 로그인할 수 있습니다.</h5>
+        <h5><b>동아리 지원 사이트</b><br class="mobile"> 계정으로 로그인할 수 있습니다.</h5>
     </header>
 
-    {% if kakaotalk == 'none' %}
     <section>
-        <form action="/account/login" method="post">
+        <form action="/account/login/" method="post">
             {% csrf_token %}
-            <input type="number" name="student_id" min="10101" max="11030" placeholder="학번 입력">
+            {% if error %}
+                <b>{{ error }}</b>
+            {% endif %}
+            <input type="number" name="student_id" min="10101" max="21040" placeholder="학번">
+            <input type="password" name="student_pw" placeholder="비밀번호">
             <input type="submit" value="로그인">
         </form>
     </section>
-
-    <br>
-    <p>로그인에 문제가 있나요?<br class="mobile"> <a href="{{ login_url }}">여기</a>를 눌러 직접 로그인해 보세요.</p>
-    <br>
-    <img src="{% static 'account_select.png' %}" width="320">
-    {% else %}
-    <section>
-        {% if kakaotalk == 'android' %}
-        <p style="color: red;">카카오톡에서는 로그인할 수 없습니다.<br>아래 버튼을 길게 눌러<br><b>"다른 브라우저로 열기"</b>를 선택해주세요.</p>
-        {% elif kakaotalk == 'iphone' %}
-        <p style="color: red;">카카오톡에서는 로그인할 수 없습니다.<br>좌측 하단 <b>공유</b>(📤) 버튼을 눌러 <br><b>"Safari에서 열기"</b>로 접속해주세요.</p>
-        {% endif %}
-        <a href="https://pypy.ga/account/login"><b>여기를 길게 누르세요</b></a>
-        <p style="color: gray;">또는 Chrome/Safari 등 브라우저에서<br> pypy.ga를 입력하여 접속할 수도 있습니다.</p>
-    </section>
-    {% endif %}
     <!--<br>
     <p>또는</p>
     <p><code>js22-학번@sonline20.sen.go.kr</code></p>-->

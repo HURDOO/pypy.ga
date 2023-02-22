@@ -1,3 +1,6 @@
+import json
+
+import requests
 from django.shortcuts import redirect, render
 
 from . import google, models, info
@@ -8,22 +11,25 @@ ADMIN_USER_ID = conf['admin_id']
 
 
 def login(request):
+    data = {}
     if request.POST:
+        print(request.POST)
         student_id = request.POST['student_id']
-        return redirect(google.get_student_login_url(student_id))
+        student_pw = request.POST['student_pw']
 
-    data = {
-        'login_url': google.get_login_url()
-    }
-
-    user_agent = request.META['HTTP_USER_AGENT'].lower()
-    if 'kakaotalk' in user_agent:
-        if 'iphone' in user_agent:
-            data['kakaotalk'] = 'iphone'
+        res = requests.request('POST', 'https://jamsin.tk/account/api/',
+                               data=json.dumps({
+                                   'id': student_id,
+                                   'pw': student_pw,
+                               })).text
+        print(res)
+        res = json.loads(res)
+        if 'number' in res:
+            account = models.handle_login(res['number'])
+            request.session[info.USER_ID_KEY] = account.id
+            return redirect('/')
         else:
-            data['kakaotalk'] = 'android'
-    else:
-        data['kakaotalk'] = 'none'
+            data['error'] = '사용자를 찾을 수 없어요.'
 
     return render(request, 'login.html', context=data)
 
@@ -33,16 +39,16 @@ def logout(request):
     return redirect('/')
 
 
-def auth(request):
-    code = request.GET.get('code')
-    email = google.get_email(code)
-    try:
-        account = models.handle_login(email)
-        request.session[info.USER_ID_KEY] = account.id
-        return redirect('/')
-    except AttributeError:
-        # not school account
-        return redirect('/account/login')
+# def auth(request):
+#     code = request.GET.get('code')
+#     email = google.get_email(code)
+#     try:
+#         account = models.handle_login(email)
+#         request.session[info.USER_ID_KEY] = account.id
+#         return redirect('/')
+#     except AttributeError:
+#         # not school account
+#         return redirect('/account/login')
 
 
 def ranking(request):

@@ -85,15 +85,9 @@ class Account(models.Model):
             self.save()
 
 
-def handle_login(email: str) -> Account:
-    user_id = get_id(email)
+def handle_login(user_id: int) -> Account:
     user = Account.objects.filter(id=user_id)
     if user.exists():
         return user.first()
     else:
         return Account.create(user_id=user_id)
-
-
-def get_id(email: str) -> int:
-    pattern = regex.match(email)
-    return pattern.group(1)
