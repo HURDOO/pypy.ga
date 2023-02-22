@@ -1,11 +1,178 @@
 - category: "#1 : 코딩은 수학이다!"
   problems:
-    - id: 10001
+    - id: 13001
       name: x+y
       level: 10
 
-- category: "#2 : 2/23(목) 업로드 예정"
+- category: "#2 : 2/25(토) 업로드 예정"
   problems:
     - id: 10000
-      name: 2/23(목)
+      name: 2/25(토)
       level: 0
+
+- category: 2022년의 흔적
+  problems:
+    - id: 12001
+      name: 숫자 뒤집기
+      level: 35
+
+    - id: 12002
+      name: 순서 뒤집기
+      level: 30
+
+    - id: 11001
+      name: 합격
+      level: 20
+      serve_code: true
+
+    - id: 11002
+      name: 양수, 0, 음수
+      level: 20
+      serve_code: true
+
+    - id: 11003
+      name: BMI
+      level: 30
+      serve_code: true
+
+    - id: 11004
+      name: 새벽배송
+      level: 20
+      serve_code: true
+
+    - id: 11005
+      name: 합격 2
+      level: 15
+      serve_code: true
+
+    - id: 11006
+      name: 등급
+      level: 25
+      serve_code: true
+
+    - id: 11007
+      name: 10까지의 합
+      level: 15
+      serve_code: true
+
+    - id: 11008
+      name: 단계별 10합
+      level: 20
+      serve_code: true
+
+    - id: 11009
+      name: 2배수 10합
+      level: 25
+      serve_code: true
+
+    - id: 11010
+      name: while 10합
+      level: 15
+      serve_code: true
+
+    - id: 11011
+      name: 별세상
+      level: 30
+      serve_code: true
+
+    - id: 11012
+      name: 직각삼각형
+      level: 35
+      serve_code: true
+
+    - id: 11013
+      name: 합산기
+      level: 40
+      serve_code: true
+
+    - id: 10001
+      name: Hello World
+      level: 10
+
+    - id: 10002
+      name: 교가
+      level: 15
+
+    - id: 10013
+      name: 면 음식 월드컵
+      level: 20
+
+    - id: 10003
+      name: 자기소개
+      level: 10
+
+    - id: 10004
+      name: 따옴표
+      level: 15
+
+    - id: 10012
+      name: A+B
+      level: 10
+
+    - id: 10007
+      name: 올해는 2565년
+      level: 15
+
+    - id: 10006
+      name: 사칙연산
+      level: 20
+
+    - id: 10009
+      name: 예체능
+      level: 15
+
+    - id: 10008
+      name: 원숭이
+      level: 20
+
+    - id: 10010
+      name: 두 그래프
+      level: 30
+
+    - id: 10011
+      name: 배달의 민족
+      level: 40
+
+    - id: 10014
+      name: 출력 초과
+      level: 20
+
+    - id: 10015
+      name: ㅇㅅㅇ
+      level: 20
+
+    - id: 10016
+      name: ㅇㅅㅇ 2
+      level: 20
+
+    - id: 10017
+      name: 0부터 세기
+      level: 20
+
+    - id: 10018
+      name: 공백 채점
+      level: 30
+
+    - id: 10005
+      name: 우영우
+      level: 30
+
+    - id: 10019
+      name: 판플렛
+      level: 15
+
+    - id: 10020
+      name: 판플렛 숫자
+      level: 15
+
+    - id: 10021
+      name: 동시에 자기소개
+      level: 20
+
+    - id: 10022
+      name: 369 게임
+      level: 50
+
+    - id: 10000
+      name: 파이가 이용 가이드
+      level: 10
