@@ -33,7 +33,8 @@ def index(request, problem):
         if str(problem) in load.PROBLEM_CODE:
             data['code'] = load.PROBLEM_CODE[str(problem)]
         else:
-            data['code'] = HELLO_WORLD_CODE
+            # data['code'] = HELLO_WORLD_CODE
+            data['code'] = ""
 
     # Load login data
     data.update(info.get_data(request.session))
