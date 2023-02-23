@@ -4,11 +4,11 @@
       name: x+y
       level: 10
 
-- category: "#2 : 2/25(토) 업로드 예정"
+- category: "#2 : 변수"
   problems:
-    - id: 10000
-      name: 2/25(토)
-      level: 0
+    - id: 13002
+      name: x=x+1
+      level: 15
 
 - category: 2022년의 흔적
   problems:
