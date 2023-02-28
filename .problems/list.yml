@@ -7,7 +7,7 @@
 - category: "#2 : 변수"
   problems:
     - id: 13002
-      name: x=x+1
+      name: 🎬 x=x+1
       level: 15
 
     - id: 13003
@@ -21,7 +21,7 @@
 - category: "#3 : 문자"
   problems:
     - id: 13005
-      name: 🎬 문자
+      name: 문자
       level: 20
 
 - category: 2022년의 흔적
