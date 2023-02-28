@@ -24,6 +24,14 @@
       name: 문자
       level: 20
 
+    - id: 13006
+      name: 문자+문자
+      level: 20
+
+    - id: 13007
+      name: int str
+      level: 20
+
 - category: 2022년의 흔적
   problems:
     - id: 12001
