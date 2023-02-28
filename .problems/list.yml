@@ -1,7 +1,7 @@
 - category: "#1 : 코딩 쫄 거 없어"
   problems:
     - id: 13001
-      name: x+y
+      name: 🎬 x+y
       level: 10
 
 - category: "#2 : 변수"
@@ -17,6 +17,12 @@
     - id: 13004
       name: // %
       level: 15
+
+- category: "#3 : 문자"
+  problems:
+    - id: 13005
+      name: 🎬 문자
+      level: 20
 
 - category: 2022년의 흔적
   problems:
