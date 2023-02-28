@@ -56,6 +56,7 @@ def detail(request, submit_id):
     if 'stdin' in data and data['stdin'] is None:
         data['stdin'] = ''
 
+    '''
     # Give code
     viewer_id = info.get_user_id(request.session)
     if viewer_id is not None:
@@ -72,6 +73,8 @@ def detail(request, submit_id):
     else:
         if 'view_code' in request.GET:
             return redirect('/account/login')
+    '''
+    data['code'] = submit.code
 
     data.update(info.get_data(request.session))
     return render(request, 'detail.html', context=data)
