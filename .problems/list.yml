@@ -32,6 +32,10 @@
       name: int str
       level: 20
 
+    - id: 13008
+      name: 💡 입력
+      level: 100
+
 - category: 2022년의 흔적
   problems:
     - id: 12001
