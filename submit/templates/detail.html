@@ -138,7 +138,7 @@
         <a href="/problem/{{ problem_id }}"><b>문제로 돌아가기</b></a>
     {% endif %}
 
-    {% if account_user_id == user_id %}
+    {% if account_user_id == user_id and problem_id >= 13000 %}
         <br><br>
         <a href="https://github.com/HURDOO/pypy.ga/blob/rodela/.problems/{{ problem_id }}/{{ problem_id }}.py" target="_blank">모범 답안 보기</a>
     {% endif %}
