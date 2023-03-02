@@ -36,6 +36,12 @@
       name: 💡 입력
       level: 100
 
+- category: "#4 : if"
+  problems:
+    - id: 13009
+      name: 🎬 if
+      level: 25
+
 - category: 2022년의 흔적
   problems:
     - id: 12001
