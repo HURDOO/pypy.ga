@@ -42,6 +42,10 @@
       name: 🎬 if
       level: 25
 
+    - id: 13010
+      name: else
+      level: 25
+
 - category: 2022년의 흔적
   problems:
     - id: 12001
