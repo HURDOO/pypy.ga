@@ -46,6 +46,12 @@
       name: else
       level: 25
 
+- category: "#5 : 반복"
+  problems:
+    - id: 13011
+      name: 🎬 while
+      level: 30
+
 - category: 2022년의 흔적
   problems:
     - id: 12001
