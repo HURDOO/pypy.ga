@@ -52,6 +52,10 @@
       name: 🎬 while
       level: 30
 
+    - id: 13012
+      name: 🎬 for
+      level: 30
+
 - category: 2022년의 흔적
   problems:
     - id: 12001
