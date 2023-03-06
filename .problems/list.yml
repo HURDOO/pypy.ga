@@ -1,3 +1,9 @@
+- category: "면접 대비"
+  problems:
+    - id: 13013
+      name: 계산기
+      level: 20
+
 - category: "#1 : 코딩 쫄 거 없어"
   problems:
     - id: 13001
