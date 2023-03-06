@@ -3,6 +3,9 @@
     - id: 13013
       name: 계산기
       level: 20
+    - id: 13014
+      name: 피보나치 수열
+      level: 30
 
 - category: "#1 : 코딩 쫄 거 없어"
   problems:
