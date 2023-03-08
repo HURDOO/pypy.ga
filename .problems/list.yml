@@ -6,6 +6,9 @@
     - id: 13014
       name: 피보나치 수열
       level: 30
+    - id: 13015
+      name: 행렬
+      level: 40
 
 - category: "#1 : 코딩 쫄 거 없어"
   problems:
