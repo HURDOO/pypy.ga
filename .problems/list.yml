@@ -1,8 +1,20 @@
 - category: "2023 면접"
   problems:
     - id: 13017
-      name: 구구단
+      name: (하) 구구단
       level: 20
+
+    - id: 13018
+      name: (중) 소인수분해
+      level: 30
+
+    - id: 13019
+      name: (상) 양팔저울
+      level: 40
+
+    - id: 13020
+      name: 보너스 문제
+      level: 0
 
 
 - category: "면접 대비"
