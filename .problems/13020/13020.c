@@ -11,6 +11,7 @@ int main() {
     for (int i=1;i<=N;i++) {
         for (int j=1;j<=N;j++) {
             dist[i][j]=100000000;
+            if (i==j) dist[i][j]=0;
         }
     }
     for (int i=0;i<K;i++) {
@@ -19,7 +20,7 @@ int main() {
         dist[b][a]=1;
     }
 
-    
+
 
     for (int k=1;k<=N;k++) {
         for (int j=1;j<=N;j++) {
@@ -35,8 +36,8 @@ int main() {
 
     for (int i=1;i<=N;i++) {
         for (int j=1;j<=N;j++) {
-            if (M-dist[i][j]+1>0)
-                m[i][j]=M-dist[i][j]+1;
+            if (M-dist[i][j]>0)
+                m[i][j]=M-dist[i][j];
         }
     }
 
@@ -44,7 +45,6 @@ int main() {
     for (int i=1;i<=N;i++) {
         sum=0;
         for (int j=1;j<=N;j++) {
-            if (i==j) continue;
             sum+=m[i][j];
         }
         if (max<sum) {
