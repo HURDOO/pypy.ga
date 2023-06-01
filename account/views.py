@@ -2,6 +2,7 @@ import json
 
 import requests
 from django.shortcuts import redirect, render
+from django.contrib.auth import login
 
 from . import google, models, info
 from .models import Account
@@ -15,21 +16,26 @@ def login(request):
     if request.POST:
         print(request.POST)
         student_id = request.POST['student_id']
-        student_pw = request.POST['student_pw']
 
-        res = requests.request('POST', 'https://jamsin.tk/account/api/',
-                               data=json.dumps({
-                                   'id': student_id,
-                                   'pw': student_pw,
-                               })).text
-        print(res)
-        res = json.loads(res)
-        if 'number' in res:
-            account = models.handle_login(res['number'])
-            request.session[info.USER_ID_KEY] = account.id
-            return redirect('/')
-        else:
-            data['error'] = '사용자를 찾을 수 없어요.'
+        account = models.handle_login(int(student_id))
+        request.session[info.USER_ID_KEY] = account.id
+        return redirect('/')
+
+        # student_pw = request.POST['student_pw']
+        #
+        # res = requests.request('POST', 'https://jamsin.tk/account/api/',
+        #                        data=json.dumps({
+        #                            'id': student_id,
+        #                            'pw': student_pw,
+        #                        })).text
+        # print(res)
+        # res = json.loads(res)
+        # if 'number' in res:
+        #     account = models.handle_login(res['number'])
+        #     request.session[info.USER_ID_KEY] = account.id
+        #     return redirect('/')
+        # else:
+        #     data['error'] = '사용자를 찾을 수 없어요.'
 
     return render(request, 'login.html', context=data)
 

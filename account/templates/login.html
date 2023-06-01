@@ -12,7 +12,8 @@
 {% block content %}
     <header>
         <h1><b>로그인</b></h1>
-        <h5><b>동아리 지원 사이트</b><br class="mobile"> 계정으로 로그인할 수 있습니다.</h5>
+<!--        <h5><b>동아리 지원 사이트</b><br class="mobile"> 계정으로 로그인할 수 있습니다.</h5>-->
+        <h5>본인의 학번으로 <br class="mobile"> 로그인할 수 있습니다.</h5>
     </header>
 
     <section>
@@ -22,7 +23,7 @@
                 <b>{{ error }}</b>
             {% endif %}
             <input type="number" name="student_id" min="10101" max="21040" placeholder="학번">
-            <input type="password" name="student_pw" placeholder="비밀번호">
+<!--            <input type="password" name="student_pw" placeholder="비밀번호">-->
             <input type="submit" value="로그인">
         </form>
     </section>
