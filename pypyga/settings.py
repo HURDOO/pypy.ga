@@ -37,7 +37,9 @@ CSRF_TRUSTED_ORIGINS = [
     'https://pypy.ga',
     'http://pypy.ga',
     'https://rodela.tk',
-    'http://rodela.tk'
+    'http://rodela.tk',
+    'https://learn.rodela.tk',
+    'http://learn.rodela.tk',
 ]
 
 # Application definition
