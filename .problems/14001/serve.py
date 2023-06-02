@@ -1,4 +1,3 @@
-x, y = [], []
 base_cnt, animal_cnt, gun_length = list(map(int, input().split(" ")))  # 첫번째 입력
 
 bases = list(map(int, input().split(" ")))  # 두번째 입력 (base_cnt개)

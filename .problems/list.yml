@@ -1,3 +1,10 @@
+- category: "06/02 (목)"
+  problems:
+    - id: 14001
+      name: 이분 탐색
+      level: 50
+      serve_code: true
+
 - category: "2023 면접"
   problems:
     - id: 13017
