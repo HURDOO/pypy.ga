@@ -29,7 +29,7 @@ pip install -r requirements.txt
 ```
 > 중간에 오류나는 건 신경 안써도 된다. 설치만 잘 끝나면 된다.
 > 
-> 만약 끝부분이 오류로 끝났다면, 아래 링크 및 코드 참조
+> 만약 끝부분이 오류로 끝났다면, 아래의 코드를 차례대로 실행해준다. `cryptography` 최신버전이 `django`와 호환되지 않아 발생하는 문제이다.
 > https://stackoverflow.com/questions/74981558/error-updating-python3-pip-attributeerror-module-lib-has-no-attribute-openss
 > ```shell
 > deactivate
@@ -41,6 +41,8 @@ pip install -r requirements.txt
 > ```
 
 > 23.06.04 추가: `docker-py`가 최신 버전의 `urllib`와 호환되지 않으므로, 다음 명령어를 추가로 실행해준다.
+> https://github.com/docker/docker-py/issues/3113
+> https://stackoverflow.com/questions/5226311/installing-specific-package-version-with-pip
 > ```shell
 > pip install --force-reinstall -v "requests<2.29.0"
 > ```
