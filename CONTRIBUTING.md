@@ -40,6 +40,11 @@ pip install -r requirements.txt
 > pip install -r requirements.txt
 > ```
 
+> 23.06.04 추가: `docker-py`가 최신 버전의 `urllib`와 호환되지 않으므로, 다음 명령어를 추가로 실행해준다.
+> ```shell
+> pip install --force-reinstall -v "requests<2.29.0"
+> ```
+
 5. settings.py 작성
 ```shell
 cp settings-example.yml settings.yml
